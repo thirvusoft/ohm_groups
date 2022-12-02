@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include ohmgroups *.css
+recursive-include ohmgroups *.csv
+recursive-include ohmgroups *.html
+recursive-include ohmgroups *.ico
+recursive-include ohmgroups *.js
+recursive-include ohmgroups *.json
+recursive-include ohmgroups *.md
+recursive-include ohmgroups *.png
+recursive-include ohmgroups *.py
+recursive-include ohmgroups *.svg
+recursive-include ohmgroups *.txt
+recursive-exclude ohmgroups *.pyc
