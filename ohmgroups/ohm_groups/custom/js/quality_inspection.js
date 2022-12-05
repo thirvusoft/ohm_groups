@@ -1,4 +1,3 @@
-console.log("value[0].maximum_value")
 frappe.ui.form.on("Quality Inspection",{
     refresh: function(frm){
         for(let i=0;i<frm.doc.readings.length;i++){
