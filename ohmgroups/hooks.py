@@ -109,6 +109,9 @@ app_license = "MIT"
 #		"on_trash": "method"
 #	}
 # }
+doctype_js = {
+    "Quality Inspection" : "/ohm_groups/custom/js/quality_inspection.js",
+}
 
 # Scheduled Tasks
 # ---------------
