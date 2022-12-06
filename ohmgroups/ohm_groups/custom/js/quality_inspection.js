@@ -8,8 +8,6 @@ frappe.ui.form.on("Quality Inspection",{
             console.log("value[0].maximum_value")
             frappe.model.set_value(frm.doc.readings[i].doctype,frm.doc.readings[i].name,'maximum_value',value.maximum_value);
             frappe.model.set_value(frm.doc.readings[i].doctype,frm.doc.readings[i].name,'minimum_value',value.minimmum_value);
-
         }
-
     }
 })
