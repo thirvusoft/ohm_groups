@@ -158,7 +158,8 @@ class QualityInspection(Document):
 			if reading_value is not None and reading_value.strip():
 				result = flt(reading.get("min_value")) <= flt(reading_value) <= flt(reading.get("max_value"))
 				if not result:
-					return False
+					print(flt(reading_value))
+					# return False
 		return True
 
 	def set_status_based_on_acceptance_formula(self, reading):
@@ -172,6 +173,8 @@ class QualityInspection(Document):
 		data = self.get_formula_evaluation_data(reading)
 		try:
 			result = frappe.safe_eval(condition, None, data)
+			# core code
+			result = True
 			reading.status = "Accepted" if result else "Rejected"
 		except NameError as e:
 			field = frappe.bold(e.args[0].split()[1])
@@ -189,7 +192,8 @@ class QualityInspection(Document):
 
 	def get_formula_evaluation_data(self, reading):
 		data = {}
-		custom_fields = ["tolerance_level","_ohm_specification","min_value","max_value"]
+		
+		custom_fields = ["tolerance_level","_ohm_specification","min_value","max_value","maximum_value","minimmum_value"]
 		if not cint(reading.numeric):
 			data = {"reading_value": reading.get("reading_value")}
 		else:
@@ -201,7 +205,6 @@ class QualityInspection(Document):
 				data[j] = flt(reading.get(j) or 0)
 
 			data["mean"] = self.calculate_mean(reading)
-		frappe.errprint(data)
 		return data
 
 	def calculate_mean(self, reading):
