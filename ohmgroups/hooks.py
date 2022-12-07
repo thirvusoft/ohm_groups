@@ -64,7 +64,7 @@ app_license = "MIT"
 # ------------
 
 # before_install = "ohmgroups.install.before_install"
-# after_install = "ohmgroups.install.after_install"
+after_install = "ohmgroups.install.after_install"
 
 # Uninstallation
 # ------------
@@ -109,6 +109,15 @@ app_license = "MIT"
 #		"on_trash": "method"
 #	}
 # }
+
+doc_events = {
+    "Quality Inspection" : {
+        
+        "validate": [
+            # "ohmgroups.ohm_groups.custom.py.quality_inspection.validate",
+                     "ohmgroups.ohm_groups.custom.py.quality_inspection.status",]
+                     }
+}
 doctype_js = {
     "Quality Inspection" : "/ohm_groups/custom/js/quality_inspection.js",
 }

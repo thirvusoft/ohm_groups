@@ -1,0 +1,2 @@
+ohmgroups.ohm_groups.utils.stock.quality_inspection
+ohmgroups.ohm_groups.utils.stock.quality_inspection_reading
