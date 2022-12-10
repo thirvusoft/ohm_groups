@@ -1,2 +1,4 @@
 ohmgroups.ohm_groups.utils.stock.quality_inspection
 ohmgroups.ohm_groups.utils.stock.quality_inspection_reading
+ohmgroups.ohm_groups.utils.crm.customers
+ohmgroups.ohm_groups.utils.selling.sales_invoice

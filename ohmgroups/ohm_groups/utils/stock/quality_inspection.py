@@ -42,9 +42,14 @@ def quality_inspection_custom_fields():
                 read_only=1
             ),
             dict(
+                fieldname='col_1',
+                fieldtype='Column Break',
+                insert_after='sample_4',
+            ),
+            dict(
                 fieldname='sample_5',
                 fieldtype='Data',
-                insert_after='sample_4',
+                insert_after='col_1',
                 label="Sample 5",
                 read_only=1
             ),
@@ -70,9 +75,14 @@ def quality_inspection_custom_fields():
                 read_only=1
             ),
             dict(
+                fieldname='col_2',
+                fieldtype='Column Break',
+                insert_after='sample_8',
+            ),
+            dict(
                 fieldname='sample_9',
                 fieldtype='Data',
-                insert_after='sample_8',
+                insert_after='col_2',
                 label="Sample 9",
                 read_only=1
             ),

@@ -1,12 +1,12 @@
 import frappe
 
-# def validate(doc,actions):
-#     for i in doc.readings:
-#         for j in range(1, 11):
-#             reading = "reading_" + str(j)
-#             if i.get(reading):
-#                 if(doc.sample_size < j):
-#                     frappe.throw("Quantity is greater than "+i.specification)
+def validate(doc,actions):
+    for i in doc.readings:
+        for j in range(1, 11):
+            reading = "reading_" + str(j)
+            if i.get(reading):
+                if(doc.sample_size < j):
+                    frappe.throw("Quantity is greater than "+i.specification)
                     
 def status(doc, actions):
     for j in range(1, 11):
@@ -14,16 +14,13 @@ def status(doc, actions):
             data = doc.get_formula_evaluation_data(i)
             reading = "reading_" + str(j)
             condition = i.acceptance_formula
-            print([float(m.get(reading) or 0)  for m in doc.readings]) 
             data["mean"] = sum([float(m.get(reading) or 0)  for m in doc.readings]) / len(doc.readings)
             data["min_value"] = sum([float(m.get("min_value") or 0)  for m in doc.readings]) / len(doc.readings)
             data["max_value"] = sum([float(m.get("max_value") or 0)  for m in doc.readings]) / len(doc.readings)
-            print([m.get(reading) or 0 for m in doc.readings]) 
             if(data["mean"] == 0):
                 continue
             try:
                 result = frappe.safe_eval(condition, None, data)
-                print(condition,data,result)
                 doc.update({ 
                     "sample_" + str(j): "Accepted" if result else "Rejected",
                     })
