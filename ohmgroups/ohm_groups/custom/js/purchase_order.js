@@ -16,6 +16,7 @@ frappe.ui.form.on("Purchase Order", {
         })
     },
     supplier: function(frm){
+        if(frm.doc.supplier){
         frappe.call({
             method: "ohmgroups.ohm_groups.custom.py.purchase_order.item_supplier",
             args:{
@@ -30,12 +31,13 @@ frappe.ui.form.on("Purchase Order", {
                         frappe.model.set_value(row.doctype,row.name,'item_code',element.item_code)
                     });
                            
-                } else{
-                var count =0
-                frm.set_value('items',[]);
-            }
+                } 
         }
-        })
+        })}
+        else{
+            var count =0
+            frm.set_value('items',[]);
+        }
     },
 })
 
