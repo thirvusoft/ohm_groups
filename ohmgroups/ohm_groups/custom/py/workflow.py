@@ -15,13 +15,13 @@ def create_quotation_flow():
     workflow.is_active = 1
     workflow.send_email_alert = 1
     workflow.append('states', dict(
-        state = 'Pending', allow_edit = 'All',doc_status = 1,update_field = 'disabled',update_value=1,
+        state = 'Pending', allow_edit = 'All',doc_status = 0,update_field = 'disabled',update_value=1,
     ))
     workflow.append('states', dict(
         state = 'Approved', allow_edit = 'Administrator',doc_status = 0,update_field = 'disabled',update_value=0,
     ))
     workflow.append('states', dict(
-        state = 'Rejected', allow_edit = 'Administrator',doc_status = 1,update_field = 'disabled',update_value=1,
+        state = 'Rejected', allow_edit = 'Administrator',doc_status = 0,update_field = 'disabled',update_value=1,
     )) 
     
     workflow.append('transitions', dict(
