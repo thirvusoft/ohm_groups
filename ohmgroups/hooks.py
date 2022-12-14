@@ -116,10 +116,13 @@ doc_events = {
         "validate": [
             # "ohmgroups.ohm_groups.custom.py.quality_inspection.validate",
                      "ohmgroups.ohm_groups.custom.py.quality_inspection.status",]
-                     }
+                     },
 }
 doctype_js = {
     "Quality Inspection" : "/ohm_groups/custom/js/quality_inspection.js",
+    "Purchase Order" :[ "/ohm_groups/custom/js/purchase_order.js",
+                       "/ohm_groups/custom/js/purchase_order_items.js"]
+    
 }
 
 # Scheduled Tasks
