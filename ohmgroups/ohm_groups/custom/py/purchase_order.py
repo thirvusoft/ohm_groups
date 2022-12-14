@@ -1,3 +1,4 @@
+import json
 import frappe
 
 @frappe.whitelist()
@@ -14,4 +15,17 @@ def on_insert(supplier,is_subcontracted):
             return document.name
         else:
             return frappe.get_value("Warehouse", {'parent_warehouse': f'Supplier Warehouse - {abbr}', 'warehouse_name':supplier}, pluck="name")
-    
+
+@frappe.whitelist()        
+def uom_qty(items, is_subcontracted):
+    if is_subcontracted:
+        items = json.loads(items)
+        for i in items:
+            items = frappe.db.get_value("UOM Conversion Detail",{'parent':i['fg_item'],'uom':"Kg"},"conversion_factor")
+            return items
+
+@frappe.whitelist()
+
+def item_supplier(supplier):
+    supplier = frappe.get_all("Item Supplier",{'supplier':supplier},["parent as item_code"])
+    return supplier

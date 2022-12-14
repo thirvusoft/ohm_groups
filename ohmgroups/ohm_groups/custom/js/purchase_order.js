@@ -15,6 +15,27 @@ frappe.ui.form.on("Purchase Order", {
         }
         })
     },
-
-  
+    supplier: function(frm){
+        frappe.call({
+            method: "ohmgroups.ohm_groups.custom.py.purchase_order.item_supplier",
+            args:{
+                supplier:frm.doc.supplier,
+            },
+            callback: function(r) {
+                if(frm.doc.supplier!= ""){
+                    var count =0
+                    frm.set_value('items',[]);
+                    r.message.forEach(element => {
+                        var row = cur_frm.add_child('items')
+                        frappe.model.set_value(row.doctype,row.name,'item_code',element.item_code)
+                    });
+                           
+                } else{
+                var count =0
+                frm.set_value('items',[]);
+            }
+        }
+        })
+    },
 })
+
