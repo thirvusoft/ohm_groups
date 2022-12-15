@@ -65,6 +65,8 @@ app_license = "MIT"
 
 # before_install = "ohmgroups.install.before_install"
 after_install = "ohmgroups.install.after_install"
+after_migrate = "ohmgroups.install.after_install"
+
 
 # Uninstallation
 # ------------
