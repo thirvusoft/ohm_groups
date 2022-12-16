@@ -13,8 +13,9 @@ def purchase_order_custom_fields():
                 fieldname='naming_supplier',
                 fieldtype='Link',
                 insert_after='naming_series',
-                label="Supplier Name",
-                options="Supplier"
+                label="Supplier",
+                options="Supplier",
+                reqd = 1
             ), 
            
         ],
@@ -22,8 +23,10 @@ def purchase_order_custom_fields():
     create_custom_fields(purchase_order_custom_fields)
 
 def property_setter():
-    pass
+    make_property_setter('Purchase Order', "supplier", "reqd", 0, "Check")
+    make_property_setter('Purchase Order', "supplier", "hidden", 1, "Check")
+    make_property_setter('Purchase Order', "supplier_name", "fetch_from", "naming_supplier.supplier_name", "Text Editor")
     
 
 def execute():
-    supplier()
+    purchase_order()
