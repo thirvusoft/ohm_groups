@@ -22,7 +22,7 @@ def status(doc, actions):
             try:
                 result = frappe.safe_eval(condition, None, data)
                 doc.update({ 
-                    "sample_" + str(j): "Accepted" if result else "Rejected",
+                    "sample_" + str(j) : "Accepted" if result else "Rejected",
                     })
             except Exception:
                 frappe.throw(

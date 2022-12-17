@@ -116,7 +116,7 @@ doc_events = {
     "Quality Inspection" : {
         
         "validate": [
-            # "ohmgroups.ohm_groups.custom.py.quality_inspection.validate",
+            "ohmgroups.ohm_groups.custom.py.quality_inspection.validate",
                      "ohmgroups.ohm_groups.custom.py.quality_inspection.status",]
                      },
 }
