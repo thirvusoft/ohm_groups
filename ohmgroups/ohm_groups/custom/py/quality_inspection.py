@@ -1,12 +1,12 @@
 import frappe
 
-# def validate(doc,actions):
-#     for i in doc.readings:
-#         for j in range(1, 11):
-#             reading = "reading_" + str(j)
-#             if i.get(reading):
-#                 if(doc.sample_size < j):
-#                     frappe.throw("Quantity is greater than "+i.specification)
+def validate(doc,actions):
+    for i in doc.readings:
+        for j in range(1, 11):
+            reading = "reading_" + str(j)
+            if i.get(reading):
+                if(doc.sample_size < j):
+                    frappe.throw("Quantity is greater than "+i.specification)
                     
 def status(doc, actions):
     for j in range(1, 11):
