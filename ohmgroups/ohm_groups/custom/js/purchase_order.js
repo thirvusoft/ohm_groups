@@ -46,7 +46,16 @@ frappe.ui.form.on("Purchase Order", {
         }
         
     },
-    
+    refresh: function(frm,cdt,cdn){
+        frm.set_query("item_code","items",function(){
+            return {
+                filters:{
+                    "item_group":"Services"
+                }
+                
+            }
+        })
+    }
     
 })
 

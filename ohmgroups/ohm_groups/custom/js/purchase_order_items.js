@@ -1,12 +1,12 @@
 frappe.ui.form.on("Purchase Order Item", {
     
     fg_item_qty: function(frm,cdt,cdn){
-        const row = locals[cdt][cdn]
+        var row = locals[cdt][cdn]
         frappe.call({
             
             method: "ohmgroups.ohm_groups.custom.py.purchase_order.uom_qty",
             args:{
-                items:frm.doc.items,
+                items:row.fg_item,
                 is_subcontracted : frm.doc.is_subcontracted
             },
 
@@ -18,6 +18,7 @@ frappe.ui.form.on("Purchase Order Item", {
         }
         })
     },
+
   
 })
 

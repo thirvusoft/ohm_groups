@@ -5,3 +5,5 @@ ohmgroups.ohm_groups.utils.selling.sales_invoice
 ohmgroups.ohm_groups.custom.py.workflow
 ohmgroups.ohm_groups.utils.buying.buying
 ohmgroups.ohm_groups.utils.buying.purchase_order
+ohmgroups.ohm_groups.utils.setup.vehicle_log
+ohmgroups.ohm_groups.utils.setup.vehicle
