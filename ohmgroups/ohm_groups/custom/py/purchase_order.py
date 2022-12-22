@@ -18,10 +18,9 @@ def on_insert(supplier,is_subcontracted):
 
 @frappe.whitelist()        
 def uom_qty(items, is_subcontracted):
+    print(items,"------------")
     if is_subcontracted:
-        # items = json.loads(items)
-        # for i in items:
-        items = frappe.db.get_value("UOM Conversion Detail",{'parent':items,'uom':"Kg"},"conversion_factor")
+        items = frappe.db.get_value('UOM Conversion Detail',{'parent':items,'uom':'Kg'},'conversion_factor')
         return items
 
 @frappe.whitelist()
