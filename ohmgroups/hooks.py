@@ -119,6 +119,27 @@ doc_events = {
             "ohmgroups.ohm_groups.custom.py.quality_inspection.validate",
                      "ohmgroups.ohm_groups.custom.py.quality_inspection.status",]
                      },
+	"Vehicle Log":{
+		"on_update_after_submit": "ohmgroups.ohm_groups.custom.py.vehicle_log.onsubmit",
+		"on_submit": ["ohmgroups.ohm_groups.custom.py.vehicle_log.onsubmit",
+						"ohmgroups.ohm_groups.custom.py.vehicle_log.onsubmit_hours",
+						"ohmgroups.ohm_groups.custom.py.vehicle_log.update_transport_cost",
+						"ohmgroups.ohm_groups.custom.py.vehicle_log.vehicle_log_draft",
+						"ohmgroups.ohm_groups.custom.py.vehicle_log.vehicle_log_mileage",
+		],
+		"on_cancel" :["ohmgroups.ohm_groups.custom.py.vehicle_log.onsubmit",
+						"ohmgroups.ohm_groups.custom.py.vehicle_log.update_transport_cost"
+			],
+		"validate" :["ohmgroups.ohm_groups.custom.py.vehicle_log.validate",
+						"ohmgroups.ohm_groups.custom.py.vehicle_log.validate_distance",
+						"ohmgroups.ohm_groups.custom.py.vehicle_log.total_cost"
+
+		]
+
+	},
+	"Driver" :{
+		"validate" : "ohmgroups.ohm_groups.custom.py.driver.validate_phone"
+	}
 }
 doctype_js = {
     "Quality Inspection" : "/ohm_groups/custom/js/quality_inspection",

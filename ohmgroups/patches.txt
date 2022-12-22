@@ -7,3 +7,4 @@ ohmgroups.ohm_groups.utils.buying.buying
 ohmgroups.ohm_groups.utils.buying.purchase_order
 ohmgroups.ohm_groups.utils.setup.vehicle_log
 ohmgroups.ohm_groups.utils.setup.vehicle
+ohmgroups.ohm_groups.utils.setup.driver
