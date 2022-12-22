@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-12-21 18:14:32.275055",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "maintenance",
+  "from_date",
+  "files",
+  "column_break_4",
+  "reference_no",
+  "to_date",
+  "expense",
+  "notifications_section",
+  "month_before",
+  "week_before",
+  "day_before"
+ ],
+ "fields": [
+  {
+   "bold": 1,
+   "fieldname": "maintenance",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Maintenance",
+   "options": "Maintenance type"
+  },
+  {
+   "bold": 1,
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "From Date"
+  },
+  {
+   "bold": 1,
+   "fieldname": "files",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reference_no",
+   "fieldtype": "Data",
+   "label": "Reference No",
+   "translatable": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To Date"
+  },
+  {
+   "fieldname": "expense",
+   "fieldtype": "Float",
+   "label": "Expense"
+  },
+  {
+   "fieldname": "notifications_section",
+   "fieldtype": "Section Break",
+   "label": "Notifications"
+  },
+  {
+   "default": "0",
+   "fieldname": "month_before",
+   "fieldtype": "Check",
+   "label": "Month Before"
+  },
+  {
+   "default": "0",
+   "fieldname": "week_before",
+   "fieldtype": "Check",
+   "label": "Week Before"
+  },
+  {
+   "default": "0",
+   "fieldname": "day_before",
+   "fieldtype": "Check",
+   "label": "Day Before"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-12-21 18:24:24.214707",
+ "modified_by": "Administrator",
+ "module": "Ohm Groups",
+ "name": "Maintenance Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

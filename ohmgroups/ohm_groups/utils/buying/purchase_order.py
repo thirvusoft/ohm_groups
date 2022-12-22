@@ -19,6 +19,7 @@ def purchase_order_custom_fields():
             ), 
            
         ],
+
     }
     create_custom_fields(purchase_order_custom_fields)
 
@@ -26,6 +27,7 @@ def property_setter():
     make_property_setter('Purchase Order', "supplier", "reqd", 0, "Check")
     make_property_setter('Purchase Order', "supplier", "hidden", 1, "Check")
     make_property_setter('Purchase Order', "supplier_name", "fetch_from", "naming_supplier.supplier_name", "Text Editor")
+    make_property_setter('Purchase Order Item','item_code','label','Process','Data')
     
 
 def execute():

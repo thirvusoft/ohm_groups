@@ -1,0 +1,35 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-12-21 18:09:28.181530",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "email_id"
+ ],
+ "fields": [
+  {
+   "bold": 1,
+   "fieldname": "email_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Email Id",
+   "options": "User",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2022-12-21 18:25:14.899010",
+ "modified_by": "Administrator",
+ "module": "Ohm Groups",
+ "name": "TS Email id",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
