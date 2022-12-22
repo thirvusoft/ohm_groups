@@ -1,0 +1,69 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2022-12-21 18:09:30.661925",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "petrol_per_liter",
+  "diesel_per_liter",
+  "vehicle_update",
+  "default_fuel_supplier",
+  "email_id_for_notification"
+ ],
+ "fields": [
+  {
+   "fieldname": "petrol_per_liter",
+   "fieldtype": "Float",
+   "label": "Petrol Per Liter"
+  },
+  {
+   "fieldname": "diesel_per_liter",
+   "fieldtype": "Float",
+   "label": "Diesel Per Liter"
+  },
+  {
+   "default": "1",
+   "fieldname": "vehicle_update",
+   "fieldtype": "Check",
+   "label": "Automatically Update Mileage based on Vehicle Log"
+  },
+  {
+   "fieldname": "default_fuel_supplier",
+   "fieldtype": "Link",
+   "label": "Default Fuel Supplier",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "email_id_for_notification",
+   "fieldtype": "Table",
+   "label": "Email Id for Notification",
+   "options": "TS Email id"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2022-12-21 18:24:50.409359",
+ "modified_by": "Administrator",
+ "module": "Ohm Groups",
+ "name": "Vehicle Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
