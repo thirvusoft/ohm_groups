@@ -93,7 +93,22 @@ def quality_inspection_custom_fields():
                 label="Sample 10",
                 read_only=1
             ),
-            
+            dict(
+                fieldname='column_break_19',
+                fieldtype='Column Break',
+                insert_after='quality_inspection_template',
+            ),
+            dict(
+                fieldname='is_parameter',
+                fieldtype='Check',
+                insert_after='column_break_19',
+                label = 'is Parameter'
+            ),
+            dict(
+                fieldname='section_break_21',
+                fieldtype='Section Break',
+                insert_after='is_parameter',
+            ),
            
         ],
     }

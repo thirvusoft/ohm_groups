@@ -142,12 +142,13 @@ doc_events = {
 	}
 }
 doctype_js = {
-    "Quality Inspection" : "/ohm_groups/custom/js/quality_inspection",
+    "Quality Inspection" : "/ohm_groups/custom/js/quality_inspection.js",
     "Purchase Order" :[ "/ohm_groups/custom/js/purchase_order.js",
                        "/ohm_groups/custom/js/purchase_order_items.js"],
     "Vehicle" : "/ohm_groups/custom/js/vehicle.js",
     "Vehicle Log" : ["/ohm_groups/custom/js/vehicle_log.js",
-                     "/ohm_groups/custom/js/vehicle_log_service.js"]
+                     "/ohm_groups/custom/js/vehicle_log_service.js"],
+    "Delivery Note" : "/ohm_groups/custom/js/delivery_note.js"
  
     
 }
