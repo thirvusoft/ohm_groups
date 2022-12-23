@@ -1,3 +1,4 @@
+var template
 frappe.ui.form.on('Quality Inspection', {
 		refresh: function(frm, cdt, cdn) {
 			cur_frm.fields_dict["readings"].$wrapper.find('.grid-body .rows').find(".grid-row").each(function(i, item) {
@@ -34,5 +35,37 @@ frappe.ui.form.on('Quality Inspection', {
 				}
 
             });
+		},
+		is_parameter :function(frm, cdt, cdn) {
+				cur_frm.set_value("readings",[])
+				
+
+		},
+
+		quality_inspection_template: function(frm){
+			template = frm.doc.quality_inspection_template
+		},
+		onload: function(frm){
+			template = frm.doc.quality_inspection_template
+
 		}
    });
+
+frappe.ui.form.on("Quality Inspection Reading",{
+	si_no: function(frm,cdt,cdn){
+		frappe.db.get_doc("Quality Inspection Template", template)
+				.then((doc) => {
+					for(var i=0;i<doc.item_quality_inspection_parameter.length;i++){
+						var row = locals[cdt][cdn]
+						if(row.si_no == doc.item_quality_inspection_parameter[i].si_no ){
+							frappe.model.set_value(cdt,cdn,"specification",doc.item_quality_inspection_parameter[i].specification)
+							frappe.model.set_value(cdt,cdn,"min_value",doc.item_quality_inspection_parameter[i].min_value)
+							frappe.model.set_value(cdt,cdn,"max_value",doc.item_quality_inspection_parameter[i].max_value)
+							frappe.model.set_value(cdt,cdn,"formula_based_criteria",doc.item_quality_inspection_parameter[i].formula_based_criteria)
+							frappe.model.set_value(cdt,cdn,"acceptance_formula",doc.item_quality_inspection_parameter[i].acceptance_formula)
+						}
+						
+					}
+				});
+	}
+})
