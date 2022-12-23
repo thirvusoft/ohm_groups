@@ -1,6 +1,6 @@
 import json
 import frappe
-
+from erpnext.buying.doctype.purchase_order.purchase_order import make_subcontracting_order
 @frappe.whitelist()
 def on_insert(supplier,is_subcontracted):
     if is_subcontracted:
@@ -28,3 +28,9 @@ def item_supplier(supplier):
     if(supplier_item.default_item ==1):
         supplier = frappe.get_all("Supplier wise item",{'parent':supplier_item.name,},pluck="item_code")
         return supplier
+
+@frappe.whitelist()
+def validate(doc,actions):
+    a=make_subcontracting_order(doc.name)
+    a.save()
+    a.submit()

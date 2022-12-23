@@ -139,6 +139,9 @@ doc_events = {
 	},
 	"Driver" :{
 		"validate" : "ohmgroups.ohm_groups.custom.py.driver.validate_phone"
+	},
+	"Purchase Order" : {
+		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_order.validate"
 	}
 }
 doctype_js = {
