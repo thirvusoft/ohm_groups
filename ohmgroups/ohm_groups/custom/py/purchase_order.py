@@ -1,4 +1,5 @@
 import json
+from erpnext.controllers.subcontracting_controller import make_rm_stock_entry
 import frappe
 from erpnext.buying.doctype.purchase_order.purchase_order import make_subcontracting_order
 @frappe.whitelist()
@@ -30,7 +31,7 @@ def item_supplier(supplier):
         return supplier
 
 @frappe.whitelist()
-def validate(doc,actions):
+def po_order(doc,actions):
     a=make_subcontracting_order(doc.name)
     a.save()
     a.submit()
