@@ -77,7 +77,10 @@ frappe.ui.form.on("Purchase Order", {
             })
 
         }, __("Create"));
-      
+        frm.add_custom_button(__('Material to Transfer'), function(){
+
+
+        }, __("Create"));
     }
     
 })
