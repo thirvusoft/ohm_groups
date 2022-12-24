@@ -10,6 +10,7 @@ from ohmgroups.ohm_groups.utils.setup.vehicle_log import batch_customization
 from ohmgroups.ohm_groups.utils.setup.driver import driver_custom_fields
 # from ohmgroups.ohm_groups.utils.selling.delivery_note import delivery_note
 from ohmgroups.ohm_groups.utils.stock.quality_inspection_parameter import quality_inspection_paramter
+from ohmgroups.ohm_groups.utils.stock.quality_inspection_template import quality_inspection_template
 
 
 def after_install():
@@ -25,3 +26,4 @@ def after_install():
     driver_custom_fields()
     # delivery_note()
     quality_inspection_paramter()
+    quality_inspection_template()
