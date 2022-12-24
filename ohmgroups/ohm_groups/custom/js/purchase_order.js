@@ -55,6 +55,29 @@ frappe.ui.form.on("Purchase Order", {
                 
             }
         })
+        frm.add_custom_button(__('Subcontracted Receipt'), function(){
+            var so_no = frappe.db.get_list('Subcontracting Order', {filters:{'purchase_order':frm.doc.name, 'docstatus':1},fields:['name']}).then((r)=>{
+                if(!r.length){
+                    frappe.throw("Create Subcontracting Order...")
+                }
+                frappe.call({
+                    method: 'erpnext.subcontracting.doctype.subcontracting_order.subcontracting_order.make_subcontracting_receipt',
+                    args: {
+                        source_name:r[0].name,},
+                        callback: function(r) {
+                            if(r.message) {
+                                frappe.model.sync(r.message)
+                                frappe.set_route("Form", r.message.doctype,r.message.name);
+                                return;
+                            }
+                        }
+
+                });
+                
+            })
+
+        }, __("Create"));
+      
     }
     
 })

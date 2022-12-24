@@ -141,7 +141,10 @@ doc_events = {
 		"validate" : "ohmgroups.ohm_groups.custom.py.driver.validate_phone"
 	},
 	"Purchase Order" : {
-		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_order.validate"
+		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_order.po_order"
+	},
+	"Subcontracting Order" : {
+		"on_submit" : "ohmgroups.ohm_groups.custom.py.subcontracting_order.validate"
 	}
 }
 doctype_js = {
