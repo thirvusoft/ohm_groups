@@ -17,7 +17,7 @@ frappe.ui.form.on("Purchase Order", {
     },
     naming_supplier: function(frm){
         cur_frm.set_value("supplier",frm.doc.naming_supplier)
-        if(frm.doc.supplier){
+        if(frm.doc.is_subcontracted){
             frappe.db.get_value('Supplier',{'name':frm.doc.supplier},'default_item',(r)=>{
                 if(r.default_item == 1){
                     frappe.call({
