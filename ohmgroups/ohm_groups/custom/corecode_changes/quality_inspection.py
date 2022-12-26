@@ -15,6 +15,7 @@ from erpnext.stock.doctype.quality_inspection_template.quality_inspection_templa
 
 class QualityInspection(Document):
 	def validate(self):
+		if(self.reference_type == 'Others'):return
 		if not self.readings and self.item_code:
 			self.get_item_specification_details()
 
@@ -31,6 +32,7 @@ class QualityInspection(Document):
 			self.inspect_and_set_status()
 
 	def before_submit(self):
+		if(self.reference_type == 'Others'):return
 		self.validate_readings_status_mandatory()
 
 	@frappe.whitelist()
@@ -63,9 +65,11 @@ class QualityInspection(Document):
 		self.get_item_specification_details()
 
 	def on_submit(self):
+		if(self.reference_type == 'Others'):return
 		self.update_qc_reference()
 
 	def on_cancel(self):
+		if(self.reference_type == 'Others'):return
 		self.update_qc_reference()
 
 	def validate_readings_status_mandatory(self):
@@ -158,7 +162,7 @@ class QualityInspection(Document):
 			if reading_value is not None and reading_value.strip():
 				result = flt(reading.get("min_value")) <= flt(reading_value) <= flt(reading.get("max_value"))
 				if not result:
-					print(flt(reading_value))
+					print(flt(reading_value),"-----------")
 					# return False
 		return True
 
@@ -193,7 +197,7 @@ class QualityInspection(Document):
 	def get_formula_evaluation_data(self, reading):
 		data = {}
 		
-		custom_fields = ["tolerance_level","_ohm_specification","min_value","max_value","maximum_value","minimmum_value"]
+		custom_fields = ["tolerance_level","_ohm_specification","min_value","max_value","maximum_value","minimmum_value","testing_type"]
 		if not cint(reading.numeric):
 			data = {"reading_value": reading.get("reading_value")}
 		else:
