@@ -96,9 +96,9 @@ after_migrate = "ohmgroups.install.after_install"
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+	"Quality Inspection": "ohmgroups.ohm_groups.custom.py.quality_inspection.quality_inspection"
+}
 
 # Document Events
 # ---------------
@@ -145,6 +145,12 @@ doc_events = {
 	},
 	"Subcontracting Order" : {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.subcontracting_order.validate"
+	},
+	"Quality Inspection Template" : {
+		"validate" : "ohmgroups.ohm_groups.custom.py.quality_insprection_template.item_template"
+	},
+	"Item Attribute" : {
+		"validate" : "ohmgroups.ohm_groups.custom.py.item_attribute.attribute_item"
 	}
 }
 doctype_js = {
@@ -154,7 +160,9 @@ doctype_js = {
     "Vehicle" : "/ohm_groups/custom/js/vehicle.js",
     "Vehicle Log" : ["/ohm_groups/custom/js/vehicle_log.js",
                      "/ohm_groups/custom/js/vehicle_log_service.js"],
-    "Delivery Note" : "/ohm_groups/custom/js/delivery_note.js"
+    "Delivery Note" : "/ohm_groups/custom/js/delivery_note.js",
+    "Item Attribute" :"/ohm_groups/custom/js/item_attribute.js",
+                      
  
     
 }

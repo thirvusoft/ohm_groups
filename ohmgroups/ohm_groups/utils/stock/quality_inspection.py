@@ -102,7 +102,7 @@ def quality_inspection_custom_fields():
                 fieldname='is_parameter',
                 fieldtype='Check',
                 insert_after='column_break_19',
-                label = 'is Parameter'
+                label = 'Enter manual Data'
             ),
             dict(
                 fieldname='section_break_21',
