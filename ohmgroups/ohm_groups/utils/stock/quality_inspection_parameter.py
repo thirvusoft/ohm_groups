@@ -11,7 +11,14 @@ def quality_inspection_paramter_custom_fields():
                 fieldtype='Data',
                 label = 'Si No',
                 insert_after='specification',
-            ),  
+            ), 
+            dict(
+                fieldname='testing_type',
+                fieldtype='Link',
+                label = 'Testing Type',
+                options = 'Testing Type',
+                insert_after='acceptance_formula',
+            ),   
         ],
     }
     create_custom_fields(quality_inspection_paramter_custom_fields)

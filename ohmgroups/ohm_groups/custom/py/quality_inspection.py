@@ -1,3 +1,4 @@
+from erpnext.stock.doctype.quality_inspection.quality_inspection import QualityInspection
 import frappe
 
 def validate(doc,actions):
@@ -30,5 +31,42 @@ def status(doc, actions):
                     title=frappe._("Invalid Formula"),
                 )
 
-                
-                
+class quality_inspection(QualityInspection):
+    
+	@frappe.whitelist()
+	def get_item_specification_details(self):
+		if not self.quality_inspection_template:
+			self.quality_inspection_template = frappe.db.get_value(
+				"Item", self.item_code, "quality_inspection_template"
+			)
+
+		if not self.quality_inspection_template:
+			return
+
+		self.set("readings", [])
+		parameters = get_template_details(self.quality_inspection_template)
+		for d in parameters:
+			child = self.append("readings", {})
+			child.update(d)
+			child.status = "Accepted"
+
+
+def get_template_details(template):
+	if not template:
+		return []
+
+	return frappe.get_all(
+		"Item Quality Inspection Parameter",
+		fields=[
+			"specification",
+			"value",
+			"acceptance_formula",
+			"numeric",
+			"formula_based_criteria",
+			"min_value",
+			"max_value",
+			"testing_type",
+		],
+		filters={"parenttype": "Quality Inspection Template", "parent": template},
+		order_by="idx",
+	)
