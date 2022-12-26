@@ -1,7 +1,9 @@
 var template
 frappe.ui.form.on('Quality Inspection', {
 		refresh: function(frm, cdt, cdn) {
-			cur_frm.fields_dict["readings"].$wrapper.find('.grid-body .rows').find(".grid-row").each(function(i, item) {
+
+			frm.get_field("image")?.$wrapper.html("")
+			cur_frm.fields_dict["readings"]?.$wrapper.find('.grid-body .rows')?.find(".grid-row")?.each(function(i, item) {
 	            let d = locals[cur_frm.fields_dict["readings"].grid.doctype][$(item).attr('data-name')];
 				if(d['min_value'] > d['reading_1'] || d['reading_1'] > d['max_value']){
 					$(item).find('.grid-static-col[data-fieldname="reading_1"]').css({'color': 'red'});
@@ -45,14 +47,33 @@ frappe.ui.form.on('Quality Inspection', {
 				
 			}
 		},
+		item_code : function(frm){
+			frappe.db.get_doc("Item", frm.doc.item_code).then(( itemimage ) => {
+				frm.get_field("item_image").$wrapper.html(`<div class="img_preview">
+				<img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
+				</div>`);
+			});
+		},
 		is_parameter :function(frm, cdt, cdn) {
 				cur_frm.set_value("readings",[])
 				
 
 		},
 
-		quality_inspection_template: function(frm){
+		after_save: async function(frm){
 			template = frm.doc.quality_inspection_template
+			if(frm.doc.quality_inspection_template){
+				(await frappe.db.get_list("File", {
+					filters: {
+						"attached_to_doctype":"Quality Inspection Template",
+						"attached_to_name": cur_frm.doc.quality_inspection_template,
+						
+					},
+					fields: ["name", "is_private", "file_url", "file_name"]
+				}))?.forEach(att => {
+					cur_frm.attachments.add_attachment(att)
+				});
+			}
 		},
 		onload: function(frm){
 			template = frm.doc.quality_inspection_template
