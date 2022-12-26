@@ -70,3 +70,17 @@ def get_template_details(template):
 		filters={"parenttype": "Quality Inspection Template", "parent": template},
 		order_by="idx",
 	)
+
+import json
+
+@frappe.whitelist()
+def add_attachment(file, name):
+	if(isinstance(file, str)):
+		file = json.loads(file)
+	file = frappe.get_doc('File', file)
+	file.update({
+		'name':'',
+		'attached_to_name': name,
+		'attached_to_doctype': 'Quality Inspection'
+	})
+	file.insert()

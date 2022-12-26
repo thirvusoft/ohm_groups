@@ -1,8 +1,14 @@
 var template
+var called=0;
 frappe.ui.form.on('Quality Inspection', {
 		refresh: function(frm, cdt, cdn) {
 
 			frm.get_field("image")?.$wrapper.html("")
+			frm.doc.item_code?frappe.db.get_doc("Item", frm.doc.item_code).then(( itemimage ) => {
+				frm.get_field("item_image").$wrapper.html(`<div class="img_preview">
+				<img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
+				</div>`);
+			}):null;
 			cur_frm.fields_dict["readings"]?.$wrapper.find('.grid-body .rows')?.find(".grid-row")?.each(function(i, item) {
 	            let d = locals[cur_frm.fields_dict["readings"].grid.doctype][$(item).attr('data-name')];
 				if(d['min_value'] > d['reading_1'] || d['reading_1'] > d['max_value']){
@@ -61,6 +67,8 @@ frappe.ui.form.on('Quality Inspection', {
 		},
 
 		after_save: async function(frm){
+			if(called>0)return
+			called+=1
 			template = frm.doc.quality_inspection_template
 			if(frm.doc.quality_inspection_template){
 				(await frappe.db.get_list("File", {
@@ -71,7 +79,20 @@ frappe.ui.form.on('Quality Inspection', {
 					},
 					fields: ["name", "is_private", "file_url", "file_name"]
 				}))?.forEach(att => {
-					cur_frm.attachments.add_attachment(att)
+					frappe.call({
+						method:'ohmgroups.ohm_groups.custom.py.quality_inspection.add_attachment',
+						args:{
+							file:att,
+							name:frm.doc.name,
+						},
+						freeze:true,
+						async:false,
+						freeze_message:'Attaching documents.....',
+						callback(){
+							frm.refresh()
+						}
+					})
+					
 				});
 			}
 		},
