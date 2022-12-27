@@ -117,6 +117,9 @@ def quality_inspection_custom_fields():
 def property_setter():
     make_property_setter('Quality Inspection', "status", "hidden", "1", "Check")
     make_property_setter('Quality Inspection', "sample_size", "label", "Sample Qty", "Data")
+    make_property_setter('Quality Inspection', "reference_type", "options", "\nPurchase Receipt\nPurchase Invoice\nDelivery Note\nSales Invoice\nStock Entry\nJob Card\nOthers", "Text")
+    make_property_setter('Quality Inspection', "reference_name", "mandatory_depends_on", "eval:doc.reference_type!='Others'", "Text")
+    make_property_setter('Quality Inspection', "reference_name", "reqd", "0", "Check")
     
 
 def execute():

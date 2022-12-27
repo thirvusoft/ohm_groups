@@ -81,6 +81,7 @@ def add_attachment(file, name):
 	file.update({
 		'name':'',
 		'attached_to_name': name,
-		'attached_to_doctype': 'Quality Inspection'
+		'attached_to_doctype': 'Quality Inspection',
+		'attached_to_field' : 'balloon_drawing'
 	})
 	file.insert()
