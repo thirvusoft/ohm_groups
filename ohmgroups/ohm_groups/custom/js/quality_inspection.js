@@ -4,6 +4,7 @@ frappe.ui.form.on('Quality Inspection', {
 		refresh: function(frm, cdt, cdn) {
 
 			frm.get_field("image")?.$wrapper.html("")
+			frm.get_field("item_image").$wrapper.html("")
 			frm.doc.item_code?frappe.db.get_doc("Item", frm.doc.item_code).then(( itemimage ) => {
 				frm.get_field("item_image").$wrapper.html(`<div class="img_preview">
 				<img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
