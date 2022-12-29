@@ -11,7 +11,7 @@ from ohmgroups.ohm_groups.utils.setup.driver import driver_custom_fields
 # from ohmgroups.ohm_groups.utils.selling.delivery_note import delivery_note
 from ohmgroups.ohm_groups.utils.stock.quality_inspection_parameter import quality_inspection_paramter
 from ohmgroups.ohm_groups.utils.stock.quality_inspection_template import quality_inspection_template
-# from ohmgroups.ohm_groups.utils.hr.employee import salary_structure_assignment
+from ohmgroups.ohm_groups.utils.hr.employee import salary_structure_assignment
 
 
 def after_install():
@@ -28,4 +28,4 @@ def after_install():
     # delivery_note()
     quality_inspection_paramter()
     quality_inspection_template()
-    # salary_structure_assignment()
+    salary_structure_assignment()

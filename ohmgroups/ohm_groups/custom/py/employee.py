@@ -6,7 +6,6 @@ def time_count(doc,actions):
     for i in range(0,len(time), 2):
         a= time[i+1] - time[i]
         minutes = a.total_seconds() / 60
-        # hrs = minutes/60
         b = b+minutes
     doc.total_count_ = round(b/60)
 

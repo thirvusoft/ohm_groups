@@ -35,6 +35,17 @@ def salary_structure_assignment_custom_fields():
                 fetch_from ="employee.total_count_"
             ),
         ],
+        'Salary Slip':[
+            dict(
+                fieldname='total_count_',
+                fieldtype='Int',
+                label = 'Total Count',
+                insert_after='payroll_frequency',
+                read_only=1,
+                hidden =1,
+                fetch_from ="employee.total_count_"
+            ),
+        ],
     }
         create_custom_fields(salary_structure_assignment_custom_fields)
     
