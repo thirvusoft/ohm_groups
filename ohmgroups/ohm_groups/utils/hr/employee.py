@@ -6,8 +6,38 @@ def salary_structure_assignment():
     property_setter()
     
 def salary_structure_assignment_custom_fields():
-    pass
-
+        salary_structure_assignment_custom_fields = {
+        'Employee':[
+            dict(
+                fieldname='total_count_',
+                fieldtype='Int',
+                label = 'Total Count',
+                insert_after='salutation',
+            ),
+        ],
+        'Employee Checkin':[
+            dict(
+                fieldname='designation',
+                fieldtype='Data',
+                label = 'Designation',
+                insert_after='employee',
+                read_only=1,
+                fetch_from ="employee.designation"
+            ),
+        ],
+        'Salary Structure Assignment':[
+            dict(
+                fieldname='total_count_',
+                fieldtype='Int',
+                label = 'Total Count',
+                insert_after='section_break_7',
+                read_only=1,
+                fetch_from ="employee.total_count_"
+            ),
+        ],
+    }
+        create_custom_fields(salary_structure_assignment_custom_fields)
+    
 def property_setter():
     make_property_setter("Salary Structure Assignment", "base", "label", "Wages", "Data")
     make_property_setter("Salary Structure Assignment", "from_date", "fetch_from", "employee.date_of_joining", "Data")

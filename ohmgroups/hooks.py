@@ -151,6 +151,9 @@ doc_events = {
 	},
 	"Item Attribute" : {
 		"validate" : "ohmgroups.ohm_groups.custom.py.item_attribute.attribute_item"
+	},
+	"Employee" : {
+		"validate": "ohmgroups.ohm_groups.custom.py.employee.time_count"
 	}
 }
 doctype_js = {
