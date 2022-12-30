@@ -143,14 +143,17 @@ doc_events = {
 	"Purchase Order" : {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_order.po_order"
 	},
-	"Subcontracting Order" : {
-		"on_submit" : "ohmgroups.ohm_groups.custom.py.subcontracting_order.validate"
-	},
+	# "Subcontracting Order" : {
+	# 	"on_submit" : "ohmgroups.ohm_groups.custom.py.subcontracting_order.validate"
+	# },
 	"Quality Inspection Template" : {
 		"validate" : "ohmgroups.ohm_groups.custom.py.quality_insprection_template.item_template"
 	},
 	"Item Attribute" : {
 		"validate" : "ohmgroups.ohm_groups.custom.py.item_attribute.attribute_item"
+	},
+	"Employee" : {
+		"validate": "ohmgroups.ohm_groups.custom.py.employee.time_count"
 	}
 }
 doctype_js = {
@@ -162,6 +165,7 @@ doctype_js = {
                      "/ohm_groups/custom/js/vehicle_log_service.js"],
     "Delivery Note" : "/ohm_groups/custom/js/delivery_note.js",
     "Item Attribute" :"/ohm_groups/custom/js/item_attribute.js",
+    "Employee" : "/ohm_groups/custom/js/employee.js"
                       
  
     
