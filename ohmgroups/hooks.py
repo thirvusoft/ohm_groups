@@ -143,9 +143,9 @@ doc_events = {
 	"Purchase Order" : {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_order.po_order"
 	},
-	"Subcontracting Order" : {
-		"on_submit" : "ohmgroups.ohm_groups.custom.py.subcontracting_order.validate"
-	},
+	# "Subcontracting Order" : {
+	# 	"on_submit" : "ohmgroups.ohm_groups.custom.py.subcontracting_order.validate"
+	# },
 	"Quality Inspection Template" : {
 		"validate" : "ohmgroups.ohm_groups.custom.py.quality_insprection_template.item_template"
 	},
