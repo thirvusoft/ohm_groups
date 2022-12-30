@@ -32,6 +32,7 @@ def salary_structure_assignment_custom_fields():
                 label = 'Total Count',
                 insert_after='section_break_7',
                 read_only=1,
+                hidden =1,
                 fetch_from ="employee.total_count_"
             ),
         ],
