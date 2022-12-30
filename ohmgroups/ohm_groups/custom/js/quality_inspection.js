@@ -2,7 +2,6 @@ var template
 var called=0;
 frappe.ui.form.on('Quality Inspection', {
 		refresh: function(frm, cdt, cdn) {
-
 			frm.get_field("image")?.$wrapper.html("")
 			frm.get_field("item_image")?.$wrapper.html("")
 			frm.doc.item_code?frappe.db.get_doc("Item", frm.doc.item_code).then(( itemimage ) => {
