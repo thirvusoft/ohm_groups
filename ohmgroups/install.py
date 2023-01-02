@@ -8,10 +8,10 @@ from ohmgroups.ohm_groups.utils.buying.purchase_order import purchase_order
 from ohmgroups.ohm_groups.utils.setup.vehicle import batch_customizations
 from ohmgroups.ohm_groups.utils.setup.vehicle_log import batch_customization
 from ohmgroups.ohm_groups.utils.setup.driver import driver_custom_fields
-# from ohmgroups.ohm_groups.utils.selling.delivery_note import delivery_note
 from ohmgroups.ohm_groups.utils.stock.quality_inspection_parameter import quality_inspection_paramter
 from ohmgroups.ohm_groups.utils.stock.quality_inspection_template import quality_inspection_template
 from ohmgroups.ohm_groups.utils.hr.employee import salary_structure_assignment
+from ohmgroups.ohm_groups.utils.stock.stock_entry import stock_entry
 
 
 def after_install():
@@ -25,7 +25,7 @@ def after_install():
     batch_customizations()
     batch_customization()
     driver_custom_fields()
-    # delivery_note()
     quality_inspection_paramter()
     quality_inspection_template()
+    stock_entry()
     salary_structure_assignment()

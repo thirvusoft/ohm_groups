@@ -163,9 +163,9 @@ doctype_js = {
     "Vehicle" : "/ohm_groups/custom/js/vehicle.js",
     "Vehicle Log" : ["/ohm_groups/custom/js/vehicle_log.js",
                      "/ohm_groups/custom/js/vehicle_log_service.js"],
-    "Delivery Note" : "/ohm_groups/custom/js/delivery_note.js",
     "Item Attribute" :"/ohm_groups/custom/js/item_attribute.js",
-    "Employee" : "/ohm_groups/custom/js/employee.js"
+    "Employee" : "/ohm_groups/custom/js/employee.js",
+    "Stock Entry" : "/ohm_groups/custom/js/stock_entry.js"
                       
  
     
