@@ -11,6 +11,7 @@ frappe.ui.form.on("Stock Entry" ,{
         }, __("Create"));
     },
     suppliername: function(frm){
+        cur_frm.set_value("supplier",frm.doc.suppliername)
         frappe.call({
             
             method: "ohmgroups.ohm_groups.custom.py.stock_entry.on_insert",
