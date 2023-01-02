@@ -2,19 +2,8 @@ var template
 var called=0;
 frappe.ui.form.on('Quality Inspection', {
 		refresh: function(frm, cdt, cdn) {
-			frm.get_field("image")?.$wrapper.html("")
-			frm.get_field("item_image")?.$wrapper.html("")
-			frm.doc.item_code?frappe.db.get_doc("Item", frm.doc.item_code).then(( itemimage ) => {
-				frm.get_field("item_image").$wrapper.html(`<div class="img_preview">
-				<img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
-				</div>`);
-			}):null;
-			frm.doc.item_code?frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( itemimage ) => {
-				frm.set_value("balloon_drawing",itemimage.item_image)
-				cur_frm.fields_dict.balloon_drawing.refresh()
-				// <img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
-				// </div>`);
-			}):null;
+		
+
 			cur_frm.fields_dict["readings"]?.$wrapper.find('.grid-body .rows')?.find(".grid-row")?.each(function(i, item) {
 	            let d = locals[cur_frm.fields_dict["readings"].grid.doctype][$(item).attr('data-name')];
 				if(d['min_value'] > d['reading_1'] || d['reading_1'] > d['max_value']){
@@ -54,14 +43,13 @@ frappe.ui.form.on('Quality Inspection', {
 				frm.get_field("image")?.$wrapper.html(`<div class="img_preview">
 				<img class="img-responsive" src="${image.item_image}" onerror="cur_frm.toggle_display('preview', false)" />
 				</div>`);
-			});
-			
+			});		
 				
 			}
 		},
 		item_code : function(frm){
 			frappe.db.get_doc("Item", frm.doc.item_code).then(( itemimage ) => {
-				frm.get_field("item_image").$wrapper.html(`<div class="img_preview">
+				frm.get_field("item_image")?.$wrapper.html(`<div class="img_preview">
 				<img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
 				</div>`);
 			});
@@ -103,6 +91,19 @@ frappe.ui.form.on('Quality Inspection', {
 					
 				});
 			}
+		},
+		before_save: async function(frm){
+			frm.doc.item_code?frappe.db.get_doc("Item", frm.doc.item_code).then(( itemimage ) => {
+				frm.get_field("item_image").$wrapper.html(`<div class="img_preview">
+				<img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
+				</div>`);
+			}):null;
+			frm.doc.item_code?frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( itemimage ) => {
+				frm.set_value("balloon_drawing",itemimage.item_image)
+				// cur_frm.fields_dict.balloon_drawing.refresh()
+				// <img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
+				// </div>`);
+			}):null;
 		},
 		onload: function(frm){
 			template = frm.doc.quality_inspection_template
