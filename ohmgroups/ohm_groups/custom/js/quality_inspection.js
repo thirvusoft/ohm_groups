@@ -51,7 +51,7 @@ frappe.ui.form.on('Quality Inspection', {
             });
 			if(frm.doc.quality_inspection_template){
 			frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( image ) => {
-				frm.get_field("image").$wrapper.html(`<div class="img_preview">
+				frm.get_field("image")?.$wrapper.html(`<div class="img_preview">
 				<img class="img-responsive" src="${image.item_image}" onerror="cur_frm.toggle_display('preview', false)" />
 				</div>`);
 			});
