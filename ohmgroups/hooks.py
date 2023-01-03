@@ -154,7 +154,8 @@ doc_events = {
 	},
 	"Employee" : {
 		"validate": "ohmgroups.ohm_groups.custom.py.employee.time_count"
-	}
+	},
+
 }
 doctype_js = {
     "Quality Inspection" : "/ohm_groups/custom/js/quality_inspection.js",
@@ -165,7 +166,7 @@ doctype_js = {
                      "/ohm_groups/custom/js/vehicle_log_service.js"],
     "Item Attribute" :"/ohm_groups/custom/js/item_attribute.js",
     "Employee" : "/ohm_groups/custom/js/employee.js",
-    "Stock Entry" : "/ohm_groups/custom/js/stock_entry.js"
+    "Stock Entry" : "/ohm_groups/custom/js/stock_entry.js",
                       
  
     
