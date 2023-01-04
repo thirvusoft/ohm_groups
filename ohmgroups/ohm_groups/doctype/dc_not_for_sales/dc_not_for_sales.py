@@ -21,19 +21,19 @@ def on_insert(party):
 
 @frappe.whitelist()
 def address_company(company):
-    com_add = frappe.db.get_value("Dynamic Link", {"parenttype":"Address","link_doctype":"Company","link_name":company},"parent")
+    com_add = frappe.get_value("Dynamic Link", {"parenttype":"Address","link_doctype":"Company","link_name":company},"parent")
     return com_add
 
 @frappe.whitelist()
 def address_shipping(party_type, party):
-    com_add = frappe.db.get_list("Dynamic Link", {"parenttype":"Address","link_doctype":party_type,"link_name":party},pluck="parent")
+    com_add = frappe.get_all("Dynamic Link", {"parenttype":"Address","link_doctype":party_type,"link_name":party},pluck="parent")
     for i in com_add:
         ship_add =  frappe.get_value('Address',{'address_type':'Shipping','name':i},"name")
         if ship_add:
             return ship_add
 @frappe.whitelist()
 def address_billing(party_type, party):
-    com_add = frappe.db.get_list("Dynamic Link", {"parenttype":"Address","link_doctype":party_type,"link_name":party},pluck="parent")
+    com_add = frappe.get_all("Dynamic Link", {"parenttype":"Address","link_doctype":party_type,"link_name":party},pluck="parent")
     for i in com_add:
         bill_add =  frappe.get_value('Address',{'address_type':'Billing','name':i},"name")
         if bill_add:
