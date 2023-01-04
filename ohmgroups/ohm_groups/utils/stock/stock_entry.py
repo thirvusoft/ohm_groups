@@ -67,6 +67,12 @@ def stock_entry_custom_fields():
                 insert_after='driver_name',
                 label="Vehicle No",
             ), 
+            dict(
+                fieldname='approx_value',
+                fieldtype='Data',
+                insert_after='total_outgoing_value',
+                label="Approximate Value",
+            ), 
 
         ],
     }
