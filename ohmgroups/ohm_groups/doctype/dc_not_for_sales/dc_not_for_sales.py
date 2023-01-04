@@ -52,7 +52,7 @@ class DCNotforSales(Document):
 				document.append('items', dict(
 				item_code = i.item_code,
 				qty=i.qty,
-				basic_rate=i.rate,
+				basic_rate=1,
 				uom=i.uom,
 				))
 			document.save(ignore_permissions=True)
@@ -67,12 +67,9 @@ class DCNotforSales(Document):
 			frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()
 
 	def validate(self):
-		total_amt = 0
 		total_qty = 0
 		for i in self.items:
-			total_amt += i.amount 
 			total_qty += i.qty 
 		self.total_qty = total_qty
-		self.total_amount = total_amt
   
 	
