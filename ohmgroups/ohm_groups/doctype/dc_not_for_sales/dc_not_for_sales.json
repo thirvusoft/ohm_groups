@@ -217,12 +217,12 @@
    "label": "e-Waybill No."
   },
   {
-   "default": "DC-.2223.-",
+   "default": "DC-.22-23.-",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Naming Series",
-   "options": "DC-.2223.-"
+   "options": "DC-.22-23.-"
   },
   {
    "collapsible": 1,
@@ -308,7 +308,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-04 17:06:35.953533",
+ "modified": "2023-01-04 18:47:19.629014",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",
@@ -316,6 +316,8 @@
  "owner": "Administrator",
  "permissions": [
   {
+   "amend": 1,
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -324,7 +326,9 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "select": 1,
    "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],
