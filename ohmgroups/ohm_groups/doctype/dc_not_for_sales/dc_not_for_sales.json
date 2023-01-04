@@ -12,24 +12,30 @@
   "party_type",
   "party",
   "company",
+  "po_no",
   "column_break_3",
   "party_name",
   "warehouse",
   "posting_date",
+  "po_date",
   "section_break_6",
   "items",
+  "section_break6_",
+  "approx_value",
+  "column_break16_",
+  "total_qty",
+  "column_break17_",
+  "total_amount",
   "section_break_8",
+  "shipping_address_section",
   "shipping_address_name",
   "contact_info",
   "customer_address",
   "gst_category",
-  "column_break_15",
-  "dispatch_address_name",
   "company_address_section",
+  "dispatch_address_name",
   "company_address",
   "company_gstin",
-  "column_break_14",
-  "company_address_display",
   "transport_info_section",
   "transporter",
   "gst_transporter_id",
@@ -44,6 +50,7 @@
   "lr_date",
   "gst_vehicle_type",
   "section_break_13",
+  "gst_details_section",
   "ewaybill",
   "einvoice_no",
   "amended_from"
@@ -82,6 +89,7 @@
    "label": "Warehouse"
   },
   {
+   "default": "Now",
    "fieldname": "posting_date",
    "fieldtype": "Date",
    "label": "Posting Date"
@@ -107,6 +115,7 @@
    "options": "Address"
   },
   {
+   "collapsible": 1,
    "fieldname": "contact_info",
    "fieldtype": "Section Break",
    "label": "Billing Address"
@@ -122,10 +131,6 @@
    "fieldname": "gst_category",
    "fieldtype": "Data",
    "label": "GST Category"
-  },
-  {
-   "fieldname": "column_break_15",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "dispatch_address_name",
@@ -150,15 +155,6 @@
    "fieldname": "company_gstin",
    "fieldtype": "Data",
    "label": "Company GSTIN"
-  },
-  {
-   "fieldname": "column_break_14",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "company_address_display",
-   "fieldtype": "Small Text",
-   "label": "Company Address"
   },
   {
    "collapsible": 1,
@@ -265,12 +261,61 @@
    "options": "DC Not for Sales",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "shipping_address_section",
+   "fieldtype": "Section Break",
+   "label": "Shipping Address"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "gst_details_section",
+   "fieldtype": "Section Break",
+   "label": "GST Details"
+  },
+  {
+   "fieldname": "po_no",
+   "fieldtype": "Data",
+   "label": "Po No"
+  },
+  {
+   "fieldname": "po_date",
+   "fieldtype": "Date",
+   "label": "Po Date"
+  },
+  {
+   "fieldname": "approx_value",
+   "fieldtype": "Int",
+   "label": "Approximate Value"
+  },
+  {
+   "fieldname": "column_break16_",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Int",
+   "label": "Total Qty"
+  },
+  {
+   "fieldname": "column_break17_",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Float",
+   "label": "Total Amount"
+  },
+  {
+   "fieldname": "section_break6_",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-03 20:46:15.086697",
+ "modified": "2023-01-04 11:12:17.879227",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",

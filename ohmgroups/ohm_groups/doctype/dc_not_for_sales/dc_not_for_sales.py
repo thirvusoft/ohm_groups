@@ -42,3 +42,12 @@ class DCNotforSales(Document):
 		
 	def on_trash(self):
 		frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()
+  
+	def validate(self):
+		total_amt = 0
+		total_qty = 0
+		for i in self.items:
+			total_amt += i.amount 
+			total_qty += i.qty 
+		self.total_qty = total_qty
+		self.total_amount = total_amt
