@@ -25,7 +25,19 @@ frappe.ui.form.on('DC Not for Sales',{
                 "e-Waybill"
             );
         
-        
+              
+            frm.call({
+                
+                method: "address_company",
+                args:{
+                    company:frm.doc.company,
+                },
+    
+                callback: function(r) {
+                    frm.set_value("company_address",r.message)
+            }
+            })
+    
          
    
         
@@ -47,13 +59,34 @@ frappe.ui.form.on('DC Not for Sales',{
                     cur_frm.set_value("warehouse",r.message)
                 }
         }
+        }),
+                      
+        frm.call({
+            
+            method: "address_shipping",
+            args:{
+                party_type:frm.doc.party_type,
+                party : frm.doc.party,
+            },
+
+            callback: function(r) {
+                frm.set_value("shipping_address_name",r.message)
+        }
+        }),
+        frm.call({
+            
+            method: "address_billing",
+            args:{
+                party_type:frm.doc.party_type,
+                party : frm.doc.party,
+            },
+
+            callback: function(r) {
+                frm.set_value("customer_address",r.message)
+        }
         })
+    
     },
-
-
-    // : function(frm){
-
-    // }
 
 })
 function show_generate_e_waybill_dialog(frm) {

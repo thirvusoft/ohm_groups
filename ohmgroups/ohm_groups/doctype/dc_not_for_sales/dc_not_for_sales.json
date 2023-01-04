@@ -11,13 +11,14 @@
   "naming_series",
   "party_type",
   "party",
-  "company",
-  "po_no",
-  "column_break_3",
   "party_name",
-  "warehouse",
-  "posting_date",
+  "column_break_3",
+  "po_no",
   "po_date",
+  "posting_date",
+  "column_break_9",
+  "company",
+  "warehouse",
   "section_break_6",
   "items",
   "section_break6_",
@@ -27,32 +28,31 @@
   "column_break17_",
   "total_amount",
   "section_break_8",
-  "shipping_address_section",
-  "shipping_address_name",
-  "contact_info",
-  "customer_address",
-  "gst_category",
-  "company_address_section",
-  "dispatch_address_name",
-  "company_address",
-  "company_gstin",
   "transport_info_section",
   "transporter",
   "gst_transporter_id",
-  "driver",
   "lr_no",
-  "vehicle_no",
-  "distance",
+  "lr_date",
   "column_break_16",
   "transporter_name",
   "mode_of_transport",
-  "driver_name",
-  "lr_date",
+  "vehicle_no",
   "gst_vehicle_type",
+  "column_break_39",
+  "driver",
+  "driver_name",
+  "distance",
+  "shipping_address_section",
+  "company_address",
+  "company_gstin",
+  "column_break_24",
+  "customer_address",
+  "billing_address_gstin",
+  "column_break_27",
+  "shipping_address_name",
   "section_break_13",
   "gst_details_section",
   "ewaybill",
-  "einvoice_no",
   "amended_from"
  ],
  "fields": [
@@ -111,38 +111,14 @@
   {
    "fieldname": "shipping_address_name",
    "fieldtype": "Link",
-   "label": "Shipping Address",
+   "label": "Shipping Address Name",
    "options": "Address"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "contact_info",
-   "fieldtype": "Section Break",
-   "label": "Billing Address"
   },
   {
    "fieldname": "customer_address",
    "fieldtype": "Link",
    "label": "Billing Address Name",
    "options": "Address"
-  },
-  {
-   "fetch_from": "customer_address.gst_category",
-   "fieldname": "gst_category",
-   "fieldtype": "Data",
-   "label": "GST Category"
-  },
-  {
-   "fieldname": "dispatch_address_name",
-   "fieldtype": "Link",
-   "label": "Dispatch Address Name",
-   "options": "Address"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "company_address_section",
-   "fieldtype": "Section Break",
-   "label": "Company Address"
   },
   {
    "fieldname": "company_address",
@@ -241,11 +217,6 @@
    "label": "e-Waybill No."
   },
   {
-   "fieldname": "einvoice_no",
-   "fieldtype": "Data",
-   "label": "e-Invoice No"
-  },
-  {
    "default": "DC-.YY.-",
    "fieldname": "naming_series",
    "fieldtype": "Select",
@@ -254,19 +225,10 @@
    "options": "DC-.YY.-"
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "DC Not for Sales",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
    "collapsible": 1,
    "fieldname": "shipping_address_section",
    "fieldtype": "Section Break",
-   "label": "Shipping Address"
+   "label": "Address Info"
   },
   {
    "collapsible": 1,
@@ -277,12 +239,12 @@
   {
    "fieldname": "po_no",
    "fieldtype": "Data",
-   "label": "Po No"
+   "label": "Supplier Po No"
   },
   {
    "fieldname": "po_date",
    "fieldtype": "Date",
-   "label": "Po Date"
+   "label": "Supplier Po Date"
   },
   {
    "fieldname": "approx_value",
@@ -310,12 +272,43 @@
   {
    "fieldname": "section_break6_",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "customer_address.gstin",
+   "fieldname": "billing_address_gstin",
+   "fieldtype": "Data",
+   "label": "Billing Address GSTIN"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "DC Not for Sales",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_27",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_39",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-04 11:12:17.879227",
+ "modified": "2023-01-04 14:12:55.563204",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",
