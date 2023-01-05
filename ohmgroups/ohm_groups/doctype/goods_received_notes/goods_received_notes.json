@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2023-01-05 10:55:19.730514",
+ "creation": "2023-01-05 16:29:06.978653",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -11,12 +11,52 @@
   "naming_series",
   "party_type",
   "party",
-  "column_break_2",
+  "column_break_3",
+  "party_name",
+  "posting_date",
+  "column_break_9",
   "company",
-  "section_break_4",
-  "items",
+  "warehouse",
+  "accounting_dimensions_section",
+  "cost_center",
+  "project",
+  "branch",
+  "dimension_col_break",
+  "campaign",
+  "source",
   "section_break_6",
+  "items",
+  "section_break6_",
   "dc_items",
+  "section_break_8",
+  "transport_info_section",
+  "transporter",
+  "gst_transporter_id",
+  "lr_no",
+  "lr_date",
+  "column_break_16",
+  "transporter_name",
+  "mode_of_transport",
+  "vehicle_no",
+  "gst_vehicle_type",
+  "column_break_39",
+  "driver",
+  "driver_name",
+  "distance",
+  "shipping_address_section",
+  "company_address",
+  "company_gstin",
+  "column_break_24",
+  "customer_address",
+  "billing_address_gstin",
+  "column_break_27",
+  "shipping_address_name",
+  "section_break_13",
+  "gst_details_section",
+  "ewaybill",
+  "section_break_46",
+  "terms_and_conditions",
+  "amended_from",
   "amended_from"
  ],
  "fields": [
@@ -24,12 +64,43 @@
    "default": "GRN-.22-23.-",
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Naming Series",
-   "options": "GRN-.22-23.-",
-   "read_only": 1
+   "options": "GRN-.22-23.-"
   },
   {
-   "fieldname": "column_break_2",
+   "fieldname": "party_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Party Type",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Party",
+   "options": "party_type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "label": "Party Name"
+  },
+  {
+   "default": "Now",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date"
+  },
+  {
+   "fieldname": "column_break_9",
    "fieldtype": "Column Break"
   },
   {
@@ -39,7 +110,59 @@
    "options": "Company"
   },
   {
-   "fieldname": "section_break_4",
+   "fieldname": "warehouse",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "accounting_dimensions_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Accounting Dimension"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Project",
+   "options": "Project"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "dimension_col_break",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "campaign",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Campaign",
+   "options": "Campaign"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Source",
+   "options": "Lead Source"
+  },
+  {
+   "fieldname": "section_break_6",
    "fieldtype": "Section Break"
   },
   {
@@ -49,7 +172,7 @@
    "options": "GRN Items"
   },
   {
-   "fieldname": "section_break_6",
+   "fieldname": "section_break6_",
    "fieldtype": "Section Break"
   },
   {
@@ -59,16 +182,164 @@
    "options": "DC Received Items"
   },
   {
-   "fieldname": "party_type",
-   "fieldtype": "Link",
-   "label": "Party Type",
-   "options": "DocType"
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
   },
   {
-   "fieldname": "party",
-   "fieldtype": "Dynamic Link",
-   "label": "Party",
-   "options": "party_type"
+   "collapsible": 1,
+   "fieldname": "transport_info_section",
+   "fieldtype": "Section Break",
+   "label": "Transport Info"
+  },
+  {
+   "fieldname": "transporter",
+   "fieldtype": "Link",
+   "label": "Transporter",
+   "options": "Supplier"
+  },
+  {
+   "fetch_from": "transporter.gst_transporter_id",
+   "fieldname": "gst_transporter_id",
+   "fieldtype": "Data",
+   "label": "GST Transporter ID"
+  },
+  {
+   "fieldname": "lr_no",
+   "fieldtype": "Data",
+   "label": "Transport Receipt No"
+  },
+  {
+   "fieldname": "lr_date",
+   "fieldtype": "Date",
+   "label": "Transport Receipt Date"
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "transporter.supplier_name",
+   "fieldname": "transporter_name",
+   "fieldtype": "Data",
+   "label": "Transporter Name"
+  },
+  {
+   "fieldname": "mode_of_transport",
+   "fieldtype": "Select",
+   "label": "Mode of Transport",
+   "options": "\nRoad\nAir\nRail\nShip"
+  },
+  {
+   "fieldname": "vehicle_no",
+   "fieldtype": "Data",
+   "label": "Vehicle No"
+  },
+  {
+   "default": "Regular",
+   "depends_on": "eval:[\"Road\", \"Ship\"].includes(doc.mode_of_transport)",
+   "fieldname": "gst_vehicle_type",
+   "fieldtype": "Select",
+   "label": "GST Vehicle Type",
+   "options": "Regular\nOver Dimensional Cargo (ODC)",
+   "read_only_depends_on": "eval: doc.mode_of_transport == 'Ship'"
+  },
+  {
+   "fieldname": "column_break_39",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "driver",
+   "fieldtype": "Link",
+   "label": "Driver",
+   "options": "Driver"
+  },
+  {
+   "fetch_from": "driver.full_name",
+   "fieldname": "driver_name",
+   "fieldtype": "Data",
+   "label": "Driver Name"
+  },
+  {
+   "fieldname": "distance",
+   "fieldtype": "Int",
+   "label": "Distance (in km)"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "shipping_address_section",
+   "fieldtype": "Section Break",
+   "label": "Address Info"
+  },
+  {
+   "fieldname": "company_address",
+   "fieldtype": "Link",
+   "label": "Company Address Name",
+   "options": "Address"
+  },
+  {
+   "fetch_from": "company_address.gstin",
+   "fieldname": "company_gstin",
+   "fieldtype": "Data",
+   "label": "Company GSTIN"
+  },
+  {
+   "fieldname": "column_break_24",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "customer_address",
+   "fieldtype": "Link",
+   "label": "Billing Address Name",
+   "options": "Address"
+  },
+  {
+   "fetch_from": "customer_address.gstin",
+   "fieldname": "billing_address_gstin",
+   "fieldtype": "Data",
+   "label": "Billing Address GSTIN"
+  },
+  {
+   "fieldname": "column_break_27",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shipping_address_name",
+   "fieldtype": "Link",
+   "label": "Shipping Address Name",
+   "options": "Address"
+  },
+  {
+   "fieldname": "section_break_13",
+   "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "gst_details_section",
+   "fieldtype": "Section Break",
+   "label": "GST Details"
+  },
+  {
+   "fieldname": "ewaybill",
+   "fieldtype": "Data",
+   "label": "e-Waybill No."
+  },
+  {
+   "fieldname": "section_break_46",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "terms_and_conditions",
+   "fieldtype": "Text Editor",
+   "label": "Terms and Conditions"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "DC Not for Sales",
+   "print_hide": 1,
+   "read_only": 1
   },
   {
    "fieldname": "amended_from",
@@ -83,7 +354,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-05 12:32:37.251284",
+ "modified": "2023-01-05 16:29:06.978653",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Goods Received Notes",

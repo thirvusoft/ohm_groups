@@ -8,8 +8,6 @@
  "field_order": [
   "item_code",
   "item_name",
-  "customer",
-  "supplier",
   "dc_no",
   "qty"
  ],
@@ -32,20 +30,6 @@
   },
   {
    "bold": 1,
-   "fieldname": "customer",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Customer"
-  },
-  {
-   "bold": 1,
-   "fieldname": "supplier",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Supplier"
-  },
-  {
-   "bold": 1,
    "fieldname": "dc_no",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -62,7 +46,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-01-05 11:26:31.761023",
+ "modified": "2023-01-05 16:43:38.067326",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Received Items",
