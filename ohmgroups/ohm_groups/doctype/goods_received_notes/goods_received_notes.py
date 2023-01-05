@@ -50,11 +50,15 @@ def grn_address_billing(party_type, party):
         
 @frappe.whitelist()
 def grn_dc_items(items,company,party,party_type):
-    get_dc_all = frappe.get_all("DC Not for Sales",{"company":company,"items":items,"party":party,"party_type":party_type})
+    get_dc_all = frappe.get_all("DC Not for Sales",{"company":company,"party":party,"party_type":party_type})
+    dc_doc=[]
     for i in get_dc_all:
         get_dc_doc = frappe.get_doc("DC Not for Sales",{"name":i.name})
         for j in get_dc_doc.items:
-            get_dc_items = frappe.get_all("DC Items",{"items":j.item_code})
+            # get_dc_items = frappe.get_all("DC Items",{"items":j.item_code,"parent":})
+                dc_doc.append({"dc_no":get_dc_doc.name,"item_code":j.item_code,"qty":j.qty})
+    return dc_doc
+            
      
      
      

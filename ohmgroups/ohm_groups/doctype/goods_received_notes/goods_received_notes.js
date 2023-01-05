@@ -92,6 +92,33 @@ frappe.ui.form.on('Goods Received Notes', {
     },
 
 });
+frappe.ui.form.on('GRN Items',{
+    items: function(frm,cdt,cdn){
+        var data = locals[cdt][cdn]
+        frm.call({
+            method: "grn_dc_items",
+            args : {
+                items : data.items,
+                party : frm.doc.party,
+                party_type : frm.doc.party_type,
+                company: frm.doc.company
+            },
+            callback: function(r){
+                for(let i=0;i<r.message.length;i++){
+                   var row = frm.add_child("dc_items")
+                   row["item_code"] = r.message[i].item_code
+                   row["dc_no"] = r.message[i].dc_no
+                   row["qty"] = r.message[i].qty
+                }
+                frm.refresh_field("dc_items")
+                
+            }
+        })
+    }
+})
+
+
+
 function get_vehicle_type(doc) {
     if (doc.mode_of_transport == "Road") return "Regular";
     if (doc.mode_of_transport == "Ship") return "Over Dimensional Cargo (ODC)";
