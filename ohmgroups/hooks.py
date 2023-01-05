@@ -155,6 +155,9 @@ doc_events = {
 	"Employee" : {
 		"validate": "ohmgroups.ohm_groups.custom.py.employee.time_count"
 	},
+	"Branch" : {
+		"on_update" : "ohmgroups.ohm_groups.custom.py.branch.warehouse_creation_from_branch"
+	}
 
 }
 doctype_js = {

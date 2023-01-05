@@ -12,6 +12,7 @@ from ohmgroups.ohm_groups.utils.stock.quality_inspection_parameter import qualit
 from ohmgroups.ohm_groups.utils.stock.quality_inspection_template import quality_inspection_template
 from ohmgroups.ohm_groups.utils.hr.employee import salary_structure_assignment
 from ohmgroups.ohm_groups.utils.stock.stock_entry import stock_entry
+from ohmgroups.ohm_groups.utils.branch.branch import branch
 
 
 def after_install():
@@ -29,3 +30,4 @@ def after_install():
     quality_inspection_template()
     stock_entry()
     salary_structure_assignment()
+    branch()
