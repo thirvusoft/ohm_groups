@@ -291,16 +291,7 @@ function show_generate_e_waybill_dialog(frm) {
         `).prependTo(d.wrapper);
     }
 }
-// frappe.ui.form.on('DC Items',{
-// 	rate(frm,cdt,cdn) {
-// 		var row = locals[cdt][cdn]
-// 		frappe.model.set_value(cdt,cdn,'amount',(parseFloat(row.rate) *parseFloat(row.qty)))
-// 	},
-//     qty(frm,cdt,cdn) {
-// 		var row = locals[cdt][cdn]
-// 		frappe.model.set_value(cdt,cdn,'amount',(parseFloat(row.rate) *parseFloat(row.qty)))
-// 	}
-// })
+
 function get_primary_action_label_for_generation(doc) {
     const label = ic.is_api_enabled() ? __("Generate") : __("Download JSON");
 
