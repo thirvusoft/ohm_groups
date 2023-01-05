@@ -19,6 +19,13 @@
   "column_break_9",
   "company",
   "warehouse",
+  "accounting_dimensions_section",
+  "cost_center",
+  "project",
+  "branch",
+  "dimension_col_break",
+  "campaign",
+  "source",
   "section_break_6",
   "items",
   "section_break6_",
@@ -59,14 +66,18 @@
   {
    "fieldname": "party_type",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Party Type",
-   "options": "DocType"
+   "options": "DocType",
+   "reqd": 1
   },
   {
    "fieldname": "party",
    "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
    "label": "Party",
-   "options": "party_type"
+   "options": "party_type",
+   "reqd": 1
   },
   {
    "fieldname": "company",
@@ -86,7 +97,9 @@
   {
    "fieldname": "warehouse",
    "fieldtype": "Data",
-   "label": "Warehouse"
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "reqd": 1
   },
   {
    "default": "Now",
@@ -258,7 +271,8 @@
   {
    "fieldname": "total_qty",
    "fieldtype": "Int",
-   "label": "Total Qty"
+   "label": "Total Qty",
+   "read_only": 1
   },
   {
    "fieldname": "section_break6_",
@@ -303,12 +317,56 @@
    "fieldname": "terms_and_conditions",
    "fieldtype": "Text Editor",
    "label": "Terms and Conditions"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "accounting_dimensions_section",
+   "fieldtype": "Section Break",
+   "label": "Accounting Dimension"
+  },
+  {
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Project",
+   "options": "Project"
+  },
+  {
+   "fieldname": "dimension_col_break",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "campaign",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Campaign",
+   "options": "Campaign"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Source",
+   "options": "Lead Source"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-04 18:47:19.629014",
+ "modified": "2023-01-05 15:44:55.192488",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",

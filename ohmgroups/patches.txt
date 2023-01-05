@@ -11,3 +11,4 @@ ohmgroups.ohm_groups.utils.setup.driver
 ohmgroups.ohm_groups.utils.stock.quality_inspection_parameter
 ohmgroups.ohm_groups.utils.hr.employee
 ohmgroups.ohm_groups.utils.stock.stock_entry
+ohmgroups.ohm_groups.utils.branch.branch

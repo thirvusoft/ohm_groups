@@ -18,14 +18,7 @@ frappe.ui.form.on('DC Not for Sales',{
 				}
 			};
 		});
-       
-            // frm.add_custom_button(
-            //     __("Generate"),
-            //     () => show_generate_e_waybill_dialog(frm),
-            //     "e-Waybill"
-            // );
-        
-              
+        if(!frm.doc.branch){
             frm.call({
                 
                 method: "address_company",
@@ -37,13 +30,50 @@ frappe.ui.form.on('DC Not for Sales',{
                     frm.set_value("company_address",r.message)
             }
             })
+        }
+       
+            // frm.add_custom_button(
+            //     __("Generate"),
+            //     () => show_generate_e_waybill_dialog(frm),
+            //     "e-Waybill"
+            // );
+        
+              
+
     
          
    
         
     },
+    // setup(frm) {
+    //     frm.call({
+                
+    //         method: "address_company",
+    //         args:{
+    //             company:frm.doc.company,
+    //         },
+
+    //         callback: function(r) {
+    //             frm.set_value("company_address",r.message)
+    //     }
+    //     })
+    // },
     mode_of_transport(frm) {
         frm.set_value("gst_vehicle_type", get_vehicle_type(frm.doc));
+    },
+    branch(frm) {
+        frm.call({
+            
+            method: "branch_address_company",
+            args:{
+                company:frm.doc.company,
+                branch:frm.doc.branch,
+            },
+            callback: function(r) {
+                    cur_frm.set_value("company_address",r.message)
+                
+        }
+        })
     },
     
     party: function(frm){
@@ -55,9 +85,8 @@ frappe.ui.form.on('DC Not for Sales',{
                 party:frm.doc.party,
             },
             callback: function(r) {
-                if(frm.doc.party){
                     cur_frm.set_value("warehouse",r.message)
-                }
+                
         }
         }),
                       
