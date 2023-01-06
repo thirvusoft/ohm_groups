@@ -109,16 +109,14 @@ frappe.ui.form.on('GRN Items',{
                    row["item_code"] = r.message[i].item_code
                    row["dc_no"] = r.message[i].dc_no
                    row["qty"] = r.message[i].qty
+                   frm.refresh_field("dc_items")
                 }
-                frm.refresh_field("dc_items")
+                
                 
             }
         })
     }
 })
-
-
-
 function get_vehicle_type(doc) {
     if (doc.mode_of_transport == "Road") return "Regular";
     if (doc.mode_of_transport == "Ship") return "Over Dimensional Cargo (ODC)";

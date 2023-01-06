@@ -55,6 +55,7 @@ def grn_dc_items(items,company,party,party_type):
     for i in get_dc_all:
         get_dc_doc = frappe.get_doc("DC Not for Sales",{"name":i.name})
         for j in get_dc_doc.items:
+            if j.item_code == items:
             # get_dc_items = frappe.get_all("DC Items",{"items":j.item_code,"parent":})
                 dc_doc.append({"dc_no":get_dc_doc.name,"item_code":j.item_code,"qty":j.qty})
     return dc_doc
