@@ -53,7 +53,9 @@ def grn_dc_items(items,company,party,party_type, ):
             
             for j in get_dc_doc.items:
                 if (j.item_code == k['items'] and j.total == 0 and qty_taken[k['items']]>0):
-                    qty=float(j.balance_qty)
+                    qty=float(j.balance_qty or 0)
+                    if(qty<= 0):
+                        continue
                     if qty < qty_taken[k['items']]:
                         
                         qty_taken[k['items']] -= qty
@@ -62,7 +64,7 @@ def grn_dc_items(items,company,party,party_type, ):
                         qty= qty_taken[k['items']]
                         qty_taken[k['items']] -= k['received_qty']
                         tot = float(j.balance_qty or 0) - qty 
-                    dc_doc.append({"dc_no":get_dc_doc.name,"item_code":j.item_code,"total_qty_in_dc":j.balance_qty,"qty":qty,"dc_name":j.name,"balanced_qty":tot})
+                    dc_doc.append({"dc_no":get_dc_doc.name,"item_code":j.item_code,"total_qty_in_dc":float(j.balance_qty or 0),"qty":qty,"dc_name":j.name,"balanced_qty":tot})
     for i in qty_taken:
         if (qty_taken[i] > 0):
             message += f"<p>{qty_taken[i]} Excess for {i}</p>"
@@ -76,7 +78,7 @@ def grn_dc_items(items,company,party,party_type, ):
 from frappe.model.document import Document
 
 class GRN(Document):
-    def validate(self):
+    def on_submit(self):
         for i in self.dc_items:
             frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'received_qty',i.qty)
             frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty)

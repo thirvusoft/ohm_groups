@@ -91,6 +91,7 @@ frappe.ui.form.on('GRN', {
     
     },
     trigger: function(frm,cdt,cdn){
+	
         var data = locals[cdt][cdn]
         frm.call({
             method: "grn_dc_items",
@@ -102,21 +103,26 @@ frappe.ui.form.on('GRN', {
 
             },
             callback: function(r){
-				frm.set_value("dc_items",r.message[0])
-                // for(let i=0;i<r.message[0].length;i++){
-                //    var row = frm.add_child("dc_items")
-                //    row["item_code"] = r.message[0][i].item_code
-                //    row["dc_no"] = r.message[0][i].dc_no
-                //    row["total_qty_in_dc"] = r.message[0][i].total_qty_in_dc
-                //    row["qty"] = r.message[0][i].qty
-                //    row["dc_name"] = r.message[0][i].dc_name
-                //    row["balanced_qty"] = r.message[0][i].balanced_qty
-                   
-                // }
-                // frm.refresh_fields("dc_items")
 				if(r.message[1]){
 					frappe.msgprint(r.message[1]);
 				}
+				else{
+					// frm.set_value("dc_items",r.message[0])
+					for(let i=0;i<r.message[0].length;i++){
+               		   var row = frm.add_child("dc_items")
+                	   row["item_code"] = r.message[0][i].item_code
+                	   row["dc_no"] = r.message[0][i].dc_no
+                	   row["total_qty_in_dc"] = r.message[0][i].total_qty_in_dc
+                	   row["qty"] = r.message[0][i].qty
+                	   row["dc_name"] = r.message[0][i].dc_name
+                	   row["balanced_qty"] = r.message[0][i].balanced_qty
+                   
+                }
+                frm.refresh_fields("dc_items")
+				}
+				
+
+			
                 
                 
             }
@@ -124,7 +130,12 @@ frappe.ui.form.on('GRN', {
     }
 
 });
-
+frappe.ui.form.on("DC Received Items",{
+	qty: function(frm,cdt,cdn){
+		var row = locals[cdt][cdn]
+		frappe.model.set_value(cdt,cdn,"balanced_qty",(parseFloat(row.total_qty_in_dc) -parseFloat(row.qty)))
+	}
+})
 
 function get_vehicle_type(doc) {
     if (doc.mode_of_transport == "Road") return "Regular";
