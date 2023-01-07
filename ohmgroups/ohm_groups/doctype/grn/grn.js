@@ -1,7 +1,7 @@
 // Copyright (c) 2023, thirvusoft and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('Goods Received Notes', {
+frappe.ui.form.on('GRN', {
 	refresh: function(frm) {
         frm.set_query("party_type",function(){
             return {
@@ -91,7 +91,6 @@ frappe.ui.form.on('Goods Received Notes', {
     
     },
     trigger: function(frm,cdt,cdn){
-        
         var data = locals[cdt][cdn]
         frm.call({
             method: "grn_dc_items",
@@ -103,17 +102,21 @@ frappe.ui.form.on('Goods Received Notes', {
 
             },
             callback: function(r){
-                for(let i=0;i<r.message.length;i++){
-                   var row = frm.add_child("dc_items")
-                   row["item_code"] = r.message[i].item_code
-                   row["dc_no"] = r.message[i].dc_no
-                   row["total_qty_in_dc"] = r.message[i].total_qty_in_dc
-                   row["qty"] = r.message[i].qty
-                   row["dc_name"] = r.message[i].dc_name
-                   row["balanced_qty"] = r.message[i].balanced_qty
+				frm.set_value("dc_items",r.message[0])
+                // for(let i=0;i<r.message[0].length;i++){
+                //    var row = frm.add_child("dc_items")
+                //    row["item_code"] = r.message[0][i].item_code
+                //    row["dc_no"] = r.message[0][i].dc_no
+                //    row["total_qty_in_dc"] = r.message[0][i].total_qty_in_dc
+                //    row["qty"] = r.message[0][i].qty
+                //    row["dc_name"] = r.message[0][i].dc_name
+                //    row["balanced_qty"] = r.message[0][i].balanced_qty
                    
-                }
-                frm.refresh_fields("dc_items")
+                // }
+                // frm.refresh_fields("dc_items")
+				if(r.message[1]){
+					frappe.msgprint(r.message[1]);
+				}
                 
                 
             }
@@ -121,6 +124,8 @@ frappe.ui.form.on('Goods Received Notes', {
     }
 
 });
+
+
 function get_vehicle_type(doc) {
     if (doc.mode_of_transport == "Road") return "Regular";
     if (doc.mode_of_transport == "Ship") return "Over Dimensional Cargo (ODC)";

@@ -176,6 +176,11 @@
    "fieldtype": "Section Break"
   },
   {
+   "fieldname": "trigger",
+   "fieldtype": "Button",
+   "label": "Reconciliation"
+  },
+  {
    "fieldname": "dc_items",
    "fieldtype": "Table",
    "label": "DC Received Items",
@@ -333,16 +338,11 @@
    "label": "Terms and Conditions"
   },
   {
-   "fieldname": "trigger",
-   "fieldtype": "Button",
-   "label": "Reconciliation"
-  },
-  {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Goods Received Notes",
+   "options": "GRN",
    "print_hide": 1,
    "read_only": 1
   }
@@ -350,10 +350,10 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-07 11:18:51.079381",
+ "modified": "2023-01-07 12:31:34.159105",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
- "name": "Goods Received Notes",
+ "name": "GRN",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
