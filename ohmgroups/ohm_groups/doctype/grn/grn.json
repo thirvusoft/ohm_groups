@@ -11,12 +11,15 @@
   "naming_series",
   "party_type",
   "party",
+  "po_no",
   "column_break_3",
   "party_name",
   "posting_date",
+  "po_date",
   "column_break_9",
   "company",
   "warehouse",
+  "received_doc_no",
   "accounting_dimensions_section",
   "cost_center",
   "project",
@@ -345,12 +348,27 @@
    "options": "GRN",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "po_no",
+   "fieldtype": "Data",
+   "label": "Po No"
+  },
+  {
+   "fieldname": "po_date",
+   "fieldtype": "Date",
+   "label": "Po Date"
+  },
+  {
+   "fieldname": "received_doc_no",
+   "fieldtype": "Data",
+   "label": "Received Doc No"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-07 12:31:34.159105",
+ "modified": "2023-01-07 16:46:54.702603",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "GRN",
