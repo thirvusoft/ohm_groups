@@ -27,6 +27,7 @@
   "section_break_6",
   "items",
   "section_break6_",
+  "trigger",
   "dc_items",
   "section_break_8",
   "transport_info_section",
@@ -56,7 +57,6 @@
   "ewaybill",
   "section_break_46",
   "terms_and_conditions",
-  "amended_from",
   "amended_from"
  ],
  "fields": [
@@ -333,13 +333,9 @@
    "label": "Terms and Conditions"
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "DC Not for Sales",
-   "print_hide": 1,
-   "read_only": 1
+   "fieldname": "trigger",
+   "fieldtype": "Button",
+   "label": "Reconciliation"
   },
   {
    "fieldname": "amended_from",
@@ -354,7 +350,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-05 16:29:06.978653",
+ "modified": "2023-01-07 11:18:51.079381",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Goods Received Notes",

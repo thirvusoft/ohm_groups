@@ -270,7 +270,7 @@
   },
   {
    "fieldname": "total_qty",
-   "fieldtype": "Int",
+   "fieldtype": "Float",
    "label": "Total Qty",
    "read_only": 1
   },
@@ -367,7 +367,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-05 17:47:46.276805",
+ "modified": "2023-01-07 11:30:59.769203",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",

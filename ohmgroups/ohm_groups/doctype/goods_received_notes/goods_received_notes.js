@@ -6,7 +6,7 @@ frappe.ui.form.on('Goods Received Notes', {
         frm.set_query("party_type",function(){
             return {
                 filters:{
-                    "name":["in",["Customer","Supplier"]]
+                    "name":["in",["Supplier"]]
                 }
                 
             }
@@ -90,10 +90,8 @@ frappe.ui.form.on('Goods Received Notes', {
         })
     
     },
-
-});
-frappe.ui.form.on('GRN Items',{
-    items: function(frm,cdt,cdn){
+    trigger: function(frm,cdt,cdn){
+        
         var data = locals[cdt][cdn]
         frm.call({
             method: "grn_dc_items",
@@ -101,22 +99,28 @@ frappe.ui.form.on('GRN Items',{
                 items : data.items,
                 party : frm.doc.party,
                 party_type : frm.doc.party_type,
-                company: frm.doc.company
+                company: frm.doc.company,
+
             },
             callback: function(r){
                 for(let i=0;i<r.message.length;i++){
                    var row = frm.add_child("dc_items")
                    row["item_code"] = r.message[i].item_code
                    row["dc_no"] = r.message[i].dc_no
+                   row["total_qty_in_dc"] = r.message[i].total_qty_in_dc
                    row["qty"] = r.message[i].qty
+                   row["dc_name"] = r.message[i].dc_name
+                   row["balanced_qty"] = r.message[i].balanced_qty
                    
                 }
-                frm.refresh_field("dc_items")
+                frm.refresh_fields("dc_items")
+                
                 
             }
         })
     }
-})
+
+});
 function get_vehicle_type(doc) {
     if (doc.mode_of_transport == "Road") return "Regular";
     if (doc.mode_of_transport == "Ship") return "Over Dimensional Cargo (ODC)";

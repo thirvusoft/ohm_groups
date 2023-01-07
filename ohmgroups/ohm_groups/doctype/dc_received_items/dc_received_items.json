@@ -9,7 +9,11 @@
   "item_code",
   "item_name",
   "dc_no",
-  "qty"
+  "total_qty_in_dc",
+  "qty",
+  "balanced_qty",
+  "dc_name",
+  "check_7"
  ],
  "fields": [
   {
@@ -38,15 +42,42 @@
   {
    "bold": 1,
    "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Taken Qty in DC"
+  },
+  {
+   "bold": 1,
+   "fieldname": "dc_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Qty"
+   "label": "DC Name",
+   "read_only": 1
+  },
+  {
+   "bold": 1,
+   "fieldname": "balanced_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Balanced Qty in DC"
+  },
+  {
+   "default": "0",
+   "fieldname": "check_7",
+   "fieldtype": "Check"
+  },
+  {
+   "bold": 1,
+   "fieldname": "total_qty_in_dc",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Total Qty in DC"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-01-05 16:43:38.067326",
+ "modified": "2023-01-07 10:47:46.327983",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Received Items",
