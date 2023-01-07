@@ -6,7 +6,7 @@ frappe.ui.form.on('GRN', {
         frm.set_query("party_type",function(){
             return {
                 filters:{
-                    "name":["in",["Supplier"]]
+                    "name":["in",["Customer","Supplier"]]
                 }
                 
             }
