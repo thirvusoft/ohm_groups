@@ -157,7 +157,7 @@ doc_events = {
 	},
 	"Branch" : {
 		"on_update" : "ohmgroups.ohm_groups.custom.py.branch.warehouse_creation_from_branch"
-	}
+	},
 
 }
 doctype_js = {
