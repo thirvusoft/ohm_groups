@@ -30,9 +30,10 @@ def sales_invoice_custom_fields():
     create_custom_fields(sales_invoice_custom_fields)
 
 def property_setter():
-    pass
-    # make_property_setter('Quality Inspection', "status", "hidden", "1", "Check")
-    # make_property_setter('Quality Inspection', "sample_size", "label", "Sample Qty", "Data")
+    make_property_setter('Sales Invoice', "naming_series", "options", "SINV-.22-23.-\nSRET-.YY.-\nACC-SINV-.YYYY.-\nACC-SINV-RET-.YYYY.-", "Text")
+    make_property_setter('Sales Invoice', "naming_series", "default", "SINV-.22-23.-", "Text")
+    make_property_setter('Sales Invoice', "naming_series", "read_only", 1, "Check")
+
     
 
 def execute():
