@@ -17,6 +17,15 @@ def sales_invoice_custom_fields():
             ),
 
         ],
+        'Sales Invoice Item' :[
+            dict(
+                fieldname = 'desc',
+                fieldtype='Text Editor',
+                label='Desc',
+                insert_after='description_section'
+            ),
+
+        ]
     }
     create_custom_fields(sales_invoice_custom_fields)
 
