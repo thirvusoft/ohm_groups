@@ -107,17 +107,17 @@ frappe.ui.form.on('GRN', {
 					frappe.msgprint(r.message[1]);
 				}
 				else{
-					// frm.set_value("dc_items",r.message[0])
-					for(let i=0;i<r.message[0].length;i++){
-               		   var row = frm.add_child("dc_items")
-                	   row["item_code"] = r.message[0][i].item_code
-                	   row["dc_no"] = r.message[0][i].dc_no
-                	   row["total_qty_in_dc"] = r.message[0][i].total_qty_in_dc
-                	   row["qty"] = r.message[0][i].qty
-                	   row["dc_name"] = r.message[0][i].dc_name
-                	   row["balanced_qty"] = r.message[0][i].balanced_qty
+					frm.set_value("dc_items",r.message[0])
+				// 	for(let i=0;i<r.message[0].length;i++){
+               	// 	   var row = frm.add_child("dc_items")
+                // 	   row["item_code"] = r.message[0][i].item_code
+                // 	   row["dc_no"] = r.message[0][i].dc_no
+                // 	   row["total_qty_in_dc"] = r.message[0][i].total_qty_in_dc
+                // 	   row["qty"] = r.message[0][i].qty
+                // 	   row["dc_name"] = r.message[0][i].dc_name
+                // 	   row["balanced_qty"] = r.message[0][i].balanced_qty
                    
-                }
+                // }
                 frm.refresh_fields("dc_items")
 				}
 				
