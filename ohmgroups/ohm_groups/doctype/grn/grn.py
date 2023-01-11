@@ -84,6 +84,12 @@ class GRN(Document):
             frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty)
             if i.balanced_qty == 0:
                 frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",1)
-
-
+    
+    
+    def on_cancel(self):
+        for i in self.dc_items:
+            rec_qty = frappe.get_value("DC Items", {'name':i.dc_name,'item_code':i.item_code},'received_qty')
+            frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'received_qty',float(rec_qty) - i.qty)
+            frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty + i.qty)            
+            frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",0)
 	
