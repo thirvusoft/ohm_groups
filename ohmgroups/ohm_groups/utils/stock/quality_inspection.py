@@ -109,7 +109,92 @@ def quality_inspection_custom_fields():
                 fieldtype='Section Break',
                 insert_after='is_parameter',
             ),
-           
+            dict(
+                fieldname='inspection_report_name',
+                fieldtype='Data',
+                insert_after='report_date',
+                label = 'Inspection Report Name',
+            ),
+            dict(
+                fieldname='sec_break1',
+                fieldtype='Section Break',
+                insert_after='sample_10',
+            ),
+            dict(
+                fieldname='equipments_1',
+                fieldtype='Data',
+                insert_after='sec_break1',
+                default = 'VC- VERNIER CALIPER',
+                label = 'Equipment 1',
+                hidden = 1
+            ),
+                        dict(
+                fieldname='column_break_20',
+                fieldtype='Column Break',
+                insert_after='equipments_1',
+            ),
+            dict(
+                fieldname='equipments_2',
+                fieldtype='Data',
+                insert_after='column_break_20',
+                default = 'VC-VERNIER CALIPER',
+                label = 'Equipment 2',
+                hidden = 1
+        
+            ),
+                        dict(
+                fieldname='column_break_21',
+                fieldtype='Column Break',
+                insert_after='equipments_2',
+            ),
+            dict(
+                fieldname='equipments_3',
+                fieldtype='Data',
+                insert_after='column_break_21',
+                default = 'PG-PLUG GAUGE',
+                label = 'Equipment 3',
+                hidden = 1
+        
+            ),
+                        dict(
+                fieldname='column_break_22',
+                fieldtype='Column Break',
+                insert_after='equipments_3',
+            ),
+            dict(
+                fieldname='equipments_4',
+                fieldtype='Data',
+                insert_after='column_break_22',
+                default = 'BP-BEVEL PROPTER',
+                label = 'Equipment 4',
+                hidden = 1
+            ),
+        dict(
+                fieldname='column_break_23',
+                fieldtype='Column Break',
+                insert_after='equipments_4',
+        ),
+            dict(
+                fieldname='equipments_5',
+                fieldtype='Data',
+                insert_after='column_break_23',
+                default = 'MT-MEASUREING TAPE',
+                label = 'Equipment 5',
+                hidden = 1
+            ),
+        dict(
+                fieldname='column_break_24',
+                fieldtype='Column Break',
+                insert_after='equipments_5',
+        ),
+            dict(
+                fieldname='equipments_6',
+                fieldtype='Data',
+                insert_after='column_break_24',
+                default = 'HG-HEIGHT GAUGE',
+                label = 'Equipment 5',
+                hidden = 1
+            ),
         ],
     }
     create_custom_fields(quality_inspection_custom_fields)
