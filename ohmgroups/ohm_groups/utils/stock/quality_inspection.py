@@ -195,6 +195,30 @@ def quality_inspection_custom_fields():
                 label = 'Equipment 5',
                 hidden = 1
             ),
+            dict(
+                fieldname='sec_break_111',
+                fieldtype='Section Break',
+                insert_after='equipments_6',
+            ),
+            dict(
+                fieldname='accepted_1',
+                fieldtype='Data',
+                insert_after='sec_break_111',
+                label = 'Accepted',
+                read_only = 1
+            ),
+            dict(
+                fieldname='sec_break_211',
+                fieldtype='Column Break',
+                insert_after='accepted_1',
+            ),
+            dict(
+                fieldname='rejected_1',
+                fieldtype='Data',
+                insert_after='sec_break_211',
+                label = 'Rejected',
+                read_only = 1
+            ),
         ],
     }
     create_custom_fields(quality_inspection_custom_fields)

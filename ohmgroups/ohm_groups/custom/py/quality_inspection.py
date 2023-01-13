@@ -1,3 +1,4 @@
+from itertools import count
 from erpnext.stock.doctype.quality_inspection.quality_inspection import QualityInspection
 import frappe
 
@@ -10,7 +11,10 @@ def validate(doc,actions):
                     frappe.throw("Quantity is greater than "+i.specification)
                     
 def status(doc, actions):
+    doc.accepted_1 = 0
+    doc.rejected_1 = 0
     for j in range(1, 11):
+       
         for i in doc.readings:
             data = doc.get_formula_evaluation_data(i)
             reading = "reading_" + str(j)
@@ -21,15 +25,94 @@ def status(doc, actions):
             if(data["mean"] == 0):
                 continue
             try:
+               
                 result = frappe.safe_eval(condition, None, data)
                 doc.update({ 
                     "sample_" + str(j) : "Accepted" if result else "Rejected",
                     })
+                if  result:
+                    doc.accepted_1 = doc.accepted_1+1 
+                else :
+                    doc.rejected_1 = doc.rejected_1+1
             except Exception:
                 frappe.throw(
                     frappe._("Row #{0}: Acceptance Criteria Formula is incorrect.").format(reading.idx),
                     title=frappe._("Invalid Formula"),
                 )
+
+def count_status(doc, actions):
+    doc.accepted_1 = 0
+    doc.rejected_1 = 0
+    if doc.sample_1 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_1 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1
+    if doc.sample_2 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_2 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1
+    if doc.sample_3 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_3 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1
+    if doc.sample_4 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_4 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1
+    if doc.sample_5 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_5 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1
+    if doc.sample_6 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_6 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1
+    if doc.sample_7 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_7 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1        
+    if doc.sample_8 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_8 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1        
+    if doc.sample_9 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_9 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1
+    if doc.sample_10 == "Accepted":
+        doc.accepted_1 = doc.accepted_1 +1
+    elif doc.sample_10 == "Rejected":
+        doc.rejected_1 = doc.rejected_1+1
+    else:
+        doc.accepted_1 = doc.accepted_1 
+        doc.rejected_1 = doc.rejected_1
 
 class quality_inspection(QualityInspection):
     
