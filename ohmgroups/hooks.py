@@ -117,7 +117,10 @@ doc_events = {
         
         "validate": [
             "ohmgroups.ohm_groups.custom.py.quality_inspection.validate",
-                     "ohmgroups.ohm_groups.custom.py.quality_inspection.status",]
+                     "ohmgroups.ohm_groups.custom.py.quality_inspection.status",
+                     "ohmgroups.ohm_groups.custom.py.quality_inspection.count_status",
+                     
+                     ]
                      },
 	# "Vehicle Log":{
 	# 	"on_update_after_submit": "ohmgroups.ohm_groups.custom.py.vehicle_log.onsubmit",
