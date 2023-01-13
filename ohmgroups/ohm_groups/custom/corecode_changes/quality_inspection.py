@@ -162,7 +162,7 @@ class QualityInspection(Document):
 			if reading_value is not None and reading_value.strip():
 				result = flt(reading.get("min_value")) <= flt(reading_value) <= flt(reading.get("max_value"))
 				if not result:
-					print(flt(reading_value),"-----------")
+					print(flt(reading_value))
 					# return False
 		return True
 
