@@ -11,8 +11,7 @@ def validate(doc,actions):
                     frappe.throw("Quantity is greater than "+i.specification)
                     
 def status(doc, actions):
-    doc.accepted_1 = 0
-    doc.rejected_1 = 0
+
     for j in range(1, 11):
        
         for i in doc.readings:
@@ -30,10 +29,6 @@ def status(doc, actions):
                 doc.update({ 
                     "sample_" + str(j) : "Accepted" if result else "Rejected",
                     })
-                if  result:
-                    doc.accepted_1 = doc.accepted_1+1 
-                else :
-                    doc.rejected_1 = doc.rejected_1+1
             except Exception:
                 frappe.throw(
                     frappe._("Row #{0}: Acceptance Criteria Formula is incorrect.").format(reading.idx),
