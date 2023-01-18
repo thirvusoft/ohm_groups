@@ -11,7 +11,6 @@ def validate(doc,actions):
                     frappe.throw("Quantity is greater than "+i.specification)
                     
 def status(doc, actions):
-    if(doc.quality_inspection_template):
         for j in range(1, 11):
         
             for i in doc.readings:
