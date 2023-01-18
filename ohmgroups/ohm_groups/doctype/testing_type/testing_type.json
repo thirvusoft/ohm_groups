@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:testing_type",
  "creation": "2022-12-26 09:20:59.672445",
  "default_view": "List",
  "doctype": "DocType",
@@ -15,15 +16,17 @@
    "fieldname": "testing_type",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Testing Type"
+   "label": "Testing Type",
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2022-12-26 09:20:59.672445",
+ "modified": "2023-01-13 13:07:50.328719",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Testing Type",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
