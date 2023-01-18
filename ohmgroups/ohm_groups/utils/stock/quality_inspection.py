@@ -109,17 +109,13 @@ def quality_inspection_custom_fields():
                 fieldtype='Section Break',
                 insert_after='is_parameter',
             ),
-            dict(
-                fieldname='inspection_report_name',
-                fieldtype='Data',
-                insert_after='report_date',
-                label = 'Inspection Report Name',
-            ),
+           
             dict(
                 fieldname='sec_break1',
                 fieldtype='Section Break',
                 insert_after='sample_10',
             ),
+
             dict(
                 fieldname='equipments_1',
                 fieldtype='Data',
@@ -219,6 +215,78 @@ def quality_inspection_custom_fields():
                 label = 'Rejected',
                 read_only = 1
             ),
+             dict(
+                fieldname='inspection_report_name',
+                fieldtype='Data',
+                insert_after='report_date',
+                label = 'Customer Name',
+            ),
+            dict(
+                fieldname='material_grade',
+                fieldtype='Data',
+                insert_after='col_break_1',
+                label = 'Material Grade',
+            ), 
+            dict(
+                fieldname='col_break_1',
+                fieldtype='Column Break',
+                insert_after='manual_inspection',
+            ),
+            dict(
+                fieldname='tc_no',
+                fieldtype='Data',
+                insert_after='bom_qty',
+                label = 'TC NO',
+            ),
+     
+            dict(
+                fieldname='bom_qty',
+                fieldtype='Data',
+                insert_after='material_grade',
+                label = 'BOM Qty',
+            ), 
+            dict(
+                fieldname='invoice_no',
+                fieldtype='Data',
+                insert_after='inspection_report_name',
+                label = 'Invoice No',
+            ),
+            dict(
+                fieldname='invoice_qty',
+                fieldtype='Data',
+                insert_after='col_break_2',
+                label = 'Invoice Qty',
+            ),
+            dict(
+                fieldname='col_break_2',
+                fieldtype='Column Break',
+                insert_after='invoice_no',
+            ),
+    
+            dict(
+                fieldname='invoice_date',
+                fieldtype='Date',
+                insert_after='invoice_qty',
+                label = 'Invoice Date',
+            ),
+           dict(
+                fieldname='po_no',
+                fieldtype='Data',
+                insert_after='po_date_',
+                label = 'Po No',
+            ),
+           dict(
+                fieldname='po_date_',
+                fieldtype='Date',
+                insert_after='invoice_date',
+                label = 'Po Date',
+            ),
+    
+            
+            
+            
+            
+            
         ],
     }
     create_custom_fields(quality_inspection_custom_fields)
@@ -229,7 +297,9 @@ def property_setter():
     make_property_setter('Quality Inspection', "reference_type", "options", "\nPurchase Receipt\nPurchase Invoice\nDelivery Note\nSales Invoice\nStock Entry\nJob Card\nOthers", "Text")
     make_property_setter('Quality Inspection', "reference_name", "mandatory_depends_on", "eval:doc.reference_type!='Others'", "Text")
     make_property_setter('Quality Inspection', "reference_name", "reqd", "0", "Check")
-    
+    make_property_setter('Quality Inspection Reading', "formula_based_criteria", "default", "1", "Check")
+    make_property_setter('Quality Inspection', "inspection_type", "options", "\nIncoming\nOutgoing\nIn Process\nFinal Inspection Report\nOthers", "Text")
+   
 
 def execute():
     quality_inspection()
