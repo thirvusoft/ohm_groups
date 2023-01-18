@@ -197,7 +197,7 @@ class QualityInspection(Document):
 	def get_formula_evaluation_data(self, reading):
 		data = {}
 		
-		custom_fields = ["tolerance_level","accept_value","min_value","max_value","maximum_value","minimmum_value","testing_type"]
+		custom_fields = ["tolerance_level","accept_value","min_value","max_value","maximum_value","minimmum_value"]
 		if not cint(reading.numeric):
 			data = {"reading_value": reading.get("reading_value")}
 		else:

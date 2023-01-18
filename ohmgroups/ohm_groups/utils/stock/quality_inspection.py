@@ -257,7 +257,12 @@ def quality_inspection_custom_fields():
                 insert_after='invoice_no',
                 label = 'Invoice Qty',
             ),
-    
+               dict(
+                fieldname='invoice_qty',
+                fieldtype='Data',
+                insert_after='invoice_no',
+                label = 'Invoice Qty',
+            ),
             dict(
                 fieldname='invoice_date',
                 fieldtype='Date',
@@ -271,8 +276,8 @@ def quality_inspection_custom_fields():
                 label = 'Po No',
             ),
            dict(
-                fieldname='po_date',
-                fieldtype='Data',
+                fieldname='po_date_',
+                fieldtype='Date',
                 insert_after='po_no',
                 label = 'Po Date',
             ),

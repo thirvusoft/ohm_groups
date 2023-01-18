@@ -98,12 +98,18 @@ frappe.ui.form.on('Quality Inspection', {
 				<img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
 				</div>`);
 			}):null;
+			if(frm.doc.quality_inspection_template){
 			frm.doc.item_code?frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( itemimage ) => {
-				frm.set_value("balloon_drawing",itemimage.item_image)
+				
+					frm.set_value("balloon_drawing",itemimage.item_image)
+				
+					
 				// cur_frm.fields_dict.balloon_drawing.refresh()
 				// <img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
 				// </div>`);
+			
 			}):null;
+		}
 		},
 		onload: function(frm){
 			template = frm.doc.quality_inspection_template
