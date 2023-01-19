@@ -15,31 +15,31 @@ def quality_inspection_custom_fields():
             ),
             dict(
                 fieldname='sample_1',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='section_break1',
                 label="Sample 1",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='sample_2',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='sample_1',
                 label="Sample 2",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='sample_3',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='sample_2',
                 label="Sample 3",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='sample_4',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='sample_3',
                 label="Sample 4",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='col_1',
@@ -48,31 +48,31 @@ def quality_inspection_custom_fields():
             ),
             dict(
                 fieldname='sample_5',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='col_1',
                 label="Sample 5",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='sample_6',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='sample_5',
                 label="Sample 6",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='sample_7',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='sample_6',
                 label="Sample 7",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='sample_8',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='sample_7',
                 label="Sample 8",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='col_2',
@@ -81,17 +81,17 @@ def quality_inspection_custom_fields():
             ),
             dict(
                 fieldname='sample_9',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='col_2',
                 label="Sample 9",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='sample_10',
-                fieldtype='Data',
+                fieldtype='Select',
                 insert_after='sample_9',
                 label="Sample 10",
-                read_only=1
+                options = "\nAccepted\nRejected"
             ),
             dict(
                 fieldname='column_break_19',
@@ -103,6 +103,12 @@ def quality_inspection_custom_fields():
                 fieldtype='Check',
                 insert_after='column_break_19',
                 label = 'Enter manual Data'
+            ),
+            dict(
+                fieldname='get_result',
+                fieldtype='Button',
+                insert_after='is_parameter',
+                label = 'Get Result'
             ),
             dict(
                 fieldname='section_break_21',

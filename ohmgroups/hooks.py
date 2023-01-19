@@ -117,7 +117,7 @@ doc_events = {
         
         "validate": [
             "ohmgroups.ohm_groups.custom.py.quality_inspection.validate",
-                     "ohmgroups.ohm_groups.custom.py.quality_inspection.status",
+                    #  "ohmgroups.ohm_groups.custom.py.quality_inspection.status",
                      "ohmgroups.ohm_groups.custom.py.quality_inspection.count_status",
                      
                      ]
