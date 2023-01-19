@@ -45,7 +45,6 @@ def purchase_order_custom_fields():
                 fieldtype='Section Break',
                 insert_after='more_info_tab',
                 label="Transport Info",
-                depends_on="eval:doc.is_subcontracted ==1",
                 collapsible = 1
             ), 
 
@@ -56,7 +55,13 @@ def purchase_order_custom_fields():
                 label="Driver",
                 options="Driver",
             ), 
-
+            dict(
+                fieldname='mode_of_delivery',
+                fieldtype='Select',
+                insert_after='driver',
+                label="Mode of Delivery",
+                options="By Road\nSea\nTrain\nAir",
+            ), 
             dict(
                 fieldname='driver_name',
                 fieldtype='Data',
