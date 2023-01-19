@@ -36,7 +36,6 @@ frappe.ui.form.on('Quality Inspection', {
 				if(d['min_value'] > d['reading_10'] || d['reading_10'] > d['max_value']){
 					$(item).find('.grid-static-col[data-fieldname="reading_10"]').css({'color': 'red'});
 				}
-
             });
 			if(frm.doc.quality_inspection_template){
 			frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( image ) => {
@@ -54,10 +53,31 @@ frappe.ui.form.on('Quality Inspection', {
 				</div>`);
 			});
 		},
-		
+		get_result: async function(frm) {
+			await frappe.call({
+				method: "ohmgroups.ohm_groups.custom.py.quality_inspection.status",
+				args: {
+					doc: cur_frm.doc
+				},
+				callback: function(r) {
+					Object.keys(r.message)?.forEach(key => {
+						frm.set_value(key, r.message[key])
+					})
+				}
+			})
+		},
 		is_parameter :function(frm, cdt, cdn) {
 				cur_frm.set_value("readings",[])
-				
+				cur_frm.set_value("sample_1","")
+				cur_frm.set_value("sample_2","")
+				cur_frm.set_value("sample_3","")
+				cur_frm.set_value("sample_4","")
+				cur_frm.set_value("sample_5","")
+				cur_frm.set_value("sample_6","")
+				cur_frm.set_value("sample_7","")
+				cur_frm.set_value("sample_8","")
+				cur_frm.set_value("sample_9","")
+				cur_frm.set_value("sample_10","")
 
 		},
 
