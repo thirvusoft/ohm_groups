@@ -2,7 +2,17 @@ var template
 var called=0;
 frappe.ui.form.on('Quality Inspection', {
 		refresh: function(frm, cdt, cdn) {
-		
+			if(frm.doc.quality_inspection_template){
+				frm.doc.item_code?frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( itemimage ) => {
+						frm.set_value("balloon_drawing",document.location.origin + itemimage.item_image.replace(/ /g, "%20"))
+					
+						
+					// cur_frm.fields_dict.balloon_drawing.refresh()
+					// <img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
+					// </div>`);
+				
+				}):null;
+			}
 
 			cur_frm.fields_dict["readings"]?.$wrapper.find('.grid-body .rows')?.find(".grid-row")?.each(function(i, item) {
 	            let d = locals[cur_frm.fields_dict["readings"].grid.doctype][$(item).attr('data-name')];
@@ -46,11 +56,35 @@ frappe.ui.form.on('Quality Inspection', {
 				
 			}
 		},
+		quality_inspection_template: function(frm){
+			if(frm.doc.quality_inspection_template){
+				frm.doc.item_code?frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( itemimage ) => {
+						frm.set_value("balloon_drawing",document.location.origin + itemimage.item_image.replace(/ /g, "%20"))
+						frm.refresh(quality_inspection_template)
+						
+					// cur_frm.fields_dict.balloon_drawing.refresh()
+					// <img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
+					// </div>`);
+				
+				}):null;
+			}
+		},
 		item_code : function(frm){
 			frappe.db.get_doc("Item", frm.doc.item_code).then(( itemimage ) => {
 				frm.get_field("item_image")?.$wrapper.html(`<div class="img_preview">
 				<img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
 				</div>`);
+				if(frm.doc.quality_inspection_template){
+				frm.doc.item_code?frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( itemimage ) => {
+					frm.set_value("balloon_drawing",document.location.origin + itemimage.item_image.replace(/ /g, "%20"))
+				
+					
+				// cur_frm.fields_dict.balloon_drawing.refresh()
+				// <img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
+				// </div>`);
+			
+			}):null;
+		}	
 			});
 		},
 		get_result:  function(frm) {
@@ -118,17 +152,7 @@ frappe.ui.form.on('Quality Inspection', {
 				<img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
 				</div>`);
 			}):null;
-			if(frm.doc.quality_inspection_template){
-			frm.doc.item_code?frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( itemimage ) => {
-					frm.set_value("balloon_drawing",document.location.origin + itemimage.item_image.replace(/ /g, "%20"))
-				
-					
-				// cur_frm.fields_dict.balloon_drawing.refresh()
-				// <img class="img-responsive" src="${itemimage.image}" onerror="cur_frm.toggle_display('preview', false)" />
-				// </div>`);
-			
-			}):null;
-		}
+
 		},
 		onload: function(frm){
 			template = frm.doc.quality_inspection_template
