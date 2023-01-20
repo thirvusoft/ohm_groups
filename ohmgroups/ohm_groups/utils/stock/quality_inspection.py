@@ -304,7 +304,7 @@ def property_setter():
     make_property_setter('Quality Inspection', "reference_name", "mandatory_depends_on", "eval:doc.reference_type!='Others'", "Text")
     make_property_setter('Quality Inspection', "reference_name", "reqd", "0", "Check")
     make_property_setter('Quality Inspection Reading', "formula_based_criteria", "default", "1", "Check")
-    make_property_setter('Quality Inspection', "inspection_type", "options", "\nIncoming\nOutgoing\nIn Process\nFinal Inspection Report\nOthers", "Text")
+    make_property_setter('Quality Inspection', "inspection_type", "options", "\nIncoming\nOutgoing\nIn Process\nFinal Inspection Report", "Text")
    
 
 def execute():
