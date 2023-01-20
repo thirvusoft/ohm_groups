@@ -152,7 +152,8 @@ def get_template_details(template):
 			"formula_based_criteria",
 			"min_value",
 			"max_value",
-            "testing_type"
+            "testing_type",
+            "tolerance_level"
 		],
 		filters={"parenttype": "Quality Inspection Template", "parent": template},
 		order_by="idx",
