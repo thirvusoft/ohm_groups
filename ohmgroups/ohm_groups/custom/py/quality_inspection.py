@@ -32,7 +32,11 @@ def status(doc, actions = None):
                 doc.update({ 
                     "sample_" + str(j) : "Accepted" if result or doc.get("sample_" + str(j)) == "Accepted" else "Rejected",
                     })
-                res["sample_" + str(j)]="Accepted" if result or doc.get("sample_" + str(j)) == "Accepted" else "Rejected"
+                if result == False:
+                    res["sample_" + str(j)]="Rejected"
+                    # break
+                else:
+                    res["sample_" + str(j)]="Accepted"
             except Exception:
                 frappe.throw(
                     frappe._("Row #{0}: Acceptance Criteria Formula is incorrect.").format(reading.idx),

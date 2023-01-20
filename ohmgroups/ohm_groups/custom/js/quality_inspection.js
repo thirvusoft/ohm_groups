@@ -53,8 +53,8 @@ frappe.ui.form.on('Quality Inspection', {
 				</div>`);
 			});
 		},
-		get_result: async function(frm) {
-			await frappe.call({
+		get_result:  function(frm) {
+			 frappe.call({
 				method: "ohmgroups.ohm_groups.custom.py.quality_inspection.status",
 				args: {
 					doc: cur_frm.doc
