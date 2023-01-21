@@ -21,9 +21,19 @@ def status(doc, actions = None):
             data = doc.get_formula_evaluation_data(i)
             reading = "reading_" + str(j)
             condition = i.acceptance_formula
-            data["mean"] = sum([float(m.get(reading) or 0)  for m in doc.readings]) / len(doc.readings)
-            data["min_value"] = sum([float(m.get("min_value") or 0)  for m in doc.readings]) / len(doc.readings)
-            data["max_value"] = sum([float(m.get("max_value") or 0)  for m in doc.readings]) / len(doc.readings)
+            try:
+                mean_readings = [float(m.get(reading) or 0)  for m in doc.readings if (m.get(reading , "") or "").lower()!="ok"]
+                data["mean"] = sum(mean_readings) / len(mean_readings)
+                
+                min_value_readings =[float(m.get("min_value") or 0)  for m in doc.readings if (m.get(reading , "") or "").lower()!="ok"]
+                data["min_value"] = sum(min_value_readings) / len(min_value_readings)
+                max_readings = [float(m.get("max_value") or 0)  for m in doc.readings if (m.get(reading , "") or "").lower()!="ok"]
+                data["max_value"] = sum(max_readings) / len(max_readings)
+            except ValueError as e:
+                frappe.throw("Sample reading must be an number or 'OK'")
+            except BaseException:
+                frappe.errprint(frappe.get_traceback())
+                frappe.throw("Couldn't Get Results")
             if(data["mean"] == 0):
                 continue
             try:
