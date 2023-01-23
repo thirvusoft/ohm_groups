@@ -43,7 +43,8 @@ frappe.ui.form.on("Purchase Order", {
         else{
             // var count =0
             // frm.set_value('items',[]);
-        }  
+        }
+        
     },
     refresh: function(frm,cdt,cdn){
         frm.set_query("item_code","items",function(){
