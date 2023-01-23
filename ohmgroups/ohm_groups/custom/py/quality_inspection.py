@@ -33,7 +33,7 @@ def status(doc, actions = None):
                 frappe.throw("Sample reading must be an number or 'OK'")
             except BaseException:
                 frappe.errprint(frappe.get_traceback())
-                frappe.throw("Couldn't Get Results")
+                frappe.throw("Couldn't Get Results") 
             if(data["mean"] == 0):
                 continue
             try:
