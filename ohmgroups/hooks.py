@@ -173,6 +173,7 @@ doctype_js = {
     "Item Attribute" :"/ohm_groups/custom/js/item_attribute.js",
     "Employee" : "/ohm_groups/custom/js/employee.js",
     "Stock Entry" : "/ohm_groups/custom/js/stock_entry.js",
+    "Material Request" : "/ohm_groups/custom/js/material_request.js"
                       
  
     
