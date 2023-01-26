@@ -30,8 +30,8 @@ def item_supplier(supplier):
         supplier = frappe.get_all("Supplier wise item",{'parent':supplier_item.name,},pluck="item_code")
         return supplier
 
-@frappe.whitelist()
-def po_order(doc,actions):
-    a=make_subcontracting_order(doc.name)
-    a.save()
-    a.submit()
+# @frappe.whitelist()
+# def po_order(doc,actions):
+#     a=make_subcontracting_order(doc.name)
+#     a.save()
+#     a.submit()

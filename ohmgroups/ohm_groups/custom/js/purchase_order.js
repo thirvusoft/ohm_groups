@@ -47,14 +47,14 @@ frappe.ui.form.on("Purchase Order", {
         
     },
     refresh: function(frm,cdt,cdn){
-        frm.set_query("item_code","items",function(){
-            return {
-                filters:{
-                    "item_group":"Services"
-                }
+        // frm.set_query("item_code","items",function(){
+        //     return {
+        //         filters:{
+        //             "item_group":"Services"
+        //         }
                 
-            }
-        })
+        //     }
+        // })
         frm.add_custom_button(__('Subcontracted Receipt'), function(){
             var so_no = frappe.db.get_list('Subcontracting Order', {filters:{'purchase_order':frm.doc.name, 'docstatus':1},fields:['name']}).then((r)=>{
                 if(!r.length){
@@ -103,3 +103,24 @@ frappe.ui.form.on("Purchase Order", {
     
 })
 
+frappe.ui.form.on('Purchase Order Item', {
+	stock_uom_rate:function(frm,cdt,cdn) {
+        
+		var row = locals[cdt][cdn]
+        frappe.model.set_value(cdt,cdn,'rate',row.stock_uom_rate)
+		frappe.model.set_value(cdt,cdn,'amount',row.stock_uom_rate * row.stock_qty)
+	},
+	
+	qty:function(frm,cdt,cdn) {
+        
+		var row = locals[cdt][cdn]
+        frappe.model.set_value(cdt,cdn,'rate',row.stock_uom_rate)
+		frappe.model.set_value(cdt,cdn,'amount',row.stock_uom_rate * row.stock_qty)
+	},
+})
+function po_item (frm,cdt,cdn){
+    var row = locals[cdt][cdn]
+    frappe.model.set_value(cdt,cdn,'rate',row.stock_uom_rate)
+    frappe.model.set_value(cdt,cdn,'amount',row.stock_uom_rate * row.stock_qty)
+    
+}		
