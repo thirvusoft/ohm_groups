@@ -143,9 +143,9 @@ doc_events = {
 	# "Driver" :{
 	# 	"validate" : "ohmgroups.ohm_groups.custom.py.driver.validate_phone"
 	# },
-	"Purchase Order" : {
-		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_order.po_order"
-	},
+	# "Purchase Order" : {
+	# 	"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_order.po_order"
+	# },
 	# "Subcontracting Order" : {
 	# 	"on_submit" : "ohmgroups.ohm_groups.custom.py.subcontracting_order.validate"
 	# },
@@ -173,7 +173,8 @@ doctype_js = {
     "Item Attribute" :"/ohm_groups/custom/js/item_attribute.js",
     "Employee" : "/ohm_groups/custom/js/employee.js",
     "Stock Entry" : "/ohm_groups/custom/js/stock_entry.js",
-    "Material Request" : "/ohm_groups/custom/js/material_request.js"
+    "Material Request" : "/ohm_groups/custom/js/material_request.js",
+    "Purchase Receipt" : "/ohm_groups/custom/js/purchase_receipt.js"
                       
  
     
