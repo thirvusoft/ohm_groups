@@ -47,14 +47,14 @@ frappe.ui.form.on("Purchase Order", {
         
     },
     refresh: function(frm,cdt,cdn){
-        frm.set_query("item_code","items",function(){
-            return {
-                filters:{
-                    "item_group":"Services"
-                }
+        // frm.set_query("item_code","items",function(){
+        //     return {
+        //         filters:{
+        //             "item_group":"Services"
+        //         }
                 
-            }
-        })
+        //     }
+        // })
         frm.add_custom_button(__('Subcontracted Receipt'), function(){
             var so_no = frappe.db.get_list('Subcontracting Order', {filters:{'purchase_order':frm.doc.name, 'docstatus':1},fields:['name']}).then((r)=>{
                 if(!r.length){
