@@ -103,3 +103,24 @@ frappe.ui.form.on("Purchase Order", {
     
 })
 
+frappe.ui.form.on('Purchase Order Item', {
+	stock_uom_rate:function(frm,cdt,cdn) {
+        
+		var row = locals[cdt][cdn]
+        frappe.model.set_value(cdt,cdn,'rate',row.stock_uom_rate)
+		frappe.model.set_value(cdt,cdn,'amount',row.stock_uom_rate * row.stock_qty)
+	},
+	
+	qty:function(frm,cdt,cdn) {
+        
+		var row = locals[cdt][cdn]
+        frappe.model.set_value(cdt,cdn,'rate',row.stock_uom_rate)
+		frappe.model.set_value(cdt,cdn,'amount',row.stock_uom_rate * row.stock_qty)
+	},
+})
+function po_item (frm,cdt,cdn){
+    var row = locals[cdt][cdn]
+    frappe.model.set_value(cdt,cdn,'rate',row.stock_uom_rate)
+    frappe.model.set_value(cdt,cdn,'amount',row.stock_uom_rate * row.stock_qty)
+    
+}		
