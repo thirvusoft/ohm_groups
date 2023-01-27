@@ -19,5 +19,8 @@ frappe.ui.form.on("Purchase Receipt",{
                     })
                 }, __("Get Items From"));
         }
+        
 	},
+    
+    
 })
