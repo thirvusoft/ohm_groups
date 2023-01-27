@@ -57,9 +57,3 @@ def make_purchase_receipt(source_name, target_doc=None, args=None):
 	)
 
 	return doclist
-
-
-# def update_item_(obj, target, source_parent):
-# 	for i in obj.items:
-# 		rec_qty = frappe.get_value("Material Request Item", {'name':i.item_name,'item_code':i.item_code},'received_qty')
-# 		# frappe.db.set_value('Material Request Item', {'name': i.item_name, 'item_code':i.item_code}, 'balance_qty',(i.qty - rec_qty) )

@@ -43,7 +43,6 @@ def material_request_item(source_name, target_doc=None):
 		target_doc,
 		set_missing_values,
 	)
-
 	doc.set_onload("ignore_price_list", True)
 
 	return doc
