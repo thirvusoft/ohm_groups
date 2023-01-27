@@ -19,5 +19,9 @@ frappe.ui.form.on("Purchase Receipt",{
                     })
                 }, __("Get Items From"));
         }
-	},
+        frm.add_custom_button(__('Stop'),
+        // () => frm.events.update_status(frm, 'Stopped'));
+	// },
+    
+    
 })

@@ -1,10 +1,9 @@
-from erpnext.stock.doctype.material_request.material_request import update_item
+from erpnext.stock.doctype.material_request.material_request import set_missing_values, update_item
 import frappe
 import json
 from erpnext.stock.doctype.item.item import get_item_defaults
 from frappe.model.mapper import get_mapped_doc
-from frappe.utils.data import getdate, nowdate
-
+from frappe.utils.data import flt, getdate, nowdate
 
 @frappe.whitelist()
 def make_purchase_receipt(source_name, target_doc=None, args=None):
@@ -59,7 +58,8 @@ def make_purchase_receipt(source_name, target_doc=None, args=None):
 
 	return doclist
 
-def set_missing_values(source, target_doc):
-    if target_doc.doctype == "Purchase Receipt" :
-        target_doc.run_method("set_missing_values")
-        target_doc.run_method("calculate_taxes_and_totals")
+
+# def update_item_(obj, target, source_parent):
+# 	for i in obj.items:
+# 		rec_qty = frappe.get_value("Material Request Item", {'name':i.item_name,'item_code':i.item_code},'received_qty')
+# 		# frappe.db.set_value('Material Request Item', {'name': i.item_name, 'item_code':i.item_code}, 'balance_qty',(i.qty - rec_qty) )

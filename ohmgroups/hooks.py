@@ -161,6 +161,11 @@ doc_events = {
 	"Branch" : {
 		"on_update" : "ohmgroups.ohm_groups.custom.py.branch.warehouse_creation_from_branch"
 	},
+	"Purchase Receipt" : {
+		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.update_item_",
+		"on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.cancel_item_",
+   
+	}
 
 }
 doctype_js = {

@@ -47,3 +47,16 @@ def material_request_item(source_name, target_doc=None):
 	doc.set_onload("ignore_price_list", True)
 
 	return doc
+
+def update_item_(doc, actions):
+	for i in doc.items:
+		ordered_qty = frappe.get_value("Material Request Item", {'parent':i.material_request,'item_code':i.item_code},'ordered_qty')
+		frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'ordered_qty', i.qty + ordered_qty )
+		frappe.db.set_value('Material Request', i.material_request, 'per_ordered', 100 )
+def cancel_item_(doc, actions):
+	for i in doc.items:
+		ordered_qty = frappe.get_value("Material Request Item", {'parent':i.material_request,'item_code':i.item_code},'ordered_qty')
+		received_per = frappe.get_value("Material Request", i.material_request,'per_received')
+		if received_per == 0:
+				frappe.db.set_value('Material Request', i.material_request, 'per_ordered', 0 )
+		frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'ordered_qty', ordered_qty - i.qty)
