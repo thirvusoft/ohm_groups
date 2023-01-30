@@ -61,3 +61,4 @@ def cancel_item_(doc, actions):
 			if received_per == 0:
 					frappe.db.set_value('Material Request', i.material_request, 'per_ordered', 0 )
 			frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'ordered_qty', ordered_qty - i.qty)
+   

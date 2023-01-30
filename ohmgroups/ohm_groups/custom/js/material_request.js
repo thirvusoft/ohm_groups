@@ -7,6 +7,33 @@ frappe.ui.form.on("Material Request",{
 			}
 		
     },
+    supplier_name_: function(frm){
+            frappe.db.get_value('Supplier',{'name':frm.doc.supplier_name_},'default_item',(r)=>{
+                if(r.default_item == 1){
+                    frappe.call({
+                        method: "ohmgroups.ohm_groups.custom.py.material_request.item_supplier",
+                        args:{
+                            supplier:frm.doc.supplier_name_,
+                        },
+                        callback: function(r) {
+                            frm.set_query("item_code","items",function(){
+                                return {
+                                    filters:{
+                                        "item_code":["in",r.message]
+                                    }
+                                    
+                                }
+                            })
+                    }
+                    })
+                
+                }
+            })
+        
+     
+        
+    },
+    
 
 	make_purchase_receipt: function(frm) {
 		frappe.prompt(
