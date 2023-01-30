@@ -16,7 +16,6 @@ frappe.ui.form.on("Material Request",{
                             supplier:frm.doc.supplier_name_,
                         },
                         callback: function(r) {
-							console.log("dd")
                             frm.set_query("item_code","items",function(){
                                 return {
                                     filters:{
