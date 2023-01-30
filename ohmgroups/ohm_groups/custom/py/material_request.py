@@ -57,3 +57,9 @@ def make_purchase_receipt(source_name, target_doc=None, args=None):
 	)
 
 	return doclist
+@frappe.whitelist()
+def item_supplier(supplier):
+    supplier_item = frappe.get_doc("Supplier",supplier)
+    if(supplier_item.default_item ==1):
+        supplier = frappe.get_all("Supplier wise item",{'parent':supplier_item.name,},pluck="item_code")
+        return supplier
