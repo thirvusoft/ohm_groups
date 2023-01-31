@@ -454,7 +454,7 @@ def get_basic_details(args, item, overwrite_warehouse=True):
 
 	if out.get("weight_per_unit"):
 		out["total_weight"] = out.weight_per_unit * out.stock_qty
-	if out.get("weight_uom") == "Kg" and out.get("item.stock_uom") == "Kg":
+	if out.get("weight_uom") == "Kg" and out.get("stock_uom") == "Kg":
 		out["total_weight"] = out.conversion_factor * out.qty
 
 	return out
