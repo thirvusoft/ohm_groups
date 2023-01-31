@@ -22,12 +22,11 @@ def status(doc, actions = None):
             reading = "reading_" + str(j)
             condition = i.acceptance_formula
             try:
-                mean_readings = [float(m.get(reading) or 0)  for m in doc.readings if (m.get(reading , "") or "").lower()!="ok"]
+                mean_readings = [float(m.get(reading) or 0)  for m in doc.readings if (m.get(reading) or "").lower()!="ok"]
                 data["mean"] = sum(mean_readings) / len(mean_readings)
-                
-                min_value_readings =[float(m.get("min_value") or 0)  for m in doc.readings if (m.get(reading , "") or "").lower()!="ok"]
+                min_value_readings =[float(m.get("min_value") or 0)  for m in doc.readings if (m.get(reading) or "").lower()!="ok"]
                 data["min_value"] = sum(min_value_readings) / len(min_value_readings)
-                max_readings = [float(m.get("max_value") or 0)  for m in doc.readings if (m.get(reading , "") or "").lower()!="ok"]
+                max_readings = [float(m.get("max_value") or 0)  for m in doc.readings if (m.get(reading) or "").lower()!="ok"]
                 data["max_value"] = sum(max_readings) / len(max_readings)
             except ValueError as e:
                 frappe.throw("Sample reading must be an number or 'OK'")

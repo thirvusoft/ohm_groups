@@ -366,8 +366,16 @@
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
- "links": [],
- "modified": "2023-01-07 11:30:59.769203",
+ "links": [
+  {
+   "is_child_table": 1,
+   "link_doctype": "DC Received Items",
+   "link_fieldname": "dc_no",
+   "parent_doctype": "GRN",
+   "table_fieldname": "dc_items"
+  }
+ ],
+ "modified": "2023-01-31 11:35:00.950245",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",
