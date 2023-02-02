@@ -8,21 +8,21 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "customer",
+  "party_type",
   "column_break_3",
-  "posting_date",
-  "posting_time",
+  "party",
+  "posting_data",
   "warehouse_details_section",
-  "is_customer_warehouse",
   "warehouse",
+  "column_break_8",
   "items_section",
+  "against_party",
   "items",
   "vehicle_details_section",
-  "transport_name",
-  "license_number",
   "driver_name",
-  "amended_from",
-  "is_stock_update"
+  "column_break_13",
+  "vehicle_no",
+  "amended_from"
  ],
  "fields": [
   {
@@ -32,28 +32,8 @@
    "options": "GE-.YY.-"
   },
   {
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Customer",
-   "options": "Customer",
-   "reqd": 1
-  },
-  {
    "fieldname": "column_break_3",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "posting_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Posting Date",
-   "reqd": 1
-  },
-  {
-   "fieldname": "posting_time",
-   "fieldtype": "Time",
-   "label": "Posting Time"
   },
   {
    "fieldname": "warehouse_details_section",
@@ -61,12 +41,7 @@
    "label": "Warehouse Details"
   },
   {
-   "default": "0",
-   "fieldname": "is_customer_warehouse",
-   "fieldtype": "Check",
-   "label": "Is Customer Based Warehouse?"
-  },
-  {
+   "default": "Gate Warehouse - ONE",
    "fieldname": "warehouse",
    "fieldtype": "Link",
    "label": "Warehouse",
@@ -89,19 +64,31 @@
    "label": "Vehicle Details"
   },
   {
-   "fieldname": "transport_name",
-   "fieldtype": "Data",
-   "label": "Transport Name"
-  },
-  {
-   "fieldname": "license_number",
-   "fieldtype": "Data",
-   "label": "License Number"
-  },
-  {
    "fieldname": "driver_name",
+   "fieldtype": "Link",
+   "label": "Driver Name",
+   "options": "Driver"
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Link",
+   "label": "Goods Received From",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_type"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vehicle_no",
    "fieldtype": "Data",
-   "label": "Driver Name"
+   "label": "Vehicle No"
   },
   {
    "fieldname": "amended_from",
@@ -113,18 +100,26 @@
    "read_only": 1
   },
   {
-   "allow_on_submit": 1,
-   "default": "0",
-   "fieldname": "is_stock_update",
-   "fieldtype": "Check",
-   "hidden": 1,
-   "label": "Is Stock Update"
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "against_party",
+   "fieldtype": "Button",
+   "label": "Against Party "
+  },
+  {
+   "fieldname": "posting_data",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Posting Data & Time",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-02 15:18:43.812606",
+ "modified": "2023-02-02 15:14:50.416406",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",

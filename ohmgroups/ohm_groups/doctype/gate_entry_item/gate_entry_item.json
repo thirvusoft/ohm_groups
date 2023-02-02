@@ -8,7 +8,9 @@
  "field_order": [
   "item_code",
   "item_name",
-  "qty"
+  "qty",
+  "received_qty",
+  "balanced_qty"
  ],
  "fields": [
   {
@@ -33,13 +35,26 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Qty",
+   "read_only": 1,
    "reqd": 1
+  },
+  {
+   "fieldname": "received_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Received Qty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "balanced_qty",
+   "fieldtype": "Float",
+   "label": "Balanced Qty"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2022-12-02 15:18:57.348467",
+ "modified": "2023-02-02 16:15:32.711133",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry Item",
