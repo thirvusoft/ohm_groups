@@ -104,11 +104,13 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:doc.party_type != \"Supplier\"",
    "fieldname": "against_party",
    "fieldtype": "Button",
    "label": "Against Party "
   },
   {
+   "default": "Now",
    "fieldname": "posting_data",
    "fieldtype": "Datetime",
    "in_list_view": 1,
@@ -119,7 +121,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-02 15:14:50.416406",
+ "modified": "2023-02-03 14:56:10.143074",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",

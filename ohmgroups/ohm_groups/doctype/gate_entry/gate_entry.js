@@ -11,6 +11,14 @@ frappe.ui.form.on('Gate Entry', {
                 
             }
         })
+		frm.set_query("party",function(){
+            return {
+                filters:{
+                    "docstatus":1
+                }
+                
+            }
+        })
 	},
     against_party: function(frm,cdt,cdn){
 	
@@ -27,10 +35,16 @@ frappe.ui.form.on('Gate Entry', {
 					frappe.msgprint(r.message[0]);
 				}
 				else{
-					frm.set_value("items",r.message[frm.doc.party_type == "DC Not for Sales"?0:1])
+					// frm.set_value("items",r.message[frm.doc.party_type == "DC Not for Sales"?0:1])
+                    if(!r.message.length){
+                        frappe.msgprint(frm.doc.party +" All the Qty are received");
+                    }
+                    else{
+                        frm.set_value("items",r.message)
+                    }
+                    
 					
 				}
-				
 				}
  
             
