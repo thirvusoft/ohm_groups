@@ -11,7 +11,7 @@ frappe.ui.form.on('Gate Entry', {
                 
             }
         })
-		frm.set_query("party",function(){
+		frm.set_query("purchase_order",function(){
             return {
                 filters:{
                     "docstatus":1
@@ -19,6 +19,15 @@ frappe.ui.form.on('Gate Entry', {
                 
             }
         })
+		frm.set_query("dc_not_for_sales",function(){
+            return {
+                filters:{
+                    "docstatus":1
+                }
+                
+            }
+        })
+
 	},
     against_party: function(frm,cdt,cdn){
 	
@@ -27,7 +36,8 @@ frappe.ui.form.on('Gate Entry', {
             method: "get_items",
             args : {
 				party_type : frm.doc.party_type,
-                party : frm.doc.party,
+                dc_not_for_sales : frm.doc.dc_not_for_sales,
+                purchase_order : frm.doc.purchase_order
 				
             },
             callback: function(r){
@@ -37,7 +47,7 @@ frappe.ui.form.on('Gate Entry', {
 				else{
 					// frm.set_value("items",r.message[frm.doc.party_type == "DC Not for Sales"?0:1])
                     if(!r.message.length){
-                        frappe.msgprint(frm.doc.party +" All the Qty are received");
+                        frappe.msgprint(" All the Qty are received");
                     }
                     else{
                         frm.set_value("items",r.message)

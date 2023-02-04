@@ -10,7 +10,9 @@
   "naming_series",
   "party_type",
   "column_break_3",
-  "party",
+  "dc_not_for_sales",
+  "purchase_order",
+  "supplier",
   "posting_data",
   "warehouse_details_section",
   "warehouse",
@@ -20,8 +22,10 @@
   "items",
   "vehicle_details_section",
   "driver_name",
+  "phone_number",
   "column_break_13",
   "vehicle_no",
+  "license_no",
   "amended_from"
  ],
  "fields": [
@@ -36,6 +40,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "collapsible": 1,
    "fieldname": "warehouse_details_section",
    "fieldtype": "Section Break",
    "label": "Warehouse Details"
@@ -59,6 +64,7 @@
    "options": "Gate Entry Item"
   },
   {
+   "collapsible": 1,
    "fieldname": "vehicle_details_section",
    "fieldtype": "Section Break",
    "label": "Vehicle Details"
@@ -74,12 +80,6 @@
    "fieldtype": "Link",
    "label": "Goods Received From",
    "options": "DocType"
-  },
-  {
-   "fieldname": "party",
-   "fieldtype": "Dynamic Link",
-   "label": "Party",
-   "options": "party_type"
   },
   {
    "fieldname": "column_break_13",
@@ -116,12 +116,43 @@
    "in_list_view": 1,
    "label": "Posting Data & Time",
    "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.party_type == \"Supplier\"",
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier"
+  },
+  {
+   "depends_on": "eval:doc.party_type == \"DC Not for Sales\"",
+   "fieldname": "dc_not_for_sales",
+   "fieldtype": "Table MultiSelect",
+   "label": "DC Not for Sales",
+   "options": "Gate Entry DC"
+  },
+  {
+   "depends_on": "eval:doc.party_type == \"Purchase Order\"",
+   "fieldname": "purchase_order",
+   "fieldtype": "Table MultiSelect",
+   "label": "Purchase Order",
+   "options": "Gate Entry Po"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "license_no",
+   "fieldtype": "Data",
+   "label": "License No"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-03 14:56:10.143074",
+ "modified": "2023-02-04 14:49:44.317854",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",
