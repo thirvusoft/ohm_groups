@@ -112,15 +112,13 @@ class GateEntry(Document):
                             'parenttype': self.party_type,
                             'item_code': i.item_code
                             }, "total", 1)
-
-        if self.party_type == "Purchase Order":
+        elif self.party_type == "Purchase Order":
                 for i in self.items:
                     rec_qty = frappe.get_value("Purchase Order Item", {'parent': i.document_no,'parenttype':self.party_type,'item_code':i.item_code},'received_qty') or 0
                     frappe.db.set_value('Purchase Order Item', {'parent': i.document_no,'parenttype':self.party_type,'item_code':i.item_code}, 'received_qty',rec_qty + i.received_qty)
                 document = frappe.new_doc("Stock Entry")
                 document.stock_entry_type ="Material Receipt"
                 document.to_warehouse = self.warehouse
-
                 for i in self.items:
                     item = frappe.get_doc("Item",{"name":i.item_code})
                     for j in item.uoms:
@@ -136,25 +134,39 @@ class GateEntry(Document):
                             ))
                 document.save(ignore_permissions=True)
                 document.submit()
-                # for i in self.purchase_order:
-                #     document = frappe.new_doc("Purchase Receipt")
-                #     document.supplier =self.goods_received_from
-                #     document.to_warehouse = self.warehouse
-                # for i in self.items:
-                #     item = frappe.get_doc("Item",{"name":i.item_code})
-                #     for j in item.uoms:
-                #         if item.stock_uom == j.uom:
-                #             document.append('items', dict(
-                #                 item_code = i.item_code,
-                #                 qty=i.received_qty,
-                #                 basic_rate=1,
-                #                 stock_uom = item.stock_uom,
-                #                 uom=i.uom,
-                #                 transfer_qty=i.received_qty,
-                #                 conversion_factor = j.conversion_factor
-                #             ))
-                # document.save(ignore_permissions=True)
-                # document.submit()
+                if self.party_type == "Purchase Order":
+                    document = frappe.new_doc("Purchase Receipt")
+                    document.is_gate_entry = 1
+                    for i in self.items:
+                        
+                        document.supplier =i.name1
+                        item = frappe.get_doc("Item",{"name":i.item_code})
+                        document.append('items', dict(
+                            item_code = i.item_code,
+                            item_name = i.item_name,
+                            
+                            qty=i.received_qty,
+                            uom=i.uom,
+                            warehouse=self.warehouse,
+                            purchase_order = i.document_no
+                        ))
+                    document.save(ignore_permissions=True)
+                elif self.party_type == "Supplier":
+                    document = frappe.new_doc("Purchase Receipt")
+                    document.is_gate_entry = 1
+                    for i in self.items:
+                        
+                        document.supplier =i.name1
+                        item = frappe.get_doc("Item",{"name":i.item_code})
+                        document.append('items', dict(
+                            item_code = i.item_code,
+                            item_name = i.item_name,
+                            qty=i.received_qty,
+                            uom=i.uom,
+                            warehouse=self.warehouse,
+                        ))
+                    document.save(ignore_permissions=True)
+
 
     
     def on_cancel(self):

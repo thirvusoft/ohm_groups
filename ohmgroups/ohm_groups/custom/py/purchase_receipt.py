@@ -53,6 +53,30 @@ def update_item_(doc, actions):
 			ordered_qty = frappe.get_value("Material Request Item", {'parent':i.material_request,'item_code':i.item_code},'ordered_qty')
 			frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'ordered_qty', i.qty + ordered_qty )
 			frappe.db.set_value('Material Request', i.material_request, 'per_ordered', 100 )
+	# Stock Entry Created -> Material Transfer
+	if doc.is_gate_entry:
+		company = frappe.db.get_single_value("Global Defaults","default_company")
+		abbr = frappe.db.get_value("Company",company,"abbr")
+		document = frappe.new_doc("Stock Entry")
+		document.stock_entry_type ="Material Transfer"
+		for i in doc.items:
+			item = frappe.get_doc("Item",{"name":i.item_code})
+			for j in item.uoms:
+				if item.stock_uom == j.uom:
+					document.append('items', dict(
+						item_code = i.item_code,
+						item_name = i.item_name,
+						s_warehouse = i.warehouse,
+						t_warehouse = f'Stores - {abbr}',
+						qty=i.qty,
+						basic_rate=1,
+						stock_uom = item.stock_uom,
+						uom=i.uom,
+						reference_purchase_receipt = doc.name
+					))
+		document.save(ignore_permissions=True)
+		document.submit()
+	
 def cancel_item_(doc, actions):
 	for i in doc.items:
 		if i.material_request:
