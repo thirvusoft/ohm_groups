@@ -59,10 +59,15 @@ def create_quality_inspection_flow():
         state = 'Pending', allow_edit = 'All',doc_status = 0,
     ))
     workflow.append('states', dict(
-        state = 'Approved', allow_edit = 'System Manager',doc_status = 0,
+        state = 'Approved', allow_edit = 'System Manager',doc_status = 1,
     ))
     workflow.append('states', dict(
-        state = 'Rejected', allow_edit = 'System Manager',doc_status = 0,
+        state = 'Rejected', allow_edit = 'System Manager',doc_status = 1,
+
+    ))
+    workflow.append('states', dict(
+        state = 'Cancelled', allow_edit = 'All',doc_status = 2,
+
     )) 
     
     workflow.append('transitions', dict(
@@ -73,21 +78,32 @@ def create_quality_inspection_flow():
         state = 'Pending', action='Reject', next_state = 'Rejected',
         allowed='System Manager', allow_self_approval= 1,
     ))
+    workflow.append('transitions', dict(
+        state = 'Approved', action='Cancel', next_state = 'Cancelled',
+        allowed='All', allow_self_approval= 1,
+    ))
+    workflow.append('transitions', dict(
+        state = 'Rejected', action='Cancel', next_state = 'Cancelled',
+        allowed='All', allow_self_approval= 1,
+    ))
     workflow.insert(ignore_permissions=True)
     return workflow
 def create_state():
-    list={"Pending":"Warning","Approved":"Success", "Rejected":"Danger"}
+    list={"Pending":"Warning","Approved":"Success", "Rejected":"Danger","Cancelled":"Warning"}
     for row in list:
         if not frappe.db.exists('Workflow State', row):
             new_doc = frappe.new_doc('Workflow State')
             new_doc.workflow_state_name = row
             new_doc.style=list[row]
             new_doc.save()
-            
-            
-            
+           
 def create_action():
-    pass
+    list=['Cancel']
+    for row in list:
+        if not frappe.db.exists('Workflow Action Master', row):
+            new_doc = frappe.new_doc('Workflow Action Master')
+            new_doc.workflow_action_name = row
+            new_doc.save()
 
 def execute():
     workflow_document_creation()

@@ -83,7 +83,6 @@ def purchase_order_custom_fields():
                 label="Delivery Challan",
             ), 
         ],
-
     }
     create_custom_fields(purchase_order_custom_fields)
 
