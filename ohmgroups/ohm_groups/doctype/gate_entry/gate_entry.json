@@ -8,11 +8,13 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "is_gate_entry_in__out",
   "party_type",
   "column_break_3",
   "dc_not_for_sales",
   "purchase_order",
   "supplier",
+  "customer",
   "posting_data",
   "warehouse_details_section",
   "warehouse",
@@ -32,6 +34,7 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Series",
    "options": "GE-.YY.-"
   },
@@ -41,6 +44,7 @@
   },
   {
    "collapsible": 1,
+   "depends_on": "eval:doc.is_gate_entry_in__out == \"IN\"",
    "fieldname": "warehouse_details_section",
    "fieldtype": "Section Break",
    "label": "Warehouse Details"
@@ -79,7 +83,8 @@
    "fieldname": "party_type",
    "fieldtype": "Link",
    "label": "Goods Received From",
-   "options": "DocType"
+   "options": "DocType",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_13",
@@ -147,12 +152,29 @@
    "fieldname": "license_no",
    "fieldtype": "Data",
    "label": "License No"
+  },
+  {
+   "fieldname": "is_gate_entry_in__out",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Gate Entry IN / OUT",
+   "options": "\nIN\nOUT",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.party_type == \"Customer\"",
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-04 14:49:44.317854",
+ "modified": "2023-02-07 18:03:03.780275",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",

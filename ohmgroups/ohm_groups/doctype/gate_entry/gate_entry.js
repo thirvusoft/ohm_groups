@@ -6,7 +6,7 @@ frappe.ui.form.on('Gate Entry', {
 		frm.set_query("party_type",function(){
             return {
                 filters:{
-                    "name":["in",["Purchase Order","DC Not for Sales","Supplier"]]
+                    "name":["in",["Purchase Order","DC Not for Sales","Supplier","Customer"]]
                 }
                 
             }
@@ -29,6 +29,39 @@ frappe.ui.form.on('Gate Entry', {
         })
 
 	},
+    is_gate_entry_in__out : function(frm){
+        if(frm.doc.is_gate_entry_in__out == "IN"){
+            frm.set_query("party_type",function(){
+                return {
+                    filters:{
+                        "name":["in",["Purchase Order","DC Not for Sales","Supplier","Customer"]]
+                    }
+                    
+                }
+            })
+        }
+        else if(frm.doc.is_gate_entry_in__out == "OUT"){
+            frm.set_query("party_type",function(){
+                return {
+                    filters:{
+                        "name":["in",["DC Not for Sales"]]
+                    }
+                    
+                }
+            })
+        }
+        else{
+            frm.set_query("party_type",function(){
+                return {
+                    filters:{
+                        "name":["in",["Purchase Order","DC Not for Sales","Supplier"]]
+                    }
+                    
+                }
+            })
+        }
+
+    },
     against_party: function(frm,cdt,cdn){
 	
         var data = locals[cdt][cdn]
