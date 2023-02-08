@@ -11,6 +11,7 @@
   "is_gate_entry_in__out",
   "party_type",
   "party_name",
+  "po_no",
   "column_break_3",
   "against_po__dc",
   "against_si__dc",
@@ -18,6 +19,7 @@
   "purchase_order",
   "sales_invoice",
   "posting_data",
+  "po_date",
   "vehicle_details_section",
   "driver_name",
   "phone_number",
@@ -29,7 +31,9 @@
   "items_section",
   "against_party",
   "items",
-  "amended_from"
+  "amended_from",
+  "remarks_section",
+  "text_editor_27"
  ],
  "fields": [
   {
@@ -107,7 +111,7 @@
   {
    "fieldname": "against_party",
    "fieldtype": "Button",
-   "label": "Against Party "
+   "label": "Get Items"
   },
   {
    "default": "Now",
@@ -184,12 +188,31 @@
    "label": "Sales Invoice",
    "mandatory_depends_on": "eval:doc.against_si__dc == \"Sales Invoice\"",
    "options": "Gate Entry SI"
+  },
+  {
+   "fieldname": "po_no",
+   "fieldtype": "Data",
+   "label": "Po No"
+  },
+  {
+   "fieldname": "po_date",
+   "fieldtype": "Date",
+   "label": "Po Date"
+  },
+  {
+   "fieldname": "remarks_section",
+   "fieldtype": "Section Break",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "text_editor_27",
+   "fieldtype": "Text Editor"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-08 12:53:29.826639",
+ "modified": "2023-02-08 18:34:16.349585",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",
