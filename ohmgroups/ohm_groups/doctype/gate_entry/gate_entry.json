@@ -10,24 +10,25 @@
   "naming_series",
   "is_gate_entry_in__out",
   "party_type",
+  "party_name",
   "column_break_3",
+  "against_po__dc",
+  "against_si__dc",
   "dc_not_for_sales",
   "purchase_order",
-  "supplier",
-  "customer",
+  "sales_invoice",
   "posting_data",
-  "warehouse_details_section",
-  "warehouse",
-  "column_break_8",
-  "items_section",
-  "against_party",
-  "items",
   "vehicle_details_section",
   "driver_name",
   "phone_number",
   "column_break_13",
   "vehicle_no",
   "license_no",
+  "warehouse_details_section",
+  "warehouse",
+  "items_section",
+  "against_party",
+  "items",
   "amended_from"
  ],
  "fields": [
@@ -68,7 +69,6 @@
    "options": "Gate Entry Item"
   },
   {
-   "collapsible": 1,
    "fieldname": "vehicle_details_section",
    "fieldtype": "Section Break",
    "label": "Vehicle Details"
@@ -82,7 +82,7 @@
   {
    "fieldname": "party_type",
    "fieldtype": "Link",
-   "label": "Goods Received From",
+   "label": "Party Type",
    "options": "DocType",
    "reqd": 1
   },
@@ -105,11 +105,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "column_break_8",
-   "fieldtype": "Column Break"
-  },
-  {
-   "depends_on": "eval:doc.party_type != \"Supplier\"",
    "fieldname": "against_party",
    "fieldtype": "Button",
    "label": "Against Party "
@@ -123,24 +118,19 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.party_type == \"Supplier\"",
-   "fieldname": "supplier",
-   "fieldtype": "Link",
-   "label": "Supplier",
-   "options": "Supplier"
-  },
-  {
-   "depends_on": "eval:doc.party_type == \"DC Not for Sales\"",
+   "depends_on": "eval:doc.against_po__dc == \"DC Not for Sales\" || doc.against_si__dc == \"DC Not for Sales\"",
    "fieldname": "dc_not_for_sales",
    "fieldtype": "Table MultiSelect",
    "label": "DC Not for Sales",
+   "mandatory_depends_on": "eval:doc.against_po__dc == \"DC Not for Sales\" || doc.against_si__dc == \"DC Not for Sales\"",
    "options": "Gate Entry DC"
   },
   {
-   "depends_on": "eval:doc.party_type == \"Purchase Order\"",
+   "depends_on": "eval:doc.against_po__dc == \"Purchase Order\"",
    "fieldname": "purchase_order",
    "fieldtype": "Table MultiSelect",
    "label": "Purchase Order",
+   "mandatory_depends_on": "eval:doc.against_po__dc == \"Purchase Order\"",
    "options": "Gate Entry Po"
   },
   {
@@ -159,22 +149,47 @@
    "in_filter": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Gate Entry IN / OUT",
+   "label": "Entry Type",
    "options": "\nIN\nOUT",
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.party_type == \"Customer\"",
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "label": "Customer",
-   "options": "Customer"
+   "depends_on": "eval:doc.is_gate_entry_in__out == \"IN\" \n",
+   "fieldname": "against_po__dc",
+   "fieldtype": "Select",
+   "label": "Get items from",
+   "mandatory_depends_on": "eval:doc.is_gate_entry_in__out == \"IN\" \n",
+   "options": "\nPurchase Order\nDC Not for Sales"
+  },
+  {
+   "depends_on": "eval:doc.party_type == \"Customer\" || doc.party_type == \"Supplier\"",
+   "fieldname": "party_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Party Name",
+   "options": "party_type",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.is_gate_entry_in__out == \"OUT\"",
+   "fieldname": "against_si__dc",
+   "fieldtype": "Select",
+   "label": "Get items from",
+   "mandatory_depends_on": "eval:doc.is_gate_entry_in__out == \"OUT\"",
+   "options": "\nSales Invoice\nDC Not for Sales"
+  },
+  {
+   "depends_on": "eval:doc.against_si__dc == \"Sales Invoice\"",
+   "fieldname": "sales_invoice",
+   "fieldtype": "Table MultiSelect",
+   "label": "Sales Invoice",
+   "mandatory_depends_on": "eval:doc.against_si__dc == \"Sales Invoice\"",
+   "options": "Gate Entry SI"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-07 18:03:03.780275",
+ "modified": "2023-02-08 12:53:29.826639",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",

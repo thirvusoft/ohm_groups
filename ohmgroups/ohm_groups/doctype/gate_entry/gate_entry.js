@@ -6,35 +6,52 @@ frappe.ui.form.on('Gate Entry', {
 		frm.set_query("party_type",function(){
             return {
                 filters:{
-                    "name":["in",["Purchase Order","DC Not for Sales","Supplier","Customer"]]
+                    "name":["in",["Supplier","Customer"]]
                 }
                 
             }
         })
+        
+
+
+	},
+    party_name : function(frm){
 		frm.set_query("purchase_order",function(){
             return {
                 filters:{
-                    "docstatus":1
-                }
-                
-            }
-        })
-		frm.set_query("dc_not_for_sales",function(){
-            return {
-                filters:{
-                    "docstatus":1
+                    "docstatus":1,
+                    "naming_supplier": frm.doc.party_name
                 }
                 
             }
         })
 
-	},
+		frm.set_query("dc_not_for_sales",function(){
+            return {
+                filters:{
+                    "docstatus":1,
+                    "party_name": frm.doc.party_name
+                }
+                
+            }
+        })
+		frm.set_query("sales_invoice",function(){
+            return {
+                filters:{
+                    "docstatus":1,
+                    "customer": frm.doc.party_name
+                }
+                
+            }
+        })
+    },
+
     is_gate_entry_in__out : function(frm){
         if(frm.doc.is_gate_entry_in__out == "IN"){
             frm.set_query("party_type",function(){
                 return {
                     filters:{
-                        "name":["in",["Purchase Order","DC Not for Sales","Supplier","Customer"]]
+                        "name":["in",["Supplier","Customer"]]
                     }
                     
                 }
@@ -44,7 +61,7 @@ frappe.ui.form.on('Gate Entry', {
             frm.set_query("party_type",function(){
                 return {
                     filters:{
-                        "name":["in",["DC Not for Sales"]]
+                        "name":["in",["Supplier","Customer"]]
                     }
                     
                 }
@@ -70,7 +87,12 @@ frappe.ui.form.on('Gate Entry', {
             args : {
 				party_type : frm.doc.party_type,
                 dc_not_for_sales : frm.doc.dc_not_for_sales,
-                purchase_order : frm.doc.purchase_order
+                purchase_order : frm.doc.purchase_order,
+                against_po__dc : frm.doc.against_po__dc,
+                party_name : frm.doc.party_name,
+                against_si__dc : frm.doc.against_si__dc,
+                sales_invoice : frm.doc.sales_invoice,
+                is_gate_entry_in__out : frm.doc.is_gate_entry_in__out
 				
             },
             callback: function(r){
