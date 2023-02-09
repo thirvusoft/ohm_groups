@@ -8,6 +8,8 @@ from frappe.model.mapper import get_mapped_doc
 from frappe.utils import cint, cstr, flt, formatdate, get_link_to_form, getdate, nowdate
 from frappe.model.document import Document
 from ohmgroups.ohm_groups.doctype.grn.grn import grn_on_insert
+from ohmgroups.ohm_groups.doctype.grn.grn import grn_address_billing
+from ohmgroups.ohm_groups.doctype.grn.grn import grn_address_shipping
 
 
 
@@ -120,7 +122,7 @@ class GateEntry(Document):
                 # document.save(ignore_permissions=True)
                 # document.submit()
 
-# Gate Entry to GRN Automate Creation - Draft Stage:
+# Gate Entry to GRN Automate Creation - Draft Stage:------
 
                 document = frappe.new_doc("GRN")
                 document.party_type =self.party_type
@@ -128,12 +130,13 @@ class GateEntry(Document):
                 document.party_name = self.party_name
                 document.warehouse = grn_on_insert(self.party_name)
                 document.gate_entry = self.name
+                # document.customer_address = grn_address_billing(self.party_name,self.party_type)
+                # document.shipping_address_name = grn_address_shipping(self.party_name,self.party_type)
                 for i in self.items:
                     document.append('items', dict(
                         items = i.item_code,
                         item_name = i.item_name,
                         received_qty=i.received_qty,
-
                     ))
                 document.save(ignore_permissions=True)
         elif self.against_po__dc == "Purchase Order" and self.is_gate_entry_in__out == "IN":
@@ -171,7 +174,6 @@ class GateEntry(Document):
                     document.append('items', dict(
                         item_code = i.item_code,
                         item_name = i.item_name,
-                        
                         qty=i.received_qty,
                         uom=i.uom,
                         purchase_order = i.document_no
@@ -194,8 +196,12 @@ class GateEntry(Document):
                 frappe.db.set_value('Purchase Order Item', {'parent':  i.document_no,'parenttype':self.against_po__dc, 'item_code':i.item_code}, 'received_qty',rec_qty - i.received_qty)
         if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
             frappe.get_doc("Stock Entry",{"dc_no":self.name}).cancel()
+        # if frappe.db.exists("GRN",{"gate_entry":self.name}):
+        #     frappe.get_doc("GRN",{"gate_entry":self.name}).cancel()
    
     def on_trash(self):
         if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
             frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()
+        if frappe.db.exists("GRN",{"gate_entry":self.name}):
+            frappe.get_doc("GRN",{"gate_entry":self.name}).delete()
          
