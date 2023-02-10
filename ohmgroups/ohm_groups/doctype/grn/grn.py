@@ -22,9 +22,11 @@ def grn_on_insert(party):
         
 @frappe.whitelist()
 def grn_address_company(company):
-    com_add = frappe.get_value("Dynamic Link", {"parenttype":"Address","link_doctype":"Company","link_name":company},"parent")
-    com_plant_add = frappe.get_value('Address',{'name':com_add})
-    return com_plant_add
+    com_add = frappe.get_all("Dynamic Link", {"parenttype":"Address","link_doctype":"Company","link_name":company},pluck="parent")
+    for i in com_add:
+        com_plant_add =  frappe.get_value('Address',{'address_type':'Plant','name':i},"name")
+        if com_plant_add:
+            return com_plant_add
 @frappe.whitelist()
 def grn_address_shipping(party_type, party):
     com_add = frappe.get_all("Dynamic Link", {"parenttype":"Address","link_doctype":party_type,"link_name":party},pluck="parent")

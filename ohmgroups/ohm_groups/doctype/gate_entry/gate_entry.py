@@ -123,15 +123,16 @@ class GateEntry(Document):
                 # document.submit()
 
 # Gate Entry to GRN Automate Creation - Draft Stage:------
-
                 document = frappe.new_doc("GRN")
                 document.party_type =self.party_type
                 document.party =self.party_name
                 document.party_name = self.party_name
                 document.warehouse = grn_on_insert(self.party_name)
                 document.gate_entry = self.name
-                # document.customer_address = grn_address_billing(self.party_name,self.party_type)
-                # document.shipping_address_name = grn_address_shipping(self.party_name,self.party_type)
+                document.customer_address = grn_address_billing(self.party_type,self.party_name)
+                document.shipping_address_name = grn_address_shipping(self.party_type,self.party_name)
+                document.driver = self.driver_name
+                document.vehicle_no = self.vehicle_no
                 for i in self.items:
                     document.append('items', dict(
                         items = i.item_code,
@@ -139,6 +140,7 @@ class GateEntry(Document):
                         received_qty=i.received_qty,
                     ))
                 document.save(ignore_permissions=True)
+                self.status = "To GRN"
         elif self.against_po__dc == "Purchase Order" and self.is_gate_entry_in__out == "IN":
                 for i in self.items:
                     rec_qty = frappe.get_value("Purchase Order Item", {'parent': i.document_no,'parenttype':self.against_po__dc,'item_code':i.item_code},'received_qty') or 0
@@ -167,18 +169,37 @@ class GateEntry(Document):
         if self.against_po__dc == "Purchase Order" and self.is_gate_entry_in__out == "IN":
                 document = frappe.new_doc("Purchase Receipt")
                 document.is_gate_entry = 1
+                document.gate_entry = self.name,
                 for i in self.items:
                     
                     document.supplier =i.name1
                     item = frappe.get_doc("Item",{"name":i.item_code})
+                   
                     document.append('items', dict(
                         item_code = i.item_code,
                         item_name = i.item_name,
+                        
                         qty=i.received_qty,
                         uom=i.uom,
                         purchase_order = i.document_no
                     ))
                 document.save(ignore_permissions=True)
+                self.status = "To Purchase Receipt"
+        if self.against_po__dc == "Others" and self.is_gate_entry_in__out == "IN" and self.party_name == "Supplier":
+                document = frappe.new_doc("Purchase Receipt")
+                document.is_gate_entry = 1
+                document.gate_entry = self.name,
+                document.supplier =self.party_name
+                for i in self.items:
+                    
+                    document.append('items', dict(
+                        item_code = i.item_code,
+                        item_name = i.item_name,
+                        qty=i.received_qty,
+                        uom=i.uom,
+                    ))
+                document.save(ignore_permissions=True)
+                self.status = "To Purchase Receipt"
 
 
 
@@ -204,4 +225,6 @@ class GateEntry(Document):
             frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()
         if frappe.db.exists("GRN",{"gate_entry":self.name}):
             frappe.get_doc("GRN",{"gate_entry":self.name}).delete()
+        if frappe.db.exists("Purchase Receipt",{"gate_entry":self.name}):
+            frappe.get_doc("Purchase Receipt",{"gate_entry":self.name}).delete()
          

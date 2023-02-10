@@ -11,15 +11,17 @@
   "is_gate_entry_in__out",
   "party_type",
   "party_name",
-  "po_no",
-  "column_break_3",
+  "col_break_1",
   "against_po__dc",
   "against_si__dc",
   "dc_not_for_sales",
-  "purchase_order",
   "sales_invoice",
+  "purchase_order",
   "posting_data",
+  "column_break_3",
+  "branch",
   "po_date",
+  "po_no",
   "vehicle_details_section",
   "driver_name",
   "phone_number",
@@ -33,7 +35,8 @@
   "items",
   "amended_from",
   "remarks_section",
-  "text_editor_27"
+  "text_editor_27",
+  "status"
  ],
  "fields": [
   {
@@ -109,6 +112,7 @@
    "read_only": 1
   },
   {
+   "depends_on": "eval:doc.against_po__dc != \"Others\" && doc.against_si__dc != \"Others\"",
    "fieldname": "against_party",
    "fieldtype": "Button",
    "label": "Get Items"
@@ -163,7 +167,7 @@
    "fieldtype": "Select",
    "label": "Get items from",
    "mandatory_depends_on": "eval:doc.is_gate_entry_in__out == \"IN\" \n",
-   "options": "\nPurchase Order\nDC Not for Sales"
+   "options": "\nPurchase Order\nDC Not for Sales\nOthers"
   },
   {
    "depends_on": "eval:doc.party_type == \"Customer\" || doc.party_type == \"Supplier\"",
@@ -179,7 +183,7 @@
    "fieldtype": "Select",
    "label": "Get items from",
    "mandatory_depends_on": "eval:doc.is_gate_entry_in__out == \"OUT\"",
-   "options": "\nSales Invoice\nDC Not for Sales"
+   "options": "\nSales Invoice\nDC Not for Sales\nOthers"
   },
   {
    "depends_on": "eval:doc.against_si__dc == \"Sales Invoice\"",
@@ -207,12 +211,29 @@
   {
    "fieldname": "text_editor_27",
    "fieldtype": "Text Editor"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Status",
+   "options": "\nDraft\nSubmitted\nTo GRN\nTo Purchase Receipt\nCancel"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-08 18:34:16.349585",
+ "modified": "2023-02-10 12:06:38.956491",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",
@@ -237,5 +258,14 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Green",
+   "title": "To GRN"
+  },
+  {
+   "color": "Green",
+   "title": "To Purchase Receipt"
+  }
+ ]
 }
