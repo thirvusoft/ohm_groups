@@ -27,6 +27,21 @@ frappe.ui.form.on("Purchase Receipt",{
                     })
                 }, __("Get Items From"));
         }
+        if (frm.doc.docstatus == 0) {
+            
+            frm.add_custom_button(__('Gate Entry'),
+                function () {
+                    erpnext.utils.map_current_doc({
+                        method: "ohmgroups.ohm_groups.doctype.gate_entry.gate_entry.gate_entry_item",
+                        source_doctype: "Gate Entry",
+                        target: me.frm,
+                        setters:{},
+                        get_query_filters: {
+                            docstatus: 1,
+                        }
+                    })
+                }, __("Get Items From"));
+        }
         
 	},
 

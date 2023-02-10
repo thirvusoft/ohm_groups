@@ -12,6 +12,7 @@
   "party_type",
   "party",
   "po_no",
+  "gate_entry",
   "column_break_3",
   "party_name",
   "posting_date",
@@ -97,7 +98,7 @@
    "label": "Party Name"
   },
   {
-   "default": "Now",
+   "default": "Today",
    "fieldname": "posting_date",
    "fieldtype": "Date",
    "label": "Posting Date"
@@ -363,12 +364,19 @@
    "fieldname": "received_doc_no",
    "fieldtype": "Data",
    "label": "Received Doc No"
+  },
+  {
+   "fieldname": "gate_entry",
+   "fieldtype": "Link",
+   "label": "Gate Entry",
+   "options": "Gate Entry",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-01-07 16:46:54.702603",
+ "modified": "2023-02-08 18:26:54.961061",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "GRN",

@@ -1,0 +1,33 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2023-02-04 12:47:29.414928",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "goods_received_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "goods_received_from",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Goods Received From",
+   "options": "DC Not for Sales"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2023-02-04 12:53:55.934774",
+ "modified_by": "Administrator",
+ "module": "Ohm Groups",
+ "name": "Gate Entry DC",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

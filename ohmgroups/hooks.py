@@ -165,7 +165,7 @@ doc_events = {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.update_item_",
 		"on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.cancel_item_",
    
-	}
+	},
 
 }
 doctype_js = {

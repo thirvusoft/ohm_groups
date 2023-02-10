@@ -8,65 +8,57 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "customer",
+  "is_gate_entry_in__out",
+  "party_type",
+  "party_name",
+  "col_break_1",
+  "against_po__dc",
+  "against_si__dc",
+  "dc_not_for_sales",
+  "sales_invoice",
+  "purchase_order",
+  "posting_data",
   "column_break_3",
-  "posting_date",
-  "posting_time",
+  "branch",
+  "po_date",
+  "po_no",
+  "vehicle_details_section",
+  "driver_name",
+  "phone_number",
+  "column_break_13",
+  "vehicle_no",
+  "license_no",
   "warehouse_details_section",
-  "is_customer_warehouse",
   "warehouse",
   "items_section",
+  "against_party",
   "items",
-  "vehicle_details_section",
-  "transport_name",
-  "license_number",
-  "driver_name",
   "amended_from",
-  "is_stock_update"
+  "remarks_section",
+  "text_editor_27",
+  "status"
  ],
  "fields": [
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Series",
    "options": "GE-.YY.-"
-  },
-  {
-   "fieldname": "customer",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Customer",
-   "options": "Customer",
-   "reqd": 1
   },
   {
    "fieldname": "column_break_3",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "posting_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Posting Date",
-   "reqd": 1
-  },
-  {
-   "fieldname": "posting_time",
-   "fieldtype": "Time",
-   "label": "Posting Time"
-  },
-  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.is_gate_entry_in__out == \"IN\"",
    "fieldname": "warehouse_details_section",
    "fieldtype": "Section Break",
    "label": "Warehouse Details"
   },
   {
-   "default": "0",
-   "fieldname": "is_customer_warehouse",
-   "fieldtype": "Check",
-   "label": "Is Customer Based Warehouse?"
-  },
-  {
+   "default": "Gate Warehouse - ONE",
    "fieldname": "warehouse",
    "fieldtype": "Link",
    "label": "Warehouse",
@@ -89,19 +81,26 @@
    "label": "Vehicle Details"
   },
   {
-   "fieldname": "transport_name",
-   "fieldtype": "Data",
-   "label": "Transport Name"
-  },
-  {
-   "fieldname": "license_number",
-   "fieldtype": "Data",
-   "label": "License Number"
-  },
-  {
    "fieldname": "driver_name",
+   "fieldtype": "Link",
+   "label": "Driver Name",
+   "options": "Driver"
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Link",
+   "label": "Party Type",
+   "options": "DocType",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "vehicle_no",
    "fieldtype": "Data",
-   "label": "Driver Name"
+   "label": "Vehicle No"
   },
   {
    "fieldname": "amended_from",
@@ -113,18 +112,128 @@
    "read_only": 1
   },
   {
-   "allow_on_submit": 1,
-   "default": "0",
-   "fieldname": "is_stock_update",
-   "fieldtype": "Check",
+   "depends_on": "eval:doc.against_po__dc != \"Others\" && doc.against_si__dc != \"Others\"",
+   "fieldname": "against_party",
+   "fieldtype": "Button",
+   "label": "Get Items"
+  },
+  {
+   "default": "Now",
+   "fieldname": "posting_data",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Posting Data & Time",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.against_po__dc == \"DC Not for Sales\" || doc.against_si__dc == \"DC Not for Sales\"",
+   "fieldname": "dc_not_for_sales",
+   "fieldtype": "Table MultiSelect",
+   "label": "DC Not for Sales",
+   "mandatory_depends_on": "eval:doc.against_po__dc == \"DC Not for Sales\" || doc.against_si__dc == \"DC Not for Sales\"",
+   "options": "Gate Entry DC"
+  },
+  {
+   "depends_on": "eval:doc.against_po__dc == \"Purchase Order\"",
+   "fieldname": "purchase_order",
+   "fieldtype": "Table MultiSelect",
+   "label": "Purchase Order",
+   "mandatory_depends_on": "eval:doc.against_po__dc == \"Purchase Order\"",
+   "options": "Gate Entry Po"
+  },
+  {
+   "fieldname": "phone_number",
+   "fieldtype": "Data",
+   "label": "Phone Number"
+  },
+  {
+   "fieldname": "license_no",
+   "fieldtype": "Data",
+   "label": "License No"
+  },
+  {
+   "fieldname": "is_gate_entry_in__out",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Entry Type",
+   "options": "\nIN\nOUT",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.is_gate_entry_in__out == \"IN\" \n",
+   "fieldname": "against_po__dc",
+   "fieldtype": "Select",
+   "label": "Get items from",
+   "mandatory_depends_on": "eval:doc.is_gate_entry_in__out == \"IN\" \n",
+   "options": "\nPurchase Order\nDC Not for Sales\nOthers"
+  },
+  {
+   "depends_on": "eval:doc.party_type == \"Customer\" || doc.party_type == \"Supplier\"",
+   "fieldname": "party_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Party Name",
+   "options": "party_type",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.is_gate_entry_in__out == \"OUT\"",
+   "fieldname": "against_si__dc",
+   "fieldtype": "Select",
+   "label": "Get items from",
+   "mandatory_depends_on": "eval:doc.is_gate_entry_in__out == \"OUT\"",
+   "options": "\nSales Invoice\nDC Not for Sales\nOthers"
+  },
+  {
+   "depends_on": "eval:doc.against_si__dc == \"Sales Invoice\"",
+   "fieldname": "sales_invoice",
+   "fieldtype": "Table MultiSelect",
+   "label": "Sales Invoice",
+   "mandatory_depends_on": "eval:doc.against_si__dc == \"Sales Invoice\"",
+   "options": "Gate Entry SI"
+  },
+  {
+   "fieldname": "po_no",
+   "fieldtype": "Data",
+   "label": "Po No"
+  },
+  {
+   "fieldname": "po_date",
+   "fieldtype": "Date",
+   "label": "Po Date"
+  },
+  {
+   "fieldname": "remarks_section",
+   "fieldtype": "Section Break",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "text_editor_27",
+   "fieldtype": "Text Editor"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
    "hidden": 1,
-   "label": "Is Stock Update"
+   "label": "Status",
+   "options": "\nDraft\nSubmitted\nTo GRN\nTo Purchase Receipt\nCancel"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch"
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2022-12-02 15:18:43.812606",
+ "modified": "2023-02-10 12:06:38.956491",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",
@@ -149,5 +258,14 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Green",
+   "title": "To GRN"
+  },
+  {
+   "color": "Green",
+   "title": "To Purchase Receipt"
+  }
+ ]
 }
