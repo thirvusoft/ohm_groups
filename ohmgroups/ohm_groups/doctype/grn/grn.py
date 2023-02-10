@@ -84,25 +84,27 @@ class GRN(Document):
             frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty)
             if i.balanced_qty == 0:
                 frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",1)
-        #     document = frappe.new_doc("Stock Entry")
-        #     document.stock_entry_type ="Material Receipt"
-        #     document.to_warehouse = self.warehouse
-        #     document.dc_no = self.name,
-        #     for i in self.items:
-        #         item = frappe.get_doc("Item",{"name":i.item_code})
-        #         for j in item.uoms:
-        #             if item.stock_uom == j.uom:
-        #                 document.append('items', dict(
-        #                     item_code = i.item_code,
-        #                     qty=i.received_qty,
-        #                     basic_rate=1,
-        #                     stock_uom = item.stock_uom,
-        #                     uom=i.uom,
-        #                     transfer_qty=i.received_qty,
-        #                     conversion_factor = j.conversion_factor
-        #                 ))
-        # document.save(ignore_permissions=True)
-        # document.submit()
+            company = frappe.db.get_single_value("Global Defaults","default_company")
+            abbr = frappe.db.get_value("Company",company,"abbr")
+            document = frappe.new_doc("Stock Entry")
+            document.stock_entry_type ="Material Receipt"
+            document.to_warehouse = f"Stores - {abbr}"
+            document.dc_no = self.name,
+            for i in self.items:
+                item = frappe.get_doc("Item",{"name":i.items})
+                for j in item.uoms:
+                    if item.stock_uom == j.uom:
+                        document.append('items', dict(
+                            item_code = i.items,
+                            qty=i.received_qty,
+                            basic_rate=1,
+                            stock_uom = item.stock_uom,
+                            uom=item.stock_uom,
+                            transfer_qty=i.received_qty,
+                            conversion_factor = j.conversion_factor
+                        ))
+        document.save(ignore_permissions=True)
+        document.submit()
     
     
     def on_cancel(self):
