@@ -3,6 +3,7 @@
 
 frappe.ui.form.on('GRN', {
 	refresh: function(frm) {
+
         frm.set_query("party_type",function(){
             return {
                 filters:{
@@ -127,6 +128,20 @@ frappe.ui.form.on('GRN', {
                 
             }
         })
+    },
+    quality_inspection:function(frm,cdt,cdn){
+        var data = locals[cdt][cdn]
+        frm.call({
+            method: "create_inspection",
+            args: {
+                dc_items : frm.doc.dc_items,
+                name : frm.doc.name
+            },
+            callback: function(r){
+                frm.refresh_fields("quality_inspection_doc_no")
+                frm.refresh_fields("dc_items")
+            }
+        })
     }
 
 });
@@ -142,3 +157,4 @@ function get_vehicle_type(doc) {
     if (doc.mode_of_transport == "Ship") return "Over Dimensional Cargo (ODC)";
     return "";
 }
+

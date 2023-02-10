@@ -182,3 +182,11 @@ def add_attachment(file, name):
 		'attached_to_field' : 'balloon_drawing'
 	})
 	file.insert()
+
+# def inspection_status(doc,actions):
+#         inspection = frappe.get_doc("GRN", {'name':doc.reference_name})
+#         for i in inspection.quality_inspection_doc_no:
+#             if i.inspection_list == 0:
+#                 if doc.docstatus == 1:
+#                     i.inspection = 1
+#         inspection.save()

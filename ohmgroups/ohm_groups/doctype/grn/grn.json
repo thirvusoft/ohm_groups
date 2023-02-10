@@ -34,6 +34,8 @@
   "trigger",
   "dc_items",
   "section_break_8",
+  "quality_inspection",
+  "quality_inspection_doc_no",
   "transport_info_section",
   "transporter",
   "gst_transporter_id",
@@ -371,12 +373,23 @@
    "label": "Gate Entry",
    "options": "Gate Entry",
    "read_only": 1
+  },
+  {
+   "fieldname": "quality_inspection",
+   "fieldtype": "Button",
+   "label": "Quality Inspection"
+  },
+  {
+   "fieldname": "quality_inspection_doc_no",
+   "fieldtype": "Table",
+   "label": "Quality Inspection ",
+   "options": "Quality Check"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-08 18:26:54.961061",
+ "modified": "2023-02-10 18:29:34.630953",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "GRN",

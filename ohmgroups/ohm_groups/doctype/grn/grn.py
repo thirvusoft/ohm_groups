@@ -73,10 +73,40 @@ def grn_dc_items(items,company,party,party_type, ):
             
     return dc_doc,message 
 
+@frappe.whitelist()
+def create_inspection(dc_items,name):
+    items = json.loads(dc_items)
+    doc_quality = []
+    for i in items:
+        if not i.get('inspection_doc') :
+            document = frappe.new_doc("Quality Inspection")
+            document.inspection_type = "Incoming"
+            document.reference_type = "GRN"
+            document.reference_name = name
+            document.sample_size = 1
+            document.item_code = i.get("item_code")
+            document.inspected_by = frappe.session.user
+            document.save(ignore_permissions=True)
+            doc_quality.append(document)
+            frappe.db.set_value("DC Received Items",{"item_code":i.get("item_code")},"inspection_doc",document.name)
+            fetch_data(name, document)
+        else:
+            frappe.msgprint("Item Aginst Quality Inspection is Already Created")
+    return doc_quality
 
 
 
- 
+
+def fetch_data(doc, document):
+    doc = frappe.get_doc("GRN",doc)
+    doc.append('quality_inspection_doc_no', dict(
+        item_code = document.item_code,
+        quality_inspection_doc_no=document.name,
+        status=document.status
+
+
+    ))
+    doc.save()
 from frappe.model.document import Document
 
 class GRN(Document):
@@ -116,3 +146,5 @@ class GRN(Document):
             frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty + i.qty)            
             frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",0)
 	
+
+
