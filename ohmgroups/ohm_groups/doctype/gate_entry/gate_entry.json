@@ -217,7 +217,7 @@
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Status",
-   "options": "\nDraft\nSubmitted\nTo GRN\nTo Purchase Receipt\nCancel"
+   "options": "\nTo GRN\nTo Purchase Receipt"
   },
   {
    "fieldname": "branch",
@@ -233,7 +233,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-10 12:06:38.956491",
+ "modified": "2023-02-11 11:52:01.636252",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",

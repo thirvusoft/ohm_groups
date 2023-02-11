@@ -97,9 +97,8 @@ after_migrate = "ohmgroups.install.after_install"
 # Override standard doctype classes
 
 override_doctype_class = {
-	"Quality Inspection": "ohmgroups.ohm_groups.custom.py.quality_inspection.quality_inspection"
+	"Quality Inspection": "ohmgroups.ohm_groups.custom.py.quality_inspection.OhmQualityInspection"
 }
-
 # Document Events
 # ---------------
 # Hook on document methods and events
@@ -120,7 +119,8 @@ doc_events = {
                     #  "ohmgroups.ohm_groups.custom.py.quality_inspection.status",
                      "ohmgroups.ohm_groups.custom.py.quality_inspection.count_status",
                      
-                     ]
+                     ],
+        "on_submit": ["ohmgroups.ohm_groups.custom.py.quality_inspection.inspection_status"]
                      },
 	# "Vehicle Log":{
 	# 	"on_update_after_submit": "ohmgroups.ohm_groups.custom.py.vehicle_log.onsubmit",
@@ -164,7 +164,6 @@ doc_events = {
 	"Purchase Receipt" : {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.update_item_",
 		"on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.cancel_item_",
-   
 	},
 
 }
