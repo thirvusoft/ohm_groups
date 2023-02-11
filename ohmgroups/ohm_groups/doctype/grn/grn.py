@@ -151,8 +151,10 @@ class GRN(Document):
             frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty + i.qty)            
             frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",0)
 
-        if frappe.db.exists("Quality Inspection",{"grn":self.name}):
-            frappe.get_doc("Quality Inspection",{"grn":self.name}).cancel()
+        # if frappe.db.exists("Quality Inspection",{"grn":self.name}):
+        #     frappe.get_doc("Quality Inspection",{"grn":self.name}).cancel()
+        if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
+            frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()  
 
     def on_trash(self):
         # if frappe.db.exists("Quality Inspection",{"grn":self.name}):
