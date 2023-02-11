@@ -73,41 +73,76 @@ def grn_dc_items(items,company,party,party_type, ):
             
     return dc_doc,message 
 
+@frappe.whitelist()
+def create_inspection(dc_items,name):
+    items = json.loads(dc_items)
+    doc_quality = []
+    for i in items:
+        if not i.get('inspection_doc') :
+            document = frappe.new_doc("Quality Inspection")
+            document.inspection_type = "Incoming"
+            document.reference_type = "Others"
+            document.grn = name
+            document.sample_size = 1
+            document.item_code = i.get("item_code")
+            document.inspected_by = frappe.session.user
+            document.save(ignore_permissions=True)
+            doc_quality.append(document)
+            frappe.db.set_value("DC Received Items",{"item_code":i.get("item_code")},"inspection_doc",document.name)
+            frappe.db.set_value("GRN",name,"status","QC Done")
+            fetch_data(name, document)
+        else:
+            frappe.msgprint("Item Aginst Quality Inspection is Already Created")
+    return doc_quality
 
 
 
- 
+
+def fetch_data(doc, document):
+    doc = frappe.get_doc("GRN",doc)
+    doc.append('quality_inspection_doc_no', dict(
+        item_code = document.item_code,
+        quality_inspection_doc_no=document.name,
+        status=document.status
+
+
+    ))
+    doc.save()
 from frappe.model.document import Document
 
 class GRN(Document):
     def on_submit(self):
-        for i in self.dc_items:
-            frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'received_qty',i.qty)
-            frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty)
-            if i.balanced_qty == 0:
-                frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",1)
-            company = frappe.db.get_single_value("Global Defaults","default_company")
-            abbr = frappe.db.get_value("Company",company,"abbr")
-            document = frappe.new_doc("Stock Entry")
-            document.stock_entry_type ="Material Receipt"
-            document.to_warehouse = f"Stores - {abbr}"
-            document.dc_no = self.name,
-            for i in self.items:
-                item = frappe.get_doc("Item",{"name":i.items})
-                for j in item.uoms:
-                    if item.stock_uom == j.uom:
-                        document.append('items', dict(
-                            item_code = i.items,
-                            qty=i.received_qty,
-                            basic_rate=1,
-                            stock_uom = item.stock_uom,
-                            uom=item.stock_uom,
-                            transfer_qty=i.received_qty,
-                            conversion_factor = j.conversion_factor
-                        ))
-        document.save(ignore_permissions=True)
-        document.submit()
-    
+        for q in self.quality_inspection_doc_no:
+            if q.inspection_list == 0:
+                frappe.throw("Kindly Check the All Quality Inspection")
+            else:
+                for i in self.dc_items:
+                    frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'received_qty',i.qty)
+                    frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty)
+                    if i.balanced_qty == 0:
+                        frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",1)
+                company = frappe.db.get_single_value("Global Defaults","default_company")
+                abbr = frappe.db.get_value("Company",company,"abbr")
+                document = frappe.new_doc("Stock Entry")
+                document.stock_entry_type ="Material Receipt"
+                document.to_warehouse = f"Stores - {abbr}"
+                document.dc_no = self.name,
+                for i in self.items:
+                        item = frappe.get_doc("Item",{"name":i.items})
+                        for j in item.uoms:
+                            if item.stock_uom == j.uom:
+                                document.append('items', dict(
+                                    item_code = i.items,
+                                    qty=i.received_qty,
+                                    basic_rate=1,
+                                    stock_uom = item.stock_uom,
+                                    uom=item.stock_uom,
+                                    transfer_qty=i.received_qty,
+                                    conversion_factor = j.conversion_factor
+                                ))
+                document.save(ignore_permissions=True)
+                document.submit()
+        
     
     def on_cancel(self):
         for i in self.dc_items:
@@ -115,4 +150,17 @@ class GRN(Document):
             frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'received_qty',float(rec_qty) - i.qty)
             frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty + i.qty)            
             frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",0)
+
+        # if frappe.db.exists("Quality Inspection",{"grn":self.name}):
+        #     frappe.get_doc("Quality Inspection",{"grn":self.name}).cancel()
+        if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
+            frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()  
+
+    def on_trash(self):
+        # if frappe.db.exists("Quality Inspection",{"grn":self.name}):
+        #     frappe.get_doc("Quality Inspection",{"grn":self.name}).delete()    
+        if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
+            frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()    
 	
+
+

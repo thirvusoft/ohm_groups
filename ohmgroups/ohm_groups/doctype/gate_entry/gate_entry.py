@@ -215,8 +215,8 @@ class GateEntry(Document):
              for i in self.items:
                 rec_qty = frappe.get_value("Purchase Order Item", {'parent': i.document_no,'parenttype':self.against_po__dc,'item_code':i.item_code},'received_qty') or 0
                 frappe.db.set_value('Purchase Order Item', {'parent':  i.document_no,'parenttype':self.against_po__dc, 'item_code':i.item_code}, 'received_qty',rec_qty - i.received_qty)
-        # if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
-        #     frappe.get_doc("Stock Entry",{"dc_no":self.name}).cancel()
+        if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
+            frappe.get_doc("Stock Entry",{"dc_no":self.name}).cancel()
         # if frappe.db.exists("GRN",{"gate_entry":self.name}):
         #     frappe.get_doc("GRN",{"gate_entry":self.name}).cancel()
    
