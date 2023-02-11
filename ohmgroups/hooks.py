@@ -97,9 +97,8 @@ after_migrate = "ohmgroups.install.after_install"
 # Override standard doctype classes
 
 override_doctype_class = {
-	"Quality Inspection": "ohmgroups.ohm_groups.custom.py.quality_inspection.quality_inspection"
+	"Quality Inspection": "ohmgroups.ohm_groups.custom.py.quality_inspection.OhmQualityInspection"
 }
-
 # Document Events
 # ---------------
 # Hook on document methods and events
