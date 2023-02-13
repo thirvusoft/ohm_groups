@@ -36,16 +36,17 @@ def status(doc, actions = None):
             if(data["mean"] == 0):
                 continue
             try:
-            
+        
                 result = frappe.safe_eval(condition, None, data)
                 doc.update({ 
                     "sample_" + str(j) : "Accepted" if result or doc.get("sample_" + str(j)) == "Accepted" else "Rejected",
                     })
-                if result == False:
+                # res["sample_" + str(j)]="Accepted" if result or doc.get("sample_" + str(j)) == "Accepted" else "Rejected"
+                if result:
                     res["sample_" + str(j)]="Rejected"
                     # break
                 else:
-                    res["sample_" + str(j)]="Accepted"
+                    res["sample_" + str(j)]="Rejected"
             except Exception:
                 frappe.throw(
                     frappe._("Row #{0}: Acceptance Criteria Formula is incorrect.").format(reading.idx),
@@ -236,6 +237,7 @@ def add_attachment(file, name):
 	file.insert()
 
 def inspection_status(doc,actions):
+    if doc.reference_type == "Others":
         inspection = frappe.get_doc("GRN", {'name':doc.grn})
         for i in inspection.quality_inspection_doc_no:
             if doc.name == i.quality_inspection_doc_no:
@@ -243,3 +245,6 @@ def inspection_status(doc,actions):
                         if doc.docstatus == 1:
                             i.inspection_list = 1
         inspection.save()
+
+
+
