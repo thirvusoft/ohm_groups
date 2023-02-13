@@ -21,15 +21,15 @@ def get_items(party_type = None, against_po__dc = None, purchase_order = None, d
     items_si = []
     
     if not is_gate_entry_in__out :
-        return f"<p>Kindly Select the Gate Entry  </p>","Error Message"
+        return f"<p>Kindly Select the Entry Type </p>","Error Message"
     elif not party_type:
-        return f"<p>Kindly Select the Goods Received From  </p>","Error Message"
+        return f"<p>Kindly Select the Party Type  </p>","Error Message"
     elif not party_name:
         return f"<p>Kindly Select the Party Name  </p>","Error Message"
     elif not against_po__dc and is_gate_entry_in__out == "IN":
-        return f"<p>Kindly Select the PO/DC  </p>","Error Message"
+        return f"<p>Kindly Select the Get Items From  </p>","Error Message"
     elif not against_si__dc and is_gate_entry_in__out == "OUT":
-        return f"<p>Kindly Select the SI/DC  </p>","Error Message"
+        return f"<p>Kindly Select the Get Items From  </p>","Error Message"
     elif not purchase_order and against_po__dc == "Purchase Order" :
         return f"<p>Kindly Select the Purchase Order </p>","Error Message"
     elif not dc_not_for_sales and against_po__dc == "DC Not for Sales" :
