@@ -88,7 +88,7 @@ def create_inspection(dc_items,name):
             document.inspected_by = frappe.session.user
             document.save(ignore_permissions=True)
             doc_quality.append(document)
-            frappe.db.set_value("DC Received Items",{"item_code":i.get("item_code")},"inspection_doc",document.name)
+            frappe.db.set_value("DC Received Items",i.get('name'),"inspection_doc",document.name)
             frappe.db.set_value("GRN",name,"status","QC Done")
             fetch_data(name, document)
         else:
