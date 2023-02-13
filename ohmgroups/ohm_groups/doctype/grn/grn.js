@@ -138,8 +138,7 @@ frappe.ui.form.on('GRN', {
                 name : frm.doc.name
             },
             callback: function(r){
-                frm.refresh_fields("quality_inspection_doc_no")
-                frm.refresh_fields("dc_items")
+                frm.reload_doc()
             }
         })
     }
