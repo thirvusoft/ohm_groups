@@ -14,6 +14,8 @@ from ohmgroups.ohm_groups.utils.hr.employee import salary_structure_assignment
 from ohmgroups.ohm_groups.utils.stock.stock_entry import stock_entry
 from ohmgroups.ohm_groups.utils.branch.branch import branch
 from ohmgroups.ohm_groups.utils.stock.material_request import material_request
+from ohmgroups.ohm_groups.utils.manufacturing.bom import bom
+from ohmgroups.ohm_groups.utils.manufacturing.operation import operation
 
 
 def after_install():
@@ -33,3 +35,5 @@ def after_install():
     salary_structure_assignment()
     branch()
     material_request()
+    bom()
+    operation()
