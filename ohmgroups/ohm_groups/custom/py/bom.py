@@ -13,7 +13,16 @@ def auto_fg_item(doc, actions):
 def operations_(item):
     count = 0
     oper_ = []
-    variant_of = frappe.get_all("Item",filters = {"name":item}, pluck = "parent_item")
+    items = []
+    fg_item = frappe.get_doc("Item",{"name":item})
+    if fg_item.has_variants == 1:
+        item = frappe.get_all("Item Variant Attribute",filters={"variant_of":["in",item], "attribute_value":["=","Fg"]},fields=["parent","attribute_value"])
+        for i in item:
+            items.append(i.parent)
+            # items.append({"item":i.parent})
+                    # item = i.parent
+                    # item_name = i.parent
+    variant_of = frappe.get_all("Item",filters = {"name":items[0]}, pluck = "parent_item")
     parent = variant_of
     while(True):
         count+=1
@@ -32,6 +41,6 @@ def operations_(item):
         oper_.append({"operation":i.name,"workstation":i.workstation})
         # for d in range(0,len(oper_),1):
         #     for k in range(d+1,)
-        
-    return oper_
+    return items,oper_
+    # return items
                

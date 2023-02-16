@@ -185,7 +185,7 @@ class GateEntry(Document):
                     ))
                 document.save(ignore_permissions=True)
                 self.status = "To Purchase Receipt"
-        if self.against_po__dc == "Others" and self.is_gate_entry_in__out == "IN" and self.party_name == "Supplier":
+        if self.against_po__dc == "Others" and self.is_gate_entry_in__out == "IN" and self.party_type == "Supplier":
                 document = frappe.new_doc("Purchase Receipt")
                 document.is_gate_entry = 1
                 document.gate_entry = self.name,
@@ -195,7 +195,7 @@ class GateEntry(Document):
                     document.append('items', dict(
                         item_code = i.item_code,
                         item_name = i.item_name,
-                        qty=i.received_qty,
+                        qty=i.qty,
                         uom=i.uom,
                     ))
                 document.save(ignore_permissions=True)

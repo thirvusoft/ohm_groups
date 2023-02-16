@@ -14,7 +14,14 @@ def bom_custom_fields():
                 label = 'Create Routing',
                 insert_after='operations',
             ),
-
+        ],
+        'BOM Operation':[
+            dict(
+                fieldname='seq_id',
+                fieldtype='Int',
+                label = 'Seq Id',
+                insert_after='sequence_id',
+            ),
         ],
     }
     create_custom_fields(bom_custom_fields)

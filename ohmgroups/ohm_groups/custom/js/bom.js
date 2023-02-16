@@ -9,7 +9,10 @@ frappe.ui.form.on('BOM',{
             },
 
             callback: function(r) {
-                frm.set_value("operations",r.message)
+                frm.set_value("item",r.message[0])
+                frm.set_value("operations",r.message[1])
+                
+                // frm.set_value("operations",r.message[0])
                   
         }
         })

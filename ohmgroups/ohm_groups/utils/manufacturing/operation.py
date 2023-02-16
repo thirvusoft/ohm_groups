@@ -16,15 +16,7 @@ def operation_custom_fields():
                 insert_after='workstation',
             ),
         ],
-        'Operation Item':[
-            dict(
-                fieldname='attributes',
-                fieldtype='Link',
-                label = 'Attributes',
-                options = 'Ohm Item Attribute',
-                insert_after='workstation',
-            ),
-        ],
+
     }
     create_custom_fields(operation_custom_fields)
 

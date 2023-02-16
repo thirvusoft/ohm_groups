@@ -18,10 +18,11 @@
   "sales_invoice",
   "purchase_order",
   "posting_data",
+  "document_no",
   "column_break_3",
   "branch",
-  "po_date",
   "po_no",
+  "po_date",
   "vehicle_details_section",
   "driver_name",
   "phone_number",
@@ -228,12 +229,17 @@
   {
    "fieldname": "col_break_1",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "document_no",
+   "fieldtype": "Data",
+   "label": "Document No."
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-11 11:52:01.636252",
+ "modified": "2023-02-16 10:35:47.765934",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",
