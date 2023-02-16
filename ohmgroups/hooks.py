@@ -165,6 +165,9 @@ doc_events = {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.update_item_",
 		"on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.cancel_item_",
 	},
+	"BOM" : {
+		"validate" : "ohmgroups.ohm_groups.custom.py.bom.auto_fg_item"
+	}
 
 }
 doctype_js = {
@@ -178,7 +181,8 @@ doctype_js = {
     "Employee" : "/ohm_groups/custom/js/employee.js",
     "Stock Entry" : "/ohm_groups/custom/js/stock_entry.js",
     "Material Request" : "/ohm_groups/custom/js/material_request.js",
-    "Purchase Receipt" : "/ohm_groups/custom/js/purchase_receipt.js"
+    "Purchase Receipt" : "/ohm_groups/custom/js/purchase_receipt.js",
+    "BOM" : "/ohm_groups/custom/js/bom.js"
                       
  
     

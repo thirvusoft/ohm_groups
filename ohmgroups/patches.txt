@@ -13,3 +13,5 @@ ohmgroups.ohm_groups.utils.hr.employee
 ohmgroups.ohm_groups.utils.stock.stock_entry
 ohmgroups.ohm_groups.utils.branch.branch
 ohmgroups.ohm_groups.utils.stock.material_request
+ohmgroups.ohm_groups.utils.manufacturing.bom
+ohmgroups.ohm_groups.utils.manufacturing.operation
