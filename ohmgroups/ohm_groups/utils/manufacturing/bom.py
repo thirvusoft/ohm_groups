@@ -7,20 +7,21 @@ def bom():
     
 def bom_custom_fields():
     bom_custom_fields = {
-        'BOM':[
-            dict(
-                fieldname='create_routing',
-                fieldtype='Button',
-                label = 'Create Routing',
-                insert_after='operations',
-            ),
-        ],
+
         'BOM Operation':[
             dict(
                 fieldname='seq_id',
                 fieldtype='Int',
                 label = 'Seq Id',
                 insert_after='sequence_id',
+            ),
+        ],
+        'BOM Item':[
+            dict(
+                fieldname='job_',
+                fieldtype='Check',
+                label = 'Seprate Job Card',
+                insert_after='item_name',
             ),
         ],
     }
