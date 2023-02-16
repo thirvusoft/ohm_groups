@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "item_code",
+  "description",
   "item_name",
   "name1",
   "document_no",
@@ -32,7 +33,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Item Name",
-   "reqd": 1
+   "mandatory_depends_on": "eval:parent.against_po__dc != \"Others\" && parent.against_si__dc != \"Others\""
   },
   {
    "fieldname": "qty",
@@ -42,45 +43,59 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval:parent.against_po__dc != \"Others\" && parent.against_si__dc != \"Others\"",
    "fieldname": "received_qty",
    "fieldtype": "Float",
-   "in_list_view": 1,
-   "label": "Received Qty"
+   "label": "Received Qty",
+   "read_only_depends_on": "eval:parent.against_po__dc == \"Others\" && parent.against_si__dc == \"Others\""
   },
   {
+   "depends_on": "eval:parent.against_po__dc != \"Others\" && parent.against_si__dc != \"Others\"",
    "fieldname": "balanced_qty",
    "fieldtype": "Float",
-   "label": "Balanced Qty"
+   "label": "Balanced Qty",
+   "read_only_depends_on": "eval:parent.against_po__dc == \"Others\" && parent.against_si__dc == \"Others\""
   },
   {
    "fetch_from": "item_code.stock_uom",
    "fieldname": "uom",
    "fieldtype": "Data",
-   "label": "uom"
+   "label": "uom",
+   "read_only": 1
   },
   {
    "fetch_from": "item_code.valuation_rate",
    "fieldname": "rate",
    "fieldtype": "Currency",
-   "label": "rate"
+   "label": "rate",
+   "read_only": 1
   },
   {
+   "depends_on": "eval:parent.against_po__dc != \"Others\" && parent.against_si__dc != \"Others\"",
    "fieldname": "document_no",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Document No"
+   "label": "Document No",
+   "read_only": 1,
+   "read_only_depends_on": "eval:parent.against_po__dc == \"Others\" && parent.against_si__dc == \"Others\""
   },
   {
+   "depends_on": "eval:parent.against_po__dc != \"Others\" && parent.against_si__dc != \"Others\"",
    "fieldname": "name1",
    "fieldtype": "Data",
+   "label": "Supplier Name",
+   "read_only_depends_on": "eval:parent.against_po__dc == \"Others\" && parent.against_si__dc == \"Others\""
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
    "in_list_view": 1,
-   "label": "Name"
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-04 15:30:20.187224",
+ "modified": "2023-02-16 11:19:40.274360",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry Item",
