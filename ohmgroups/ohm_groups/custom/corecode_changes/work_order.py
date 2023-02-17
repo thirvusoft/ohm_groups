@@ -365,6 +365,7 @@ class WorkOrder(Document):
 		self.update_planned_qty()
 		self.update_ordered_qty()
 		self.create_job_card()
+		print(1111111111111111)
 
 	def on_cancel(self):
 		self.validate_cancel()
@@ -471,7 +472,6 @@ class WorkOrder(Document):
 
 		enable_capacity_planning = not cint(manufacturing_settings_doc.disable_capacity_planning)
 		plan_days = cint(manufacturing_settings_doc.capacity_planning_for_days) or 30
-
 		for index, row in enumerate(self.operations):
 
 			qty = self.qty
@@ -480,7 +480,6 @@ class WorkOrder(Document):
 
 				if row.job_card_qty > 0:
 					self.prepare_data_for_job_card(row, index, plan_days, enable_capacity_planning)
-
 		planned_end_date = self.operations and self.operations[-1].planned_end_time
 		if planned_end_date:
 			self.db_set("planned_end_date", planned_end_date)
