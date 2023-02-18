@@ -24,8 +24,8 @@ def uom_qty(items, is_subcontracted):
         return items
 
 @frappe.whitelist()
-def item_supplier(supplier):
-    supplier_item = frappe.get_doc("Supplier",supplier)
+def item_supplier(supplier_name):
+    supplier_item = frappe.get_doc("Supplier",supplier_name)
     if(supplier_item.default_item ==1):
         supplier = frappe.get_all("Supplier wise item",{'parent':supplier_item.name,},pluck="item_code")
         return supplier
