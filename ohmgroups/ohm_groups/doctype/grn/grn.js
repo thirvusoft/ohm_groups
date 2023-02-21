@@ -101,12 +101,16 @@ frappe.ui.form.on('GRN', {
                 party : frm.doc.party,
                 party_type : frm.doc.party_type,
                 company: frm.doc.company,
+                purchase_order:frm.doc.purchase_order
 
             },
             callback: function(r){
 				if(r.message[1]){
 					frappe.msgprint(r.message[1]);
 				}
+                else if(frm.doc.purchase_order){
+                    frm.set_value("dc_items",r.message[2])
+                }
 				else{
 					frm.set_value("dc_items",r.message[0])
 				// 	for(let i=0;i<r.message[0].length;i++){
