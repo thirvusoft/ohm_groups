@@ -167,6 +167,9 @@ doc_events = {
 	},
 	"BOM" : {
 		"validate" : "ohmgroups.ohm_groups.custom.py.bom.auto_fg_item"
+	},
+    "Item" : {
+		"validate" : "ohmgroups.ohm_groups.custom.py.item.item_variant"
 	}
 
 }
