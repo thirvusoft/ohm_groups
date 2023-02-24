@@ -139,7 +139,8 @@ frappe.ui.form.on('GRN', {
             method: "create_inspection",
             args: {
                 dc_items : frm.doc.dc_items,
-                name : frm.doc.name
+                name : frm.doc.name,
+                gate_entry : frm.doc.gate_entry
             },
             callback: function(r){
                 frm.reload_doc()

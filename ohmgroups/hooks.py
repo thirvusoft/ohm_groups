@@ -220,9 +220,10 @@ doctype_js = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "ohmgroups.event.get_events"
-# }
+override_whitelisted_methods = {
+	"erpnext.stock.doctype.material_request.material_request.get_default_supplier_query": "ohmgroups.ohm_groups.custom.py.material_request.get_default_supplier_query",
+    "erpnext.stock.doctype.material_request.material_request.make_purchase_order": "ohmgroups.ohm_groups.custom.py.material_request.make_purchase_order"
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,

@@ -129,6 +129,7 @@ class GateEntry(Document):
                 document.party_name = self.party_name
                 document.warehouse = grn_on_insert(self.party_name)
                 document.gate_entry = self.name
+                document.received_doc_no = self.document_no
                 document.customer_address = grn_address_billing(self.party_type,self.party_name)
                 document.shipping_address_name = grn_address_shipping(self.party_type,self.party_name)
                 document.driver = self.driver_name
@@ -147,6 +148,7 @@ class GateEntry(Document):
                 document.purchase_order = "Purchase Order"
                 document.party =self.party_name
                 document.party_name = self.party_name
+                document.received_doc_no = self.document_no
                 document.warehouse = grn_on_insert(self.party_name)
                 document.gate_entry = self.name
                 document.customer_address = grn_address_billing(self.party_type,self.party_name)

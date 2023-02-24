@@ -41,7 +41,7 @@ def operations_(item):
         if len(parent_1) == 0 or count > 500:
             break
     item_code_ = frappe.get_all("Item",filters={"variant_of":["in",variant_of], "attribute_value":["!=","Fg"]},pluck="name") #Get item_code
-    attribute_item = frappe.get_all("Item Variant Attribute",filters={"variant_of":["in",variant_of], "attribute_value":["!=","Fg"]},pluck="attribute_value")
+    attribute_item = frappe.get_all("Item Variant Attribute",filters={"variant_of":["in",variant_of], "attribute_value":["!=","Fg" and "Laser cutting"]},pluck="attribute_value")
     # for i in attribute_item:
         # if not i.attribute_value == "Fg":
     oper_attri = frappe.get_all("Operation",filters={"attributes":["in",attribute_item]},fields = ["name","workstation"],group_by = "name")

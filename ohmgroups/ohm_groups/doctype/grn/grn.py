@@ -60,7 +60,6 @@ def grn_dc_items(items,company,party,party_type,purchase_order=None):
                 get_po_doc = frappe.get_doc("Purchase Order",{"name":po.name})
                 
                 for j in get_po_doc.items:
-                    frappe.errprint(j.qty - j.received_qty)
                     if(j.item_code == k['items'] and j.qty - j.received_qty != 0 and po_qty_taken[k['items']]>0):
                        
                         qty=j.qty or 0
@@ -104,7 +103,7 @@ def grn_dc_items(items,company,party,party_type,purchase_order=None):
     return dc_doc,message,po_doc 
 
 @frappe.whitelist()
-def create_inspection(dc_items,name):
+def create_inspection(dc_items,name,gate_entry):
     items = json.loads(dc_items)
     doc_quality = []
     for i in items:
@@ -113,6 +112,7 @@ def create_inspection(dc_items,name):
             document.inspection_type = "Incoming"
             document.reference_type = "Others"
             document.grn = name
+            document.gate_entry = gate_entry
             document.sample_size = 1
             document.item_code = i.get("item_code")
             document.inspected_by = frappe.session.user
@@ -192,8 +192,6 @@ class GRN(Document):
                 frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",0)
             else:
                 rec_qty = frappe.get_value("Purchase Order Item", {'name': i.dc_name,'parenttype':'Purchase Order','item_code':i.item_code},'received_qty')
-                frappe.errprint(rec_qty)
-                print(rec_qty , i.qty)
                 frappe.db.set_value('Purchase Order Item', {'name':  i.dc_name,'parenttype':'Purchase Order', 'item_code':i.item_code}, 'received_qty',rec_qty - i.qty)
 
 
