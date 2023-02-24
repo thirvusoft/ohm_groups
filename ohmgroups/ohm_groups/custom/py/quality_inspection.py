@@ -10,49 +10,106 @@ def validate(doc,actions):
                 if(doc.sample_size < j):
                     frappe.throw("Quantity is greater than "+i.specification)
 
+# @frappe.whitelist()                
+# def status(doc, actions = None):
+#     res={}
+#     if isinstance(doc, str):
+#         doc=frappe.get_doc(json.loads(doc))
+#     for j in range(1, 11):
+#         res["sample_" + str(j)]=""
+#         for i in doc.readings:
+#             data = doc.get_formula_evaluation_data(i)
+#             reading = "reading_" + str(j)
+#             condition = i.acceptance_formula
+#             try:
+#                 mean_readings = [float(m.get(reading) or 0)  for m in doc.readings if (m.get(reading) or "").lower()!="ok"]
+#                 data["mean"] = sum(mean_readings) / len(mean_readings)
+#                 min_value_readings =[float(m.get("min_value") or 0)  for m in doc.readings if (m.get(reading) or "").lower()!="ok"]
+#                 data["min_value"] = sum(min_value_readings) / len(min_value_readings)
+#                 max_readings = [float(m.get("max_value") or 0)  for m in doc.readings if (m.get(reading) or "").lower()!="ok"]
+#                 data["max_value"] = sum(max_readings) / len(max_readings)
+#             except ValueError as e:
+#                 frappe.throw("Sample reading must be an number or 'OK'")
+#             except BaseException:
+#                 frappe.errprint(frappe.get_traceback())
+#                 frappe.throw("Couldn't Get Results") 
+#             if(data["mean"] == 0):
+#                 continue
+#             try:
+        
+#                 result = frappe.safe_eval(condition, None, data)
+#                 frappe.errprint("---------")
+#                 frappe.errprint(result)
+#                 doc.update({ 
+#                     "sample_" + str(j) : "Accepted" if result or doc.get("sample_" + str(j)) == "Accepted" else "Rejected",
+#                     })
+#                 res["sample_" + str(j)]="Accepted" if result or doc.get("sample_" + str(j)) == "Accepted" else "Rejected"
+#                 # if result:
+#                 #     res["sample_" + str(j)]="Rejected"
+#                 #     # break
+#                 # else:
+#                 #     res["sample_" + str(j)]="Accepted"
+#             except Exception:
+#                 frappe.throw(
+#                     frappe._("Row #{0}: Acceptance Criteria Formula is incorrect.").format(reading.idx),
+#                     title=frappe._("Invalid Formula"),
+#                 )
+#     return res
+
+def get_sample_value(readings, i):
+    field_name = f"reading_{i}"
+    has_value = False
+    for m in readings:
+        if not has_value and m.get(field_name):
+            has_value = True
+        if (m.get(field_name) or "").lower().strip()!="ok":
+            if (m.get(field_name) or "").isalpha():
+                return False,has_value
+            if not (float(m.get(field_name) or 0) >= m.min_value and  (float(m.get(field_name) or 0)) <= m.max_value):
+                return False,has_value
+    return True,has_value
+
+
 @frappe.whitelist()                
 def status(doc, actions = None):
     res={}
-    if isinstance(doc, str):
-        doc=frappe.get_doc(json.loads(doc))
     for j in range(1, 11):
         res["sample_" + str(j)]=""
-        for i in doc.readings:
-            data = doc.get_formula_evaluation_data(i)
-            reading = "reading_" + str(j)
-            condition = i.acceptance_formula
-            try:
-                mean_readings = [float(m.get(reading) or 0)  for m in doc.readings if (m.get(reading) or "").lower()!="ok"]
-                data["mean"] = sum(mean_readings) / len(mean_readings)
-                min_value_readings =[float(m.get("min_value") or 0)  for m in doc.readings if (m.get(reading) or "").lower()!="ok"]
-                data["min_value"] = sum(min_value_readings) / len(min_value_readings)
-                max_readings = [float(m.get("max_value") or 0)  for m in doc.readings if (m.get(reading) or "").lower()!="ok"]
-                data["max_value"] = sum(max_readings) / len(max_readings)
-            except ValueError as e:
-                frappe.throw("Sample reading must be an number or 'OK'")
-            except BaseException:
-                frappe.errprint(frappe.get_traceback())
-                frappe.throw("Couldn't Get Results") 
-            if(data["mean"] == 0):
-                continue
-            try:
-        
-                result = frappe.safe_eval(condition, None, data)
-                doc.update({ 
-                    "sample_" + str(j) : "Accepted" if result or doc.get("sample_" + str(j)) == "Accepted" else "Rejected",
-                    })
-                # res["sample_" + str(j)]="Accepted" if result or doc.get("sample_" + str(j)) == "Accepted" else "Rejected"
-                if result:
-                    res["sample_" + str(j)]="Rejected"
-                    # break
-                else:
-                    res["sample_" + str(j)]="Rejected"
-            except Exception:
-                frappe.throw(
-                    frappe._("Row #{0}: Acceptance Criteria Formula is incorrect.").format(reading.idx),
-                    title=frappe._("Invalid Formula"),
-                )
+    if isinstance(doc, str):
+        doc=frappe.get_doc(json.loads(doc))
+    for j in range(1, doc.sample_size+1):
+        res["sample_" + str(j)]=""
+        # for i in doc.readings:
+        result,has_value = get_sample_value(doc.readings,j)
+        field = "sample_" + str(j)
+        if has_value:
+            res[field] = "Accepted" if result else "Rejected",
     return res
+            # reading = "reading_" + str(j)
+            # condition = i.acceptance_formula
+            # data["mean"] = sum([float(m.get(reading) or 0)  for m in doc.readings]) / len(doc.readings)
+            # data["min_value"] = sum([float(m.get("min_value") or 0)  for m in doc.readings]) / len(doc.readings)
+            # data["max_value"] = sum([float(m.get("max_value") or 0)  for m in doc.readings]) / len(doc.readings)
+            # if(data["mean"] == 0):
+            #     continue
+            # try:
+            
+            #     result = frappe.safe_eval(condition, None, data)
+            #     doc.update({ 
+            #         "sample_" + str(j) : "Accepted" if result or doc.get("sample_" + str(j)) == "Accepted" else "Rejected",
+            #         })
+            #     if result == False:
+            #         res["sample_" + str(j)]="Rejected"
+            #         # break
+            #     else:
+            #         res["sample_" + str(j)]="Accepted"
+            # except Exception:
+            #     frappe.throw(
+            #         frappe._("Row #{0}: Acceptance Criteria Formula is incorrect.").format(reading.idx),
+            #         title=frappe._("Invalid Formula"),
+            #     )
+    # return res
+
 
 def count_status(doc, actions):
     doc.accepted_1 = 0

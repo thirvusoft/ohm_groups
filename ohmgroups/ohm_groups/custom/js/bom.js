@@ -23,6 +23,14 @@ frappe.ui.form.on('BOM',{
                       },
                     };
                   });
+                frm.set_query("item_code","items", function () {
+                    return {
+                      filters: {
+                        name: ["in",r.message[3]],
+
+                      },
+                    };
+                  });
                 // frm.set_value("operations",r.message[0])
                   
         }

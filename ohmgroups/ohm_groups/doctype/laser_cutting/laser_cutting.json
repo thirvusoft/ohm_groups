@@ -1,35 +1,31 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2023-01-23 12:41:06.050318",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "job_name",
-  "column_break_2",
+  "naming_series",
+  "col_break_1",
+  "cad_diagram",
   "company",
+  "section_break_6",
+  "laser_cutting",
   "section_break_4",
-  "raw_materials"
+  "raw_materials",
+  "amended_from"
  ],
  "fields": [
   {
    "allow_bulk_edit": 1,
    "fieldname": "raw_materials",
    "fieldtype": "Table",
-   "label": "Raw Materials",
-   "options": "Raw Materials"
-  },
-  {
-   "fieldname": "job_name",
-   "fieldtype": "Link",
-   "label": "Job Name",
-   "options": "Item"
-  },
-  {
-   "fieldname": "column_break_2",
-   "fieldtype": "Column Break"
+   "label": "Laser Cut Items",
+   "options": "Raw Materials",
+   "reqd": 1
   },
   {
    "fieldname": "company",
@@ -41,14 +37,53 @@
   {
    "fieldname": "section_break_4",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "cad_diagram",
+   "fieldtype": "Attach Image",
+   "label": "CAD Diagram"
+  },
+  {
+   "fieldname": "laser_cutting",
+   "fieldtype": "Table",
+   "label": "Raw Materials",
+   "options": "Finished Goods",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "col_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Laser Cutting",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Naming Series",
+   "options": "LC-.DD.-.MM.-.YY.-.##",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2023-01-24 11:46:53.708514",
+ "modified": "2023-02-24 14:31:12.408784",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
@@ -60,7 +95,9 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "select": 1,
    "share": 1,
+   "submit": 1,
    "write": 1
   }
  ],
