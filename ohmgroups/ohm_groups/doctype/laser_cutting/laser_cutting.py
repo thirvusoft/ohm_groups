@@ -116,6 +116,7 @@ class LaserCutting(Document):
     def on_submit(self):
         document = frappe.new_doc("Stock Entry")
         document.stock_entry_type ="Repack"
+        document.laser_cutting = self.name
         for m in self.laser_cutting:
             item = frappe.get_doc("Item",{"name":m.item_code})
             for j in item.uoms:
@@ -146,3 +147,9 @@ class LaserCutting(Document):
         document.save(ignore_permissions=True)
         document.submit()
 
+    def on_cancel(self):
+        if frappe.db.exists("Stock Entry",{"laser_cutting":self.name}):
+            frappe.get_doc("Stock Entry",{"laser_cutting":self.name}).cancel()
+    def on_trash(self):
+        if frappe.db.exists("Stock Entry",{"laser_cutting":self.name}):
+            frappe.get_doc("Stock Entry",{"laser_cutting":self.name}).delete()
