@@ -30,7 +30,7 @@
   },
   {
    "fieldname": "qty",
-   "fieldtype": "Float",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Qty"
   },
@@ -59,7 +59,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-23 15:47:28.067170",
+ "modified": "2023-02-24 17:22:21.102686",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Raw Materials",

@@ -11,6 +11,14 @@ frappe.ui.form.on('Laser Cutting', {
 				}
 			};
 		});
+		frm.set_query("item_code","laser_cutting", function() {
+			return {
+                filters: {
+                    item_group: "Raw Material",
+
+                  },
+			};
+		});
     },
     validate:async function (frm){
         if(!frm.doc.raw_materials ){
