@@ -2,14 +2,41 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Laser Cutting', {
-    trigger:async function (frm){
+    refresh:function(frm){
+		frm.set_query("item_code","raw_materials", function() {
+			return {
+				query: "ohmgroups.ohm_groups.doctype.laser_cutting.laser_cutting.item_query",
+				filters: {
+					"attribute_value": "Laser Cutting",
+				}
+			};
+		});
+		frm.set_query("item_code","laser_cutting", function() {
+			return {
+                filters: {
+                    item_group: "Raw Material",
 
-        for(var i=0;i<frm.doc.raw_materials.length;i++){
-            var rate = (await frappe.db.get_value('Item',{'item_code':frm.doc.raw_materials[i].item_code},'valuation_rate')).message.valuation_rate
-                frappe.model.set_value(frm.doc.raw_materials[i].doctype,frm.doc.raw_materials[i].name,'basic_rate_as_per_stock_uom',rate)
-            
+                  },
+			};
+		});
+    },
+    validate:async function (frm){
+        if(!frm.doc.raw_materials ){
+            frappe.msgprint("Kindly Upload the Raw Materials")
         }
+        else if(frm.doc.raw_materials == 0){
+            frappe.msgprint("Kindly Upload the Raw Materials")
+        }
+        else{
+            for(var i=0;i<frm.doc.raw_materials.length;i++){
+                var rate = (await frappe.db.get_value('Item',{'item_code':frm.doc.raw_materials[i].item_code},'valuation_rate')).message.valuation_rate
+                    frappe.model.set_value(frm.doc.raw_materials[i].doctype,frm.doc.raw_materials[i].name,'basic_rate_as_per_stock_uom',rate)
+                
+            }
 frm.refresh()
+        }
+
+
 },
 });
 
