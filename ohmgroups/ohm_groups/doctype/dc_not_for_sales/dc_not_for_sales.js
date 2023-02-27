@@ -45,6 +45,12 @@ frappe.ui.form.on('DC Not for Sales',{
    
         
     },
+
+
+
+
+
+
     // setup(frm) {
     //     frm.call({
                 
@@ -89,7 +95,50 @@ frappe.ui.form.on('DC Not for Sales',{
                 
         }
         }),
-                      
+        frappe.db.get_value('Supplier',{'name':frm.doc.party},'default_item',(r)=>{
+            if(r.default_item == 1){
+                frm.call({
+                    method: "item_supplier",
+                    args:{
+                        party:frm.doc.party,
+                    },
+                    callback: function(r) {
+                        frm.set_query("item_code","items",function(){
+                            return {
+                                filters:{
+                                    "item_code":["in",r.message]
+                                }
+                                
+                            }
+                        })
+                }
+                })
+            
+            }
+
+        })         
+        frappe.db.get_value('Customer',{'name':frm.doc.party},'_default_item',(r)=>{
+            if(r._default_item == 1){
+                frm.call({
+                    method: "item_customer",
+                    args:{
+                        party:frm.doc.party,
+                    },
+                    callback: function(r) {
+                        frm.set_query("item_code","items",function(){
+                            return {
+                                filters:{
+                                    "item_code":["in",r.message]
+                                }
+                                
+                            }
+                        })
+                }
+                })
+            
+            }
+
+        }) 
         frm.call({
             
             method: "address_shipping",

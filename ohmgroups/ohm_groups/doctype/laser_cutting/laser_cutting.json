@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "reference_number",
   "col_break_1",
   "cad_diagram",
   "company",
@@ -41,7 +42,7 @@
   {
    "fieldname": "cad_diagram",
    "fieldtype": "Attach Image",
-   "label": "CAD Diagram"
+   "label": "Laser Program Attached"
   },
   {
    "fieldname": "laser_cutting",
@@ -70,16 +71,22 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Naming Series",
    "options": "LC-.DD.-.MM.-.YY.-.##",
    "read_only": 1
+  },
+  {
+   "fieldname": "reference_number",
+   "fieldtype": "Data",
+   "label": "Reference Number"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-24 14:31:12.408784",
+ "modified": "2023-02-27 15:01:01.233817",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",
