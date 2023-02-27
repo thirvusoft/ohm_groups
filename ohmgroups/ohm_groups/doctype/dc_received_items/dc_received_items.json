@@ -9,6 +9,7 @@
   "item_code",
   "item_name",
   "dc_no",
+  "purchase_order_no",
   "total_qty_in_dc",
   "qty",
   "balanced_qty",
@@ -37,7 +38,6 @@
    "bold": 1,
    "fieldname": "dc_no",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "DC No"
   },
   {
@@ -79,12 +79,17 @@
    "fieldtype": "Link",
    "label": "Inspection doc",
    "options": "Quality Inspection"
+  },
+  {
+   "fieldname": "purchase_order_no",
+   "fieldtype": "Data",
+   "label": "Purchase Order No"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-10 17:35:52.379357",
+ "modified": "2023-02-27 09:52:10.433623",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Received Items",
