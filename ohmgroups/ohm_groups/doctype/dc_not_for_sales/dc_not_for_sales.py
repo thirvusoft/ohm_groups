@@ -48,7 +48,21 @@ def address_billing(party_type, party):
         bill_add =  frappe.get_value('Address',{'address_type':'Billing','name':i},"name")
         if bill_add:
             return bill_add
-    
+
+@frappe.whitelist()
+def item_supplier(party):
+    supplier_item = frappe.get_doc("Supplier",party)
+    if(supplier_item.default_item ==1):
+        supplier = frappe.get_all("Supplier wise item",{'parent':supplier_item.name,},pluck="item_code")
+        return supplier
+
+@frappe.whitelist()
+def item_customer(party):
+    customer_item = frappe.get_doc("Customer",party)
+    if(customer_item._default_item ==1):
+        customer = frappe.get_all("Customer Default Items",{'parent':customer_item.name,},pluck="item_code")
+        return customer
+
 class DCNotforSales(Document):
 
 	
