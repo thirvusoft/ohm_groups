@@ -140,7 +140,9 @@ frappe.ui.form.on('GRN', {
             args: {
                 dc_items : frm.doc.dc_items,
                 name : frm.doc.name,
-                gate_entry : frm.doc.gate_entry
+                gate_entry : frm.doc.gate_entry,
+                party_type : frm.doc.party_type,
+                party : frm.doc.party
             },
             callback: function(r){
                 frm.reload_doc()

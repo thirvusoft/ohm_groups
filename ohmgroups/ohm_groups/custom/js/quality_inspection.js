@@ -2,6 +2,14 @@ var template
 var called=0;
 frappe.ui.form.on('Quality Inspection', {
 		refresh: function(frm, cdt, cdn) {
+			frm.set_query("party_type_",function(){
+				return {
+					filters:{
+						"name":["in",["Customer","Supplier"]]
+					}
+					
+				}
+			})
 			if(frm.doc.quality_inspection_template){
 				frm.doc.item_code?frappe.db.get_doc("Quality Inspection Template", frm.doc.quality_inspection_template).then(( itemimage ) => {
 						frm.set_value("balloon_drawing",document.location.origin + itemimage.item_image.replace(/ /g, "%20"))
