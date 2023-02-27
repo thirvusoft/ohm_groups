@@ -72,7 +72,7 @@ def grn_dc_items(items,company,party,party_type,purchase_order=None):
                             qty=po_qty_taken[k['items']]
                             po_qty_taken[k['items']] -= k['received_qty']
                             total = float(j.qty or 0) - qty
-                        po_doc.append({"dc_no":get_po_doc.name,"item_code":j.item_code,"item_name":j.item_name,"total_qty_in_dc":j.qty - j.received_qty or 0,"qty":qty,"dc_name":j.name,"balanced_qty":total})
+                        po_doc.append({"purchase_order_no":get_po_doc.name,"item_code":j.item_code,"item_name":j.item_name,"total_qty_in_dc":j.qty - j.received_qty or 0,"qty":qty,"dc_name":j.name,"balanced_qty":total})
 
         else:
             for i in get_dc_all:
@@ -103,7 +103,7 @@ def grn_dc_items(items,company,party,party_type,purchase_order=None):
     return dc_doc,message,po_doc 
 
 @frappe.whitelist()
-def create_inspection(dc_items,name,gate_entry):
+def create_inspection(dc_items,name,gate_entry,party_type,party):
     items = json.loads(dc_items)
     doc_quality = []
     for i in items:
@@ -111,6 +111,8 @@ def create_inspection(dc_items,name,gate_entry):
             document = frappe.new_doc("Quality Inspection")
             document.inspection_type = "Incoming"
             document.reference_type = "Others"
+            document.party_type_ = party_type
+            document.party = party
             document.grn = name
             document.gate_entry = gate_entry
             document.sample_size = 1
