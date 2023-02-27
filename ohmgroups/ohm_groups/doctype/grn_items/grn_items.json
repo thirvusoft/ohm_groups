@@ -9,6 +9,7 @@
  "field_order": [
   "items",
   "item_name",
+  "gate_entry_received_qty",
   "received_qty",
   "quality_inspection",
   "item_code"
@@ -25,7 +26,7 @@
   {
    "fieldname": "received_qty",
    "fieldtype": "Float",
-   "label": "Received Qty"
+   "label": "GRN Received Qty"
   },
   {
    "fetch_from": "items.item_name",
@@ -36,19 +37,25 @@
   {
    "fieldname": "quality_inspection",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Quality Inspection"
   },
   {
    "fieldname": "item_code",
    "fieldtype": "Data",
    "label": "Item Code"
+  },
+  {
+   "fieldname": "gate_entry_received_qty",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Gate Entry Received Qty",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-11 09:31:18.390174",
+ "modified": "2023-02-27 11:19:36.505469",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "GRN Items",
