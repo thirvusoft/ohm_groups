@@ -63,7 +63,7 @@ def get_sample_value(readings, i):
         if not has_value and m.get(field_name):
             has_value = True
         if (m.get(field_name) or "").lower().strip()!="ok":
-            if (m.get(field_name) or "").isalpha():
+            if "".join((m.get(field_name) or "").split(" ")).isalpha():
                 return False,has_value
             if not (float(m.get(field_name) or 0) >= m.min_value and  (float(m.get(field_name) or 0)) <= m.max_value):
                 return False,has_value

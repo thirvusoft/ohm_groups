@@ -1,6 +1,7 @@
 # Copyright (c) 2023, thirvusoft and contributors
 # For license information, please see license.txt
 
+from argparse import Action
 import json
 import frappe
 from frappe.model.document import Document
@@ -103,7 +104,7 @@ def grn_dc_items(items,company,party,party_type,purchase_order=None):
     return dc_doc,message,po_doc 
 
 @frappe.whitelist()
-def create_inspection(dc_items,name,gate_entry,party_type,party):
+def create_inspection(dc_items,name,gate_entry,party_type,party,received_doc_no):
     items = json.loads(dc_items)
     doc_quality = []
     for i in items:
@@ -112,6 +113,7 @@ def create_inspection(dc_items,name,gate_entry,party_type,party):
             document.inspection_type = "Incoming"
             document.reference_type = "Others"
             document.party_type_ = party_type
+            document.received_doc_no = received_doc_no
             document.party = party
             document.grn = name
             document.gate_entry = gate_entry
