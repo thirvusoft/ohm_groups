@@ -1,7 +1,7 @@
 import frappe
 
 def item_variant(doc,actions):
-    if doc.is_group == 1:
+    if doc.is_group != 1:
         doc.parent_item = doc.variant_of
 
 def get_item_defaults_(item_code):

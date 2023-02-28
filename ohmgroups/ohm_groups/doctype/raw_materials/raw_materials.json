@@ -8,6 +8,7 @@
  "field_order": [
   "item_code",
   "item_name",
+  "description",
   "qty",
   "basic_rate_as_per_stock_uom",
   "warehouse",
@@ -54,12 +55,18 @@
    "fieldname": "uom",
    "fieldtype": "Data",
    "label": "Uom"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-24 17:22:21.102686",
+ "modified": "2023-02-27 18:48:25.235679",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Raw Materials",

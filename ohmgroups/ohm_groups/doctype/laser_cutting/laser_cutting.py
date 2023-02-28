@@ -10,107 +10,118 @@ from frappe.desk.reportview import get_filters_cond, get_match_cond
 from frappe.utils import nowdate, unique
 import erpnext
 from erpnext.stock.get_item_details import _get_item_tax_template
+from frappe.utils.data import get_datetime, time_diff_in_seconds
 
 
 @frappe.whitelist()
 @frappe.validate_and_sanitize_search_inputs
 def item_query(doctype, txt, searchfield, start, page_len, filters, as_dict=False):
-	filters = {}
-	doctype = "Item"
-	conditions = []
+    filters = {}
+    doctype = "Item"
+    conditions = []
 
-	if isinstance(filters, str):
-		filters = json.loads(filters)
+    if isinstance(filters, str):
+        filters = json.loads(filters)
 
-	# Get searchfields from meta and use in Item Link field query
-	meta = frappe.get_meta(doctype, cached=True)
-	searchfields = meta.get_search_fields()
+    # Get searchfields from meta and use in Item Link field query
+    meta = frappe.get_meta(doctype, cached=True)
+    searchfields = meta.get_search_fields()
 
-	columns = ""
-	extra_searchfields = [field for field in searchfields if not field in ["name", "description"]]
+    columns = ""
+    extra_searchfields = [field for field in searchfields if not field in ["name", "description"]]
 
-	if extra_searchfields:
-		columns += ", " + ", ".join(extra_searchfields)
+    if extra_searchfields:
+        columns += ", " + ", ".join(extra_searchfields)
 
-	if "description" in searchfields:
-		columns += """, if(length(tabItem.description) > 40, \
-			concat(substr(tabItem.description, 1, 40), "..."), description) as description"""
+    if "description" in searchfields:
+        columns += """, if(length(tabItem.description) > 40, \
+            concat(substr(tabItem.description, 1, 40), "..."), description) as description"""
 
-	searchfields = searchfields + [
-		field
-		for field in [searchfield or "name", "item_code", "item_group", "item_name"]
-		if not field in searchfields
-	]
-	searchfields = " or ".join([f"tabItem.{field}" + " like %(txt)s" for field in searchfields])
+    searchfields = searchfields + [
+        field
+        for field in [searchfield or "name", "item_code", "item_group", "item_name"]
+        if not field in searchfields
+    ]
+    searchfields = " or ".join([f"tabItem.{field}" + " like %(txt)s" for field in searchfields])
 
-	if filters and isinstance(filters, dict):
-		if filters.get("customer") or filters.get("supplier"):
-			party = filters.get("customer") or filters.get("supplier")
-			item_rules_list = frappe.get_all(
-				"Party Specific Item", filters={"party": party}, fields=["restrict_based_on", "based_on_value"]
-			)
+    if filters and isinstance(filters, dict):
+        if filters.get("customer") or filters.get("supplier"):
+            party = filters.get("customer") or filters.get("supplier")
+            item_rules_list = frappe.get_all(
+                "Party Specific Item", filters={"party": party}, fields=["restrict_based_on", "based_on_value"]
+            )
 
-			filters_dict = {}
-			for rule in item_rules_list:
-				if rule["restrict_based_on"] == "Item":
-					rule["restrict_based_on"] = "name"
-				filters_dict[rule.restrict_based_on] = []
+            filters_dict = {}
+            for rule in item_rules_list:
+                if rule["restrict_based_on"] == "Item":
+                    rule["restrict_based_on"] = "name"
+                filters_dict[rule.restrict_based_on] = []
 
-			for rule in item_rules_list:
-				filters_dict[rule.restrict_based_on].append(rule.based_on_value)
+            for rule in item_rules_list:
+                filters_dict[rule.restrict_based_on].append(rule.based_on_value)
 
-			for filter in filters_dict:
-				filters[scrub(filter)] = ["in", filters_dict[filter]]
+            for filter in filters_dict:
+                filters[scrub(filter)] = ["in", filters_dict[filter]]
 
-			if filters.get("customer"):
-				del filters["customer"]
-			else:
-				del filters["supplier"]
-		else:
-			filters.pop("customer", None)
-			filters.pop("supplier", None)
+            if filters.get("customer"):
+                del filters["customer"]
+            else:
+                del filters["supplier"]
+        else:
+            filters.pop("customer", None)
+            filters.pop("supplier", None)
 
-	description_cond = ""
-	if frappe.db.count(doctype, cache=True) < 50000:
-		# scan description only if items are less than 50000
-		description_cond = "or tabItem.description LIKE %(txt)s"
+    description_cond = ""
+    if frappe.db.count(doctype, cache=True) < 50000:
+        # scan description only if items are less than 50000
+        description_cond = "or tabItem.description LIKE %(txt)s"
 
-	return frappe.db.sql(
-		"""select
-			tabItem.name {columns}
-		from tabItem 
-		left join `tabItem Variant Attribute` iv ON iv.parent = tabItem.name
-		where tabItem.docstatus < 2
+    return frappe.db.sql(
+        """select
+            tabItem.name {columns}
+        from tabItem 
+        left join `tabItem Variant Attribute` iv ON iv.parent = tabItem.name
+        where tabItem.docstatus < 2
             and iv.attribute_value = "Laser Cutting"
-			and tabItem.disabled=0
-			and tabItem.has_variants=0
-			and (tabItem.end_of_life > %(today)s or ifnull(tabItem.end_of_life, '0000-00-00')='0000-00-00')
-			and ({scond} or tabItem.item_code IN (select parent from `tabItem Barcode` where barcode LIKE %(txt)s)
-				{description_cond})
-			{fcond} {mcond}
-		
-		order by
-			if(locate(%(_txt)s, tabItem.name), locate(%(_txt)s, tabItem.name), 99999),
-			if(locate(%(_txt)s, tabItem.item_name), locate(%(_txt)s, tabItem.item_name), 99999),
-			
-			tabItem.name, tabItem.item_name
-		limit %(start)s, %(page_len)s """.format(
-			columns=columns,
-			scond=searchfields,
-			fcond=get_filters_cond(doctype, filters, conditions).replace("%", "%%"),
-			mcond=get_match_cond(doctype).replace("%", "%%"),
-			description_cond=description_cond,
-		),
-		{
-			"today": nowdate(),
-			"txt": "%%%s%%" % txt,
-			"_txt": txt.replace("%", ""),
-			"start": start,
-			"page_len": page_len,
-		},
-		as_dict=as_dict,
-	)
+            and tabItem.disabled=0
+            and tabItem.has_variants=0
+            and (tabItem.end_of_life > %(today)s or ifnull(tabItem.end_of_life, '0000-00-00')='0000-00-00')
+            and ({scond} or tabItem.item_code IN (select parent from `tabItem Barcode` where barcode LIKE %(txt)s)
+                {description_cond})
+            {fcond} {mcond}
+        
+        order by
+            if(locate(%(_txt)s, tabItem.name), locate(%(_txt)s, tabItem.name), 99999),
+            if(locate(%(_txt)s, tabItem.item_name), locate(%(_txt)s, tabItem.item_name), 99999),
+            
+            tabItem.name, tabItem.item_name
+        limit %(start)s, %(page_len)s """.format(
+            columns=columns,
+            scond=searchfields,
+            fcond=get_filters_cond(doctype, filters, conditions).replace("%", "%%"),
+            mcond=get_match_cond(doctype).replace("%", "%%"),
+            description_cond=description_cond,
+        ),
+        {
+            "today": nowdate(),
+            "txt": "%%%s%%" % txt,
+            "_txt": txt.replace("%", ""),
+            "start": start,
+            "page_len": page_len,
+        },
+        as_dict=as_dict,
+    )
 
+@frappe.whitelist()
+def make_time_log(args):
+    if isinstance(args, str):
+        args = json.loads(args)
+
+    args = frappe._dict(args)
+    doc = frappe.get_doc("Laser Cutting", args.laser_cutting_id)
+    # doc.validate_sequence_id()
+    doc.add_time_logs(args)
+    
 
 class LaserCutting(Document):
     def on_submit(self):
@@ -153,3 +164,113 @@ class LaserCutting(Document):
     def on_trash(self):
         if frappe.db.exists("Stock Entry",{"laser_cutting":self.name}):
             frappe.get_doc("Stock Entry",{"laser_cutting":self.name}).delete()
+    
+    def add_time_logs(self, args):
+        last_row = []
+        employees = args.employees
+        if isinstance(employees, str):
+            employees = json.loads(employees)
+
+        if self.time_logs and len(self.time_logs) > 0:
+            last_row = self.time_logs[-1]
+
+        self.reset_timer_value(args)
+        if last_row and args.get("complete_time"):
+            for row in self.time_logs:
+                if not row.to_time:
+                    row.update(
+                        {
+                            "to_time": get_datetime(args.get("complete_time")),
+                            "operation": args.get("sub_operation"),
+                            "completed_qty": args.get("completed_qty") or 0.0,
+                        }
+                    )
+        elif args.get("start_time"):
+            new_args = frappe._dict(
+                {
+                    "from_time": get_datetime(args.get("start_time")),
+                    "operation": args.get("sub_operation"),
+                    "completed_qty": 0.0,
+                }
+            )
+
+            if employees:
+                for name in employees:
+                    new_args.employee = name.get("employee")
+                    self.add_start_time_log(new_args)
+            else:
+                self.add_start_time_log(new_args)
+
+        if not self.employee and employees:
+            self.set_employees(employees)
+
+        if self.status == "On Hold":
+            self.current_time = time_diff_in_seconds(last_row.to_time, last_row.from_time)
+
+        self.save()
+    def add_start_time_log(self, args):
+        self.append("time_logs", args)
+
+    def set_employees(self, employees):
+        for name in employees:
+            self.append("employee", {"employee": name.get("employee"), "completed_qty": 0.0})
+
+
+
+
+    def reset_timer_value(self, args):
+        self.started_time = None
+
+        if args.get("status") in ["Work In Progress", "Complete"]:
+            self.current_time = 0.0
+
+            if args.get("status") == "Work In Progress":
+                self.started_time = get_datetime(args.get("start_time"))
+
+        if args.get("status") == "Resume Job":
+            args["status"] = "Work In Progress"
+
+        if args.get("status"):
+            self.status = args.get("status")
+        
+    def update_sub_operation_status(self):
+        if not (self.sub_operations and self.time_logs):
+            return
+
+        operation_wise_completed_time = {}
+        for time_log in self.time_logs:
+            if time_log.operation not in operation_wise_completed_time:
+                operation_wise_completed_time.setdefault(
+                    time_log.operation,
+                    frappe._dict(
+                        {"status": "Pending", "completed_qty": 0.0, "completed_time": 0.0, "employee": []}
+                    ),
+                )
+
+            op_row = operation_wise_completed_time[time_log.operation]
+            op_row.status = "Work In Progress" if not time_log.time_in_mins else "Complete"
+            if self.status == "On Hold":
+                op_row.status = "Pause"
+
+            op_row.employee.append(time_log.employee)
+            if time_log.time_in_mins:
+                op_row.completed_time += time_log.time_in_mins
+                op_row.completed_qty += time_log.completed_qty
+
+        for row in self.sub_operations:
+            operation_deatils = operation_wise_completed_time.get(row.sub_operation)
+            if operation_deatils:
+                if row.status != "Complete":
+                    row.status = operation_deatils.status
+
+                row.completed_time = operation_deatils.completed_time
+                if operation_deatils.employee:
+                    row.completed_time = row.completed_time / len(set(operation_deatils.employee))
+
+                    if operation_deatils.completed_qty:
+                        row.completed_qty = operation_deatils.completed_qty / len(set(operation_deatils.employee))
+            else:
+                row.status = "Pending"
+                row.completed_time = 0.0
+                row.completed_qty = 0.0
+        
