@@ -92,6 +92,7 @@
   {
    "fieldname": "party_name",
    "fieldtype": "Data",
+   "in_standard_filter": 1,
    "label": "Party Name"
   },
   {
@@ -375,7 +376,7 @@
    "table_fieldname": "dc_items"
   }
  ],
- "modified": "2023-01-31 11:35:00.950245",
+ "modified": "2023-02-28 15:29:25.202166",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",
