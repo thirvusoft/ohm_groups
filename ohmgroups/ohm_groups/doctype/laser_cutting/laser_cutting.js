@@ -39,15 +39,16 @@ frappe.ui.form.on('Laser Cutting', {
                             set_qty = true;
                         }
                     }
-    
-                    if (set_qty) {
-                    	frappe.prompt({fieldtype: 'Float', label: __('Completed Quantity'),
-                    		fieldname: 'qty', default: frm.doc.for_quantity}, data => {
-                    		frm.events.complete_job(frm, "Complete", data.qty);
-                    	}, __("Enter Value"));
-                    } else {
-                    	frm.events.complete_job(frm, "Complete", 0.0);
-                    }
+                    frm.events.complete_job(frm, "Complete", 0.0);
+                    // if (set_qty) {
+                        
+                    // 	frappe.prompt({fieldtype: 'Float', label: __('Completed Quantity'),
+                    // 		fieldname: 'qty', default: frm.doc.for_quantity}, data => {
+                    // 		frm.events.complete_job(frm, "Complete", data.qty);
+                    // 	}, __("Enter Value"));
+                    // } else {
+                    // 	frm.events.complete_job(frm, "Complete", 0.0);
+                    // }
                 }).addClass("btn-primary");
     
             }
@@ -177,7 +178,7 @@ frappe.ui.form.on('Laser Cutting', {
 
     complete_job: function(frm, status, completed_qty) {
         const args = {
-            laser_cutting_id: frm.doc.name,
+            job_card_id: frm.doc.name,
             complete_time: frappe.datetime.now_datetime(),
             status: status,
         };

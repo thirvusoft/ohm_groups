@@ -118,7 +118,7 @@ def make_time_log(args):
         args = json.loads(args)
 
     args = frappe._dict(args)
-    doc = frappe.get_doc("Laser Cutting", args.laser_cutting_id)
+    doc = frappe.get_doc("Laser Cutting", args.job_card_id)
     # doc.validate_sequence_id()
     doc.add_time_logs(args)
     
