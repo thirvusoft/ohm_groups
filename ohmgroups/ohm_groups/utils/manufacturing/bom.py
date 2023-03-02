@@ -15,6 +15,14 @@ def bom_custom_fields():
                 insert_after='item_name',
             ),
         ],
+    "BOM": [
+            dict(
+            fieldname='process_loss_percentage',
+            label='% Process Loss',
+            fieldtype='Percent',
+            insert_after='scrap_items',
+            ),
+        ]     
     }
     create_custom_fields(bom_custom_fields)
 

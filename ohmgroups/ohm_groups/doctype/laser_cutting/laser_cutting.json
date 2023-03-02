@@ -17,7 +17,15 @@
   "laser_cutting",
   "section_break_4",
   "raw_materials",
-  "amended_from"
+  "job_work_tab",
+  "sub_operations",
+  "time_logs",
+  "employee",
+  "amended_from",
+  "status",
+  "started_time",
+  "current_time",
+  "job_started"
  ],
  "fields": [
   {
@@ -81,12 +89,63 @@
    "fieldname": "reference_number",
    "fieldtype": "Data",
    "label": "Reference Number"
+  },
+  {
+   "fieldname": "job_work_tab",
+   "fieldtype": "Tab Break",
+   "label": "Job Work"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "sub_operations",
+   "fieldtype": "Table",
+   "label": "Sub Operations",
+   "options": "Laser Cutting Operation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "time_logs",
+   "fieldtype": "Table",
+   "label": "Time Log",
+   "options": "Laser Cutting Time Log"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Table MultiSelect",
+   "label": "Employee",
+   "options": "Laser Cutting Time Log"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Status",
+   "options": "Draft\nWork In Progress\nOn Hold\nComplete\nSubmitted\nCancel"
+  },
+  {
+   "fieldname": "started_time",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Started Time"
+  },
+  {
+   "fieldname": "current_time",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Current Time"
+  },
+  {
+   "default": "0",
+   "fieldname": "job_started",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Job Started"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-27 15:01:01.233817",
+ "modified": "2023-02-28 18:18:31.532527",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",
@@ -110,5 +169,22 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Red",
+   "title": "Cancel"
+  },
+  {
+   "color": "Purple",
+   "title": "Work In Progress"
+  },
+  {
+   "color": "Yellow",
+   "title": "On Hold"
+  },
+  {
+   "color": "Green",
+   "title": "Complete"
+  }
+ ]
 }
