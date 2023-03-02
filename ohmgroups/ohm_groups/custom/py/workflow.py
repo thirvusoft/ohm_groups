@@ -123,10 +123,6 @@ def create_laser_cutting_flow():
         state = 'Job Completed', allow_edit = 'All',doc_status = 1,
     ))
     workflow.append('states', dict(
-        state = 'Rejected', allow_edit = 'All',doc_status = 1,
-
-    ))
-    workflow.append('states', dict(
         state = 'Cancelled', allow_edit = 'All',doc_status = 2,
 
     )) 
@@ -136,17 +132,10 @@ def create_laser_cutting_flow():
         allowed='All', allow_self_approval= 1,
     ))
     workflow.append('transitions', dict(
-        state = 'Processing', action='Reject', next_state = 'Rejected',
-        allowed='All', allow_self_approval= 1,
-    ))
-    workflow.append('transitions', dict(
         state = 'Job Completed', action='Cancel', next_state = 'Cancelled',
         allowed='All', allow_self_approval= 1,
     ))
-    workflow.append('transitions', dict(
-        state = 'Rejected', action='Cancel', next_state = 'Cancelled',
-        allowed='All', allow_self_approval= 1,
-    ))
+
     workflow.insert(ignore_permissions=True)
     return workflow
 def create_state():

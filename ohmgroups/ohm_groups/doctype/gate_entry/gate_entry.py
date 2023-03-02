@@ -51,9 +51,9 @@ def get_items(party_type = None, against_po__dc = None, purchase_order = None, d
             for i in dc_items.items:
                 if dc_items.docstatus == 1 and is_gate_entry_in__out == "IN" :
                     if flt(i.balance_qty) != 0:
-                        items_dc.append({"item_code":i.item_code,"item_name":i.item_name,"qty":flt(i.balance_qty),"uom":i.uom,"document_no":m.get('goods_received_from'),"name1":dc_items.party})
+                        items_dc.append({"description":i.description,"item_code":i.item_code,"item_name":i.item_name,"qty":flt(i.balance_qty),"uom":i.uom,"document_no":m.get('goods_received_from'),"name1":dc_items.party})
                 else:
-                    items_dc.append({"item_code":i.item_code,"item_name":i.item_name,"qty":flt(i.qty),"uom":i.uom,"document_no":m.get('goods_received_from'),"name1":dc_items.party})
+                    items_dc.append({"description":i.description,"item_code":i.item_code,"item_name":i.item_name,"qty":flt(i.qty),"uom":i.uom,"document_no":m.get('goods_received_from'),"name1":dc_items.party})
         return items_dc
     elif against_po__dc == "Purchase Order":
         po = json.loads(purchase_order)
@@ -138,6 +138,7 @@ class GateEntry(Document):
                     document.append('items', dict(
                         items = i.item_code,
                         item_name = i.item_name,
+                        gate_entry_received_qty = i.received_qty, 
                         received_qty=i.received_qty,
                     ))
                 document.save(ignore_permissions=True)
@@ -159,6 +160,7 @@ class GateEntry(Document):
                     document.append('items', dict(
                         items = i.item_code,
                         item_name = i.item_name,
+                        gate_entry_received_qty = i.received_qty, 
                         received_qty=i.received_qty,
                     ))
                 document.save(ignore_permissions=True)

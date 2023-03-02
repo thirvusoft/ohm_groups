@@ -9,6 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
+  "reference_number",
   "col_break_1",
   "cad_diagram",
   "company",
@@ -16,7 +17,15 @@
   "laser_cutting",
   "section_break_4",
   "raw_materials",
-  "amended_from"
+  "job_work_tab",
+  "sub_operations",
+  "time_logs",
+  "employee",
+  "amended_from",
+  "status",
+  "started_time",
+  "current_time",
+  "job_started"
  ],
  "fields": [
   {
@@ -41,7 +50,7 @@
   {
    "fieldname": "cad_diagram",
    "fieldtype": "Attach Image",
-   "label": "CAD Diagram"
+   "label": "Laser Program Attached"
   },
   {
    "fieldname": "laser_cutting",
@@ -70,16 +79,73 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Naming Series",
    "options": "LC-.DD.-.MM.-.YY.-.##",
    "read_only": 1
+  },
+  {
+   "fieldname": "reference_number",
+   "fieldtype": "Data",
+   "label": "Reference Number"
+  },
+  {
+   "fieldname": "job_work_tab",
+   "fieldtype": "Tab Break",
+   "label": "Job Work"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "sub_operations",
+   "fieldtype": "Table",
+   "label": "Sub Operations",
+   "options": "Laser Cutting Operation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "time_logs",
+   "fieldtype": "Table",
+   "label": "Time Log",
+   "options": "Laser Cutting Time Log"
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Table MultiSelect",
+   "label": "Employee",
+   "options": "Laser Cutting Time Log"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Status",
+   "options": "Draft\nWork In Progress\nOn Hold\nComplete\nSubmitted\nCancel"
+  },
+  {
+   "fieldname": "started_time",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Started Time"
+  },
+  {
+   "fieldname": "current_time",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Current Time"
+  },
+  {
+   "default": "0",
+   "fieldname": "job_started",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Job Started"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-24 14:31:12.408784",
+ "modified": "2023-02-28 18:18:31.532527",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",
@@ -103,5 +169,22 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Red",
+   "title": "Cancel"
+  },
+  {
+   "color": "Purple",
+   "title": "Work In Progress"
+  },
+  {
+   "color": "Yellow",
+   "title": "On Hold"
+  },
+  {
+   "color": "Green",
+   "title": "Complete"
+  }
+ ]
 }
