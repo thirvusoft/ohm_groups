@@ -16,3 +16,4 @@ ohmgroups.ohm_groups.utils.stock.material_request
 ohmgroups.ohm_groups.utils.manufacturing.bom
 ohmgroups.ohm_groups.utils.manufacturing.operation
 ohmgroups.ohm_groups.utils.manufacturing.work_order
+ohmgroups.ohm_groups.utils.stock.item

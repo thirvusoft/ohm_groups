@@ -17,6 +17,7 @@ from ohmgroups.ohm_groups.utils.stock.material_request import material_request
 from ohmgroups.ohm_groups.utils.manufacturing.bom import bom
 from ohmgroups.ohm_groups.utils.manufacturing.operation import operation
 from ohmgroups.ohm_groups.utils.manufacturing.work_order import workorder
+from ohmgroups.ohm_groups.utils.stock.item import item
 
 
 def after_install():
@@ -38,4 +39,5 @@ def after_install():
     material_request()
     bom()
     operation()
+    item()
     workorder()

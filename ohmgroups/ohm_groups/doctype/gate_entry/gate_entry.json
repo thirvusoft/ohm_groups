@@ -11,6 +11,8 @@
   "is_gate_entry_in__out",
   "party_type",
   "party_name",
+  "dc_sales",
+  "si_doc_no",
   "col_break_1",
   "against_po__dc",
   "against_si__dc",
@@ -234,12 +236,26 @@
    "fieldname": "document_no",
    "fieldtype": "Data",
    "label": "Document No."
+  },
+  {
+   "fieldname": "dc_sales",
+   "fieldtype": "Link",
+   "label": "DC Doc No",
+   "options": "DC Not for Sales",
+   "read_only": 1
+  },
+  {
+   "fieldname": "si_doc_no",
+   "fieldtype": "Link",
+   "label": "SI Doc No",
+   "options": "Sales Invoice",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-16 10:35:47.765934",
+ "modified": "2023-03-07 16:39:41.044609",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",
