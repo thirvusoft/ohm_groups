@@ -63,3 +63,12 @@ frappe.ui.form.on("Material Request",{
 
 
 })
+frappe.ui.form.on("Material Request Item", {
+    
+    qty: function(frm,cdt,cdn){
+        var row = locals[cdt][cdn]
+		frappe.model.set_value(cdt,cdn,"pending_qty",row.qty)
+    },
+
+  
+})

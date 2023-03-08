@@ -64,38 +64,59 @@ def item_customer(party):
         return customer
 
 class DCNotforSales(Document):
+    def on_submit(self):
+        company = frappe.db.get_single_value("Global Defaults","default_company")
+        abbr = frappe.db.get_value("Company",company,"abbr")
+        document = frappe.new_doc("Stock Entry")
+        document.stock_entry_type ="Send to Subcontractor"
+        document.from_warehouse =f"Stores - {abbr}"
+        document.to_warehouse = self.warehouse
+        document.dc_no = self.name,
+        for i in self.items:
+            document.append('items', dict(
+            item_code = i.item_code,
+            qty=i.qty,
+            basic_rate=1,
+            uom=i.uom,
+            ))
+        document.save(ignore_permissions=True)
+        document.submit()
+    # To GRN OUT
 
-	
-	def on_submit(self):
-			company = frappe.db.get_single_value("Global Defaults","default_company")
-			abbr = frappe.db.get_value("Company",company,"abbr")
-			document = frappe.new_doc("Stock Entry")
-			document.stock_entry_type ="Send to Subcontractor"
-			document.from_warehouse =f"Stores - {abbr}"
-			document.to_warehouse = self.warehouse
-			document.dc_no = self.name,
-			for i in self.items:
-				document.append('items', dict(
-				item_code = i.item_code,
-				qty=i.qty,
-				basic_rate=1,
-				uom=i.uom,
-				))
-			document.save(ignore_permissions=True)
-			document.submit()
+        document_dc = frappe.new_doc("Gate Entry")
+        document_dc.is_gate_entry_in__out = "OUT"
+        document_dc.party_type = self.party_type
+        document_dc.party_name = self.party
+        document_dc.branch = self.branch
+        document_dc.po_no = self.po_no
+        document_dc.po_date = self.po_date
+        document_dc.against_si__dc = self.doctype 
+        document_dc.driver = self.driver_name
+        document_dc.dc_sales = self.name
+        document_dc.vehicle_no = self.vehicle_no
+        document_dc.append('dc_not_for_sales', dict(
+        goods_received_from = self.name))
+        document_dc.save(ignore_permissions=True)
+        self.status = "To Grn Out"
 
-	def on_cancel(self):
-		if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
-			frappe.get_doc("Stock Entry",{"dc_no":self.name}).cancel()
+
+    def on_cancel(self):
+        if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
+             frappe.get_doc("Stock Entry",{"dc_no":self.name}).cancel()
+        # if frappe.db.exists("Gate Entry",{"dc_sales":self.name}):
+        #      frappe.get_doc("Gate Entry",{"dc_sales":self.name}).cancel()
+
+        
 		
-	def on_trash(self):
-		if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
-			frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()
-
-	def validate(self):
-		total_qty = 0
-		for i in self.items:
-			total_qty += i.qty 
-		self.total_qty = total_qty
+    def on_trash(self):
+        if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
+             frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()
+        if frappe.db.exists("Gate Entry",{"dc_sales":self.name}):
+             frappe.get_doc("Gate Entry",{"dc_sales":self.name}).delete()
+    def validate(self):
+        total_qty = 0
+        for i in self.items:
+            total_qty += i.qty 
+        self.total_qty = total_qty
   
 	

@@ -2,6 +2,7 @@ import json
 from erpnext.controllers.subcontracting_controller import make_rm_stock_entry
 import frappe
 from erpnext.buying.doctype.purchase_order.purchase_order import make_subcontracting_order
+from frappe.utils.data import flt
 @frappe.whitelist()
 def on_insert(supplier,is_subcontracted):
     if is_subcontracted:
@@ -35,3 +36,15 @@ def item_supplier(supplier_name):
 #     a=make_subcontracting_order(doc.name)
 #     a.save()
 #     a.submit()
+
+def submit(doc,actions):
+        for i in doc.items:
+            if i.material_request:
+                rec_qty = (frappe.get_value("Material Request Item", {'parent': i.material_request,'item_code':i.item_code},'pending_qty') or 0)
+                frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'pending_qty', flt(rec_qty) -i.qty )
+
+def cancel(doc,actions):
+        for i in doc.items:
+            if i.material_request:
+                rec_qty = (frappe.get_value("Material Request Item", {'parent': i.material_request,'item_code':i.item_code},'pending_qty') or 0)
+                frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'pending_qty',flt(rec_qty) + i.qty)
