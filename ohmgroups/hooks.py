@@ -170,6 +170,14 @@ doc_events = {
 	},
     "Item" : {
 		"validate" : "ohmgroups.ohm_groups.custom.py.item.item_variant"
+	},
+    "Purchase Order" :{
+		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_order.submit",
+        "on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_order.cancel"
+	},
+    "Sales Invoice" : {
+		"on_submit" : "ohmgroups.ohm_groups.custom.py.sales_invoice.to_grn",
+        "on_trash" : "ohmgroups.ohm_groups.custom.py.sales_invoice.trash"
 	}
 
 }

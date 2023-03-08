@@ -190,12 +190,12 @@ class GRN(Document):
     def on_cancel(self):
         for i in self.dc_items:
             if not self.purchase_order:
-                rec_qty = frappe.get_value("DC Items", {'name':i.dc_name,'item_code':i.item_code},'received_qty')
+                rec_qty = frappe.get_value("DC Items", {'name':i.dc_name,'item_code':i.item_code},'received_qty') or 0
                 frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'received_qty',float(rec_qty) - i.qty)
                 frappe.db.set_value('DC Items', {'name': i.dc_name, 'item_code':i.item_code}, 'balance_qty',i.balanced_qty + i.qty)            
                 frappe.db.set_value("DC Items", {"name":i.dc_name,"item_code":i.item_code},"total",0)
             else:
-                rec_qty = frappe.get_value("Purchase Order Item", {'name': i.dc_name,'parenttype':'Purchase Order','item_code':i.item_code},'received_qty')
+                rec_qty = frappe.get_value("Purchase Order Item", {'name': i.dc_name,'parenttype':'Purchase Order','item_code':i.item_code},'received_qty') or 0
                 frappe.db.set_value('Purchase Order Item', {'name':  i.dc_name,'parenttype':'Purchase Order', 'item_code':i.item_code}, 'received_qty',rec_qty - i.qty)
 
 

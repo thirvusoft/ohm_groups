@@ -17,15 +17,20 @@
   "laser_cutting",
   "section_break_4",
   "raw_materials",
+  "total_qty",
   "job_work_tab",
   "sub_operations",
   "time_logs",
   "employee",
+  "section_break_15",
   "amended_from",
   "status",
   "started_time",
   "current_time",
-  "job_started"
+  "job_started",
+  "total_completed_qty",
+  "column_break_21",
+  "in_between"
  ],
  "fields": [
   {
@@ -118,7 +123,6 @@
   {
    "fieldname": "status",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Status",
    "options": "Draft\nWork In Progress\nOn Hold\nComplete\nSubmitted\nCancel"
   },
@@ -140,12 +144,35 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Job Started"
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Data",
+   "label": "Total Qty"
+  },
+  {
+   "fieldname": "total_completed_qty",
+   "fieldtype": "Float",
+   "label": "Total Completed Qty"
+  },
+  {
+   "fieldname": "column_break_21",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "in_between",
+   "fieldtype": "Float",
+   "label": "Break Time"
+  },
+  {
+   "fieldname": "section_break_15",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-02-28 18:18:31.532527",
+ "modified": "2023-03-06 10:14:52.532972",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",

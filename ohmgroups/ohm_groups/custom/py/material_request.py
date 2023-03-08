@@ -72,7 +72,8 @@ def get_default_supplier_query(doctype, txt, searchfield, start, page_len, filte
 	doc = frappe.get_doc("Material Request", filters.get("doc"))
 	item_list = []
 	for d in doc.items:
-		item_list.append(d.item_code)
+		if(d.ordered_qty != d.qty):
+			item_list.append(d.item_code)
 
 	return frappe.db.sql(
 		"""select supplier
@@ -87,7 +88,6 @@ def get_default_supplier_query(doctype, txt, searchfield, start, page_len, filte
 
 @frappe.whitelist()
 def make_purchase_order(source_name, target_doc=None, args=None):
-	
 	if args is None:
 		args = {}
 		
@@ -125,6 +125,9 @@ def make_purchase_order(source_name, target_doc=None, args=None):
 			"Material Request": {
 				"doctype": "Purchase Order",
 				"validation": {"docstatus": ["=", 1], "material_request_type": ["=", "Purchase"]},
+				"field_map" :[
+					["default_supplier", "naming_supplier"]
+				]
 			},
 			"Material Request Item": {
 				"doctype": "Purchase Order Item",
@@ -143,5 +146,7 @@ def make_purchase_order(source_name, target_doc=None, args=None):
 		target_doc,
 		postprocess,
 	)
-
+	doclist.update({
+		"naming_supplier" : frappe.flags.args.default_supplier
+	})
 	return doclist
