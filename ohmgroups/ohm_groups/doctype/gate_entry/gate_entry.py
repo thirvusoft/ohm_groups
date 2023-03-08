@@ -227,7 +227,7 @@ class GateEntry(Document):
     def on_cancel(self):
         # if self.against_po__dc == "DC Not for Sales" and self.is_gate_entry_in__out == "IN":
         #     for i in self.items:
-        #         rec_qty = frappe.get_value("DC Items", {'parent': i.document_no,'parenttype':self.against_po__dc,'item_code':i.item_code},'received_qty')or 0
+        #         rec_qty = frappe.get_value("DC Items", {'parent': i.document_no,'parenttype':self.against_po__dc,'item_code':i.item_code},'received_qty') or 0
         #         frappe.db.set_value('DC Items', {'parent':  i.document_no,'parenttype':self.against_po__dc, 'item_code':i.item_code}, 'received_qty',float(rec_qty) - i.received_qty)
         #         frappe.db.set_value('DC Items', {'parent':  i.document_no,'parenttype':self.against_po__dc,'item_code':i.item_code}, 'balance_qty',i.balanced_qty + i.received_qty)
         #         frappe.db.set_value("DC Items", {"parent": i.document_no,'parenttype':self.against_po__dc,"item_code":i.item_code},"total",0)
