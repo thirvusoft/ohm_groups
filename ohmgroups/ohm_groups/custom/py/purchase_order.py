@@ -40,11 +40,11 @@ def item_supplier(supplier_name):
 def submit(doc,actions):
         for i in doc.items:
             if i.material_request:
-                rec_qty = (frappe.get_value("Material Request Item", {'parent': i.material_request,'item_code':i.item_code},'pending_qty') or 0)
-                frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'pending_qty', flt(rec_qty) -i.qty )
+                rec_qty = (frappe.get_value("Material Request Item", {'parent': i.material_request,'item_code':i.item_code},'balanced_qty') or 0)
+                frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'balanced_qty', flt(rec_qty) -i.qty )
 
 def cancel(doc,actions):
         for i in doc.items:
             if i.material_request:
-                rec_qty = (frappe.get_value("Material Request Item", {'parent': i.material_request,'item_code':i.item_code},'pending_qty') or 0)
-                frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'pending_qty',flt(rec_qty) + i.qty)
+                rec_qty = (frappe.get_value("Material Request Item", {'parent': i.material_request,'item_code':i.item_code},'balanced_qty') or 0)
+                frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'balanced_qty',flt(rec_qty) + i.qty)
