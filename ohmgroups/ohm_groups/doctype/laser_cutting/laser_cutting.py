@@ -116,12 +116,20 @@ def item_query(doctype, txt, searchfield, start, page_len, filters, as_dict=Fals
 def make_time_log(args):
     if isinstance(args, str):
         args = json.loads(args)
-
     args = frappe._dict(args)
     doc = frappe.get_doc("Laser Cutting", args.job_card_id)
     # doc.validate_sequence_id()
     doc.add_time_logs(args)
     
+# @frappe.whitelist()
+# def make_tot_completed_qty(time_logs):
+#     log = json.loads(time_logs)
+
+#     tot = 0
+#     for i in log:
+#         tot+=i.get('completed_qty')
+#     return tot
+
 
 class LaserCutting(Document):
     def on_submit(self):
@@ -166,6 +174,8 @@ class LaserCutting(Document):
             frappe.get_doc("Stock Entry",{"laser_cutting":self.name}).delete()
     
     def add_time_logs(self, args):
+        from datetime import timedelta
+
         last_row = []
         employees = args.employees
         if isinstance(employees, str):
@@ -177,14 +187,41 @@ class LaserCutting(Document):
         self.reset_timer_value(args)
         if last_row and args.get("complete_time"):
             for row in self.time_logs:
-                if not row.to_time:
+                if not row.get('to_time'):
+                    employee = row.get('employee')
+                    curr_last_time = get_datetime(args.get("complete_time"))
+                    time = args['data'].get("time0").split(":")
                     row.update(
                         {
-                            "to_time": get_datetime(args.get("complete_time")),
+                            "to_time": curr_last_time + timedelta(hours = int(time[0]),minutes=int(time[1]),seconds=int(time[2])),
                             "operation": args.get("sub_operation"),
-                            "completed_qty": args.get("completed_qty") or 0.0,
+                            "completed_qty": args['data'].get("qty0") or 0.0,
+                            "item_code":args['data'].get("item0") or ""
                         }
                     )
+                    for i in range(1, len(self.raw_materials)):
+                        curr_last_time += timedelta(seconds=1)
+                        time = args['data'].get(f"time{i}").split(":")
+                        frappe.errprint(self.total_qty)
+                    
+                        self.append("time_logs",
+                            {
+                            "employee":employee,
+                            "from_time":curr_last_time,
+                            "operation": args.get("sub_operation"),
+                            "to_time": curr_last_time + timedelta(hours = int(time[0]),minutes=int(time[1]),seconds=int(time[2])),
+                            "completed_qty": args['data'].get(f"qty{i}") or 0.0,
+                            "item_code":args['data'].get(f"item{i}") or ""
+                        }
+                        )
+                        curr_last_time += timedelta(hours = int(time[0]),minutes=int(time[1]),seconds=int(time[2]))
+                    # row.update(
+                    #     {
+                    #         "to_time": get_datetime(args.get("complete_time")),
+                    #         "operation": args.get("sub_operation"),
+                    #         "completed_qty": args.get("completed_qty") or 0.0,
+                    #     }
+                    # )
         elif args.get("start_time"):
             new_args = frappe._dict(
                 {
@@ -206,7 +243,10 @@ class LaserCutting(Document):
 
         if self.status == "On Hold":
             self.current_time = time_diff_in_seconds(last_row.to_time, last_row.from_time)
-
+        tot = 0
+        for i in self.time_logs:
+            tot+=i.get('completed_qty')
+            self.total_completed_qty = tot
         self.save()
     def add_start_time_log(self, args):
         self.append("time_logs", args)
@@ -214,9 +254,6 @@ class LaserCutting(Document):
     def set_employees(self, employees):
         for name in employees:
             self.append("employee", {"employee": name.get("employee"), "completed_qty": 0.0})
-
-
-
 
     def reset_timer_value(self, args):
         self.started_time = None
@@ -273,4 +310,16 @@ class LaserCutting(Document):
                 row.status = "Pending"
                 row.completed_time = 0.0
                 row.completed_qty = 0.0
-        
+    def validate(self):
+        tot_qty = 0
+        for i in self.raw_materials:
+            tot_qty += int(i.total_qty)
+            self.total_qty = tot_qty
+        if len(self.time_logs) == 0:
+            self.status = "Draft"
+            self.total_completed_qty = 0
+            self.employee = []
+        tot = 0
+        for i in self.time_logs:
+            tot+=i.get('completed_qty')
+            self.total_completed_qty = tot
