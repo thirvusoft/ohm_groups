@@ -6,9 +6,13 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "sheet_no",
+  "operators_name",
   "employee",
+  "employee_name",
   "from_time",
   "to_time",
+  "job_duration",
   "completed_qty",
   "item_code"
  ],
@@ -24,13 +28,13 @@
    "fieldname": "from_time",
    "fieldtype": "Datetime",
    "in_list_view": 1,
-   "label": "From Time"
+   "label": "Start Time"
   },
   {
    "fieldname": "to_time",
    "fieldtype": "Datetime",
    "in_list_view": 1,
-   "label": "To Time"
+   "label": "End Time"
   },
   {
    "fieldname": "completed_qty",
@@ -43,12 +47,37 @@
    "fieldtype": "Link",
    "label": "Item Code",
    "options": "Item"
+  },
+  {
+   "fieldname": "sheet_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Sheet No"
+  },
+  {
+   "fieldname": "job_duration",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Job Duration"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "operators_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Operators/Helpers"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-06 13:12:33.078772",
+ "modified": "2023-03-10 12:22:00.773523",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting Time Log",

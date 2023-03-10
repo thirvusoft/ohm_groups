@@ -19,6 +19,16 @@
   "raw_materials",
   "total_qty",
   "job_work_tab",
+  "number_of_sheets",
+  "column_break_13",
+  "set",
+  "section_break_13",
+  "designation",
+  "operators",
+  "column_break_16",
+  "designation_2",
+  "helpers",
+  "section_break_19",
   "sub_operations",
   "time_logs",
   "employee",
@@ -120,6 +130,7 @@
   {
    "fieldname": "employee",
    "fieldtype": "Table MultiSelect",
+   "hidden": 1,
    "label": "Employee",
    "options": "Laser Cutting Time Log"
   },
@@ -177,13 +188,64 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Frozen"
+  },
+  {
+   "fieldname": "number_of_sheets",
+   "fieldtype": "Select",
+   "label": "Number of Sheets"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Select",
+   "label": "Designation 1",
+   "options": "\nOperator"
+  },
+  {
+   "fieldname": "operators",
+   "fieldtype": "Table MultiSelect",
+   "label": "Operators",
+   "options": "Operator Multiselect"
+  },
+  {
+   "fieldname": "designation_2",
+   "fieldtype": "Select",
+   "label": "Designation 2",
+   "options": "\nHelper"
+  },
+  {
+   "fieldname": "helpers",
+   "fieldtype": "Table MultiSelect",
+   "label": "Helpers",
+   "options": "Helpers Multiselect"
+  },
+  {
+   "fieldname": "section_break_13",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_19",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "set",
+   "fieldtype": "Button",
+   "hidden": 1,
+   "label": "Set"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-10 09:22:39.436377",
+ "modified": "2023-03-10 17:48:01.253705",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",
