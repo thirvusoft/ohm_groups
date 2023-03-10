@@ -111,12 +111,11 @@ frappe.ui.form.on('Purchase Order Item', {
 	// 	frappe.model.set_value(cdt,cdn,'amount',row.stock_uom_rate * row.stock_qty)
 	// },
 	
-	qty:function(frm,cdt,cdn) {
+	weight_per_unit:function(frm,cdt,cdn) {
         
 		var row = locals[cdt][cdn]
-        frappe.model.set_value(cdt,cdn,'amount',row.total_weight * row.rate)
-        frappe.model.set_value(cdt,cdn,'base_amount',row.total_weight * row.rate)
-        frappe.model.set_value(cdt,cdn,'base_net_amount',row.total_weight * row.rate)
+        frappe.model.set_value(cdt,cdn,'total_weight',row.weight_per_unit * row.qty)
+
 	},
 })
 // function po_item (frm,cdt,cdn){

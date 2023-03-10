@@ -30,7 +30,8 @@
   "job_started",
   "total_completed_qty",
   "column_break_21",
-  "in_between"
+  "in_between",
+  "frozen"
  ],
  "fields": [
   {
@@ -93,6 +94,8 @@
   {
    "fieldname": "reference_number",
    "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
    "label": "Reference Number"
   },
   {
@@ -148,7 +151,7 @@
   {
    "fieldname": "total_qty",
    "fieldtype": "Data",
-   "label": "Total Qty"
+   "label": "Total Components"
   },
   {
    "fieldname": "total_completed_qty",
@@ -167,13 +170,20 @@
   {
    "fieldname": "section_break_15",
    "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "frozen",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Frozen"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-07 14:31:20.743421",
+ "modified": "2023-03-10 09:22:39.436377",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",

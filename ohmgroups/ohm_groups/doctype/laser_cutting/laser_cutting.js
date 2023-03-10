@@ -3,6 +3,8 @@
 
 frappe.ui.form.on('Laser Cutting', {
     refresh:function(frm){
+
+    
         frm.trigger("make_dashboard");
         if (!frm.is_new() && frm.doc.docstatus == 0 && !(frm.doc.total_qty == frm.doc.total_completed_qty)){
             {
@@ -97,11 +99,10 @@ frappe.ui.form.on('Laser Cutting', {
 			};
 		});
     },
-    validate: function(frm) {
-		if ((!frm.doc.time_logs || !frm.doc.time_logs.length) && frm.doc.started_time) {
-			frm.trigger("reset_timer");
-		}
-	},
+    // validate: function(frm) {
+
+    
+	// },
 
 	reset_timer: function(frm) {
 		frm.set_value('started_time' , '');
@@ -163,6 +164,41 @@ frappe.ui.form.on('Laser Cutting', {
     //         cur_frm.fields_dict.laser_cutting.$wrapper.find('.grid-add-row')[0].style.display='none'
     // },
     validate:async function (frm){
+        if ((!frm.doc.time_logs || !frm.doc.time_logs.length) && frm.doc.started_time) {
+			frm.trigger("reset_timer");
+		}
+        let fields=[]
+
+        if(frm.doc.frozen == 0){
+            frappe.validated = false
+            frappe.confirm("Are You Sure to send to Laser Cutting Work",
+                function() {
+                    frm.set_value("frozen",1)
+                    frm.save();
+                    frappe.validated = true
+                   
+                    for(let i=0;i<frappe.get_meta('Laser Cutting').fields.length;i++){
+                        if(frappe.get_meta('Laser Cutting').fields[i].fieldname == 'job_work_tab'){break;}
+                        fields.push(frappe.get_meta('Laser Cutting').fields[i].fieldname)
+                        frm.set_df_property(frappe.get_meta('Laser Cutting').fields[i].fieldname, 'read_only', 1)
+                    }
+                })     
+
+        }
+        
+        var dialog = new frappe.ui.Dialog({
+            title :'Are You Sure',
+            primary_action_label: __('Yes'),
+            primary_action: function(data){
+                cur_frm.set_value("frozen",1)
+            },
+            secondary_action_label: __('No'),
+            secondary_action: function(data){
+                frm.set_value("frozen",1)
+            }
+        })
+        // dialog.show()
+    
         if(!frm.doc.raw_materials ){
             frappe.msgprint("Kindly Upload the Raw Materials")
         }
@@ -226,18 +262,7 @@ frappe.ui.form.on('Laser Cutting', {
 	timer: function(frm) {
 		return `<button> Start </button>`
 	},
-
-	// set_total_completed_qty: function(frm) {
-	// 	// frm.doc.total_completed_qty = 0;
-	// 	frm.doc.time_logs.forEach(d => {
-	// 		if (d.completed_qty) {
-	// 			frm.doc.total_completed_qty += d.completed_qty;
-	// 		}
-	// 	});
-
-	// 	frm.refresh_field("total_completed_qty");
-	// },
-
+   
     });
 frappe.ui.form.on('Laser Cutting Time Log', {
     to_time: function(frm) {
@@ -246,6 +271,12 @@ frappe.ui.form.on('Laser Cutting Time Log', {
 })
 
 frappe.ui.form.on('Raw Materials',{
+    raw_materials_add(frm,cdt,cdn) {
+        // for(let i=0;i<frm.doc.raw_materials.length;i++){
+            frappe.model.set_value(cdt,cdn,'qty',frm.doc.laser_cutting?frm.doc.laser_cutting[0].qty:0)
+        // }
+        
+	},
     item_code(frm,cdt,cdn) {
         var row = locals[cdt][cdn]
         frappe.db.get_value('Item',{'item_code':row.item_code},'valuation_rate').then((r)=>{
@@ -254,13 +285,29 @@ frappe.ui.form.on('Raw Materials',{
 	},
     per_sheet_qty(frm,cdt,cdn) {
         var row = locals[cdt][cdn]
-        frappe.model.set_value(cdt,cdn,'total_qty',row.per_sheet_qty * row.qty)
         
+        for(let i=0;i<frm.doc.laser_cutting.length;i++){
+            frappe.model.set_value(cdt,cdn,'total_qty',row.per_sheet_qty * frm.doc.laser_cutting[i].qty)
+        }
+ 
 	},
     qty(frm,cdt,cdn) {
         var row = locals[cdt][cdn]
-        frappe.model.set_value(cdt,cdn,'total_qty',row.per_sheet_qty * row.qty)
+        
+        for(let i=0;i<frm.doc.laser_cutting.length;i++){
+            frappe.model.set_value(cdt,cdn,'total_qty',row.per_sheet_qty * row.qty)
+        } 
+},
+})
+frappe.ui.form.on('Finished Goods',{
+    qty(frm,cdt,cdn) {
+        var row = locals[cdt][cdn]
+        for(let i=0;i<frm.doc.raw_materials.length;i++){
+            frappe.model.set_value(frm.doc.raw_materials[i].doctype,frm.doc.raw_materials[i].name,'qty',row.qty)
+        }
         
 	},
+
 })
+
 
