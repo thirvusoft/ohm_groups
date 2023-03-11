@@ -11,7 +11,7 @@ from frappe.desk.reportview import get_filters_cond, get_match_cond
 from frappe.utils import nowdate, unique
 import erpnext
 from erpnext.stock.get_item_details import _get_item_tax_template
-from frappe.utils.data import get_datetime, time_diff_in_seconds
+from frappe.utils.data import get_datetime, time_diff_in_seconds, time_diff_in_hours
 
 
 @frappe.whitelist()
@@ -152,6 +152,64 @@ def set_time_log(number_of_sheets,designation,operators,designation_2,helpers):
         time_log_add.append({'sheet_no':number_of_sheets,'helpers_name':designation_2,'employee':j.get('employee_id_'),'from_time':now})
     return time_log_add
 
+# @frappe.whitelist()
+# def item_table(raw_materials):
+#     item = []
+#     item_ = json.loads(raw_materials)
+#     for i in item_:
+#         item.append({"item_code":i.get('item_code'),"actual_qty":float(i.get('per_sheet_qty', 0))})
+#     table=[
+#             {
+#             'fieldname':'item_code',
+#             'label':'Item Code',
+#             'fieldtype':'Link',
+#             'options':'Item',
+#             'in_list_view':1,
+#             'read_only' :1,
+#             'column':2
+#             },
+#             {
+#             'fieldname':'actual_qty',
+#             'label':'Actual Qty',
+#             'fieldtype':'Float',
+#             'in_list_view':1,
+#             'read_only' :1,
+#             'column':1
+#             },
+#             {
+#             'fieldname':'rejected_qty',
+#             'label':'Rejected Qty',
+#             'fieldtype':'Float',
+#             'in_list_view':1,
+#             'column':1
+#             },
+#             {
+#             'fieldname':'accepted_qty',
+#             'label':'Accepted Qty',
+#             'fieldtype':'Float',
+#             'in_list_view':1,
+#             'column':1
+#             },
+#             {
+#             'fieldname':'missing_qty',
+#             'label':'Missing Qty',
+#             'fieldtype':'Float',
+#             'in_list_view':1,
+#             'column':1
+
+#             },
+#             {
+#             'fieldname':'remark',
+#             'fieldtype':'Small Text',
+#             'label':'Remark',
+#             'in_list_view':1,
+#             'column':2
+#             }
+#         ]
+#     return table, item
+
+
+
 
 class LaserCutting(Document):
     def on_submit(self):
@@ -196,8 +254,6 @@ class LaserCutting(Document):
             frappe.get_doc("Stock Entry",{"laser_cutting":self.name}).delete()
     
     def add_time_logs(self, args):
-        from datetime import timedelta
-
         last_row = []
         employees = args.employees
         if isinstance(employees, str):
@@ -207,60 +263,28 @@ class LaserCutting(Document):
             last_row = self.time_logs[-1]
 
         self.reset_timer_value(args)
-        # emp = {i.employee:"Operators" for i in self.operators}
-        # emp.update({i.employee_id_:"Helpers" for i in self.helpers})
         if last_row and args.get("complete_time"):
             for row in self.time_logs:
                 if not row.get('to_time'):
-                    employee = row.get('employee')
-                    curr_last_time = get_datetime(args.get("complete_time"))
-                    time = args['data'].get("time0").split(":")
+                    time = datetime.now()
                     row.update(
                         {
-                            "to_time": curr_last_time + timedelta(hours = int(time[0]),minutes=int(time[1]),seconds=int(time[2])),
+                            "to_time": time,
                             "operation": args.get("sub_operation"),
-                            "completed_qty": args['data'].get("qty0") or 0.0,
-                            "item_code":args['data'].get("item0") or ""
                         }
                     )
-                    for i in range(1, len(self.raw_materials)):
-                        curr_last_time += timedelta(seconds=1)
-                        time = args['data'].get(f"time{i}").split(":")
-                        frappe.errprint(self.total_qty)
-                    
-                        self.append("time_logs",
-                            {
-                            "employee":employee,
-                            "from_time":curr_last_time,
-                            "operation": args.get("sub_operation"),
-                            "to_time": curr_last_time + timedelta(hours = int(time[0]),minutes=int(time[1]),seconds=int(time[2])),
-                            "completed_qty": args['data'].get(f"qty{i}") or 0.0,
-                            "item_code":args['data'].get(f"item{i}") or "",
-                            
-                        }
-                        )
-                        curr_last_time += timedelta(hours = int(time[0]),minutes=int(time[1]),seconds=int(time[2]))
-                        self.employee = []
-                    # row.update(
-                    #     {
-                    #         "to_time": get_datetime(args.get("complete_time")),
-                    #         "operation": args.get("sub_operation"),
-                    #         "completed_qty": args.get("completed_qty") or 0.0,
-                    #     }
-                    # )
+                    time = datetime.now()
+                row.job_duration = time_diff_in_hours(row.to_time, row.from_time) * 60
         elif args.get("start_time"):
-            new_args = frappe._dict(
-                {
+            new_args = frappe._dict({
                     "from_time": get_datetime(args.get("start_time")),
                     "operation": args.get("sub_operation"),
                     "completed_qty": 0.0,
-                }
-            )
+                })
             if employees:
                 for name in employees:
                     new_args.employee = name.get("employee")
                     new_args.operators_name=frappe.get_value('Employee',name.get("employee"),'designation')
-                    # new_args.operators_name=args.get('help')
                     new_args.sheet_no=args.get('sheet')
                     self.add_start_time_log(new_args)
             else:
@@ -271,19 +295,13 @@ class LaserCutting(Document):
 
         if self.status == "On Hold":
             self.current_time = time_diff_in_seconds(last_row.to_time, last_row.from_time)
-        tot = 0
-        
-        for i in self.time_logs:
-            tot+=i.get('completed_qty')
-            self.total_completed_qty = tot
-            # i.sheet_no = self.number_of_sheets
-            # i.operators_name = self.designation
-            # i.operators_name = self.designation_2
-        # frappe.db.set_value("Laser Cutting",self.name,"number_of_sheets","")
-        # frappe.db.set_value("Laser Cutting",self.name,"number_of_sheets","")
+
         self.save()
+
     def add_start_time_log(self, args):
         self.append("time_logs", args)
+        if len(self.time_logs) > 1:
+            self.time_logs[-1].break_time = time_diff_in_hours(self.time_logs[-1].from_time, self.time_logs[-2].to_time)
 
     def set_employees(self, employees):
         for name in employees:
@@ -354,6 +372,6 @@ class LaserCutting(Document):
             self.total_completed_qty = 0
             self.employee = []
         tot = 0
-        for i in self.time_logs:
-            tot+=i.get('completed_qty')
-            self.total_completed_qty = tot
+        # for i in self.time_logs:
+        #     tot+=i.get('completed_qty', 0)
+        #     self.total_completed_qty = tot
