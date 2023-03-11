@@ -11,26 +11,6 @@ frappe.ui.form.on('Laser Cutting', {
                 frm.set_df_property(frappe.get_meta('Laser Cutting').fields[i].fieldname, 'read_only', 1)
             }
         }
-        //    if(frm.doc.number_of_sheets){
-        //     frm.call({
-
-        //         method: "set_time_log",
-        //         args: {
-        //             number_of_sheets: frm.doc.number_of_sheets,
-        //             designation: frm.doc.designation,
-        //             designation_2: frm.doc.designation_2,
-        //             operators:frm.doc.operators,
-        //             helpers: frm.doc.helpers
-        //         },
-        //         callback: function (r) {
-        //                 frm.set_value("time_logs",r.message[0])
-        //                 frm.events.start_job(frm, "Work In Progress",r.message[0]);
-
-
-        //         }
-        //     });
-        //    }
-
         if (frm.doc.laser_cutting[0].qty) {
             frm.call({
                 method: "sheet_no",
@@ -38,7 +18,6 @@ frappe.ui.form.on('Laser Cutting', {
                     laser_cutting: frm.doc.laser_cutting
                 },
                 callback: function (r) {
-                    // frm.reload_doc();
                     frm.set_df_property('number_of_sheets', 'options', r.message)
                 }
             });
@@ -49,21 +28,7 @@ frappe.ui.form.on('Laser Cutting', {
             {
                 if (!frm.doc.started_time && !frm.doc.current_time) {
                     frm.add_custom_button(__("Start Job"), async () => {
-                        // if ((frm.doc.employee && !frm.doc.employee.length) || !frm.doc.employee) {
-                        // frappe.prompt({fieldtype: 'Table MultiSelect', label: __('Select Employees'),
-                        //     options: "Laser Cutting Time Log", fieldname: 'employees'}, d => {
-                        //     frm.events.start_job(frm, "Work In Progress", d.employees);
-                        //     frm.set_value("status",frm.doc.status)
-                        // }, __("Assign Job to Employee"));
-                        // if(frm.doc.number_of_sheets == ""){
-                        //     frappe.throw("Hii")
-                        // }
-                        // return
-                        //  if(!frm.doc.number_of_sheets){
-                        //     frappe.throw("Kindly Select the Number of Sheets")
-
-                        // }
-
+                      
 
                         await frm.call({
 
@@ -86,12 +51,6 @@ frappe.ui.form.on('Laser Cutting', {
 
                             }
                         });
-
-
-                        //     } else {
-                        //         frm.events.start_job(frm, "Work In Progress", frm.doc.employee);
-                        //     }
-                        // }).addClass("btn-primary");
                         frm.set_value("number_of_sheets", "")
                         frm.set_value("designation", "")
                         frm.set_value("designation_2", "")
@@ -104,9 +63,6 @@ frappe.ui.form.on('Laser Cutting', {
                         frm.events.start_job(frm, "Resume Job", frm.doc.employee);
                     }).addClass("btn-primary");
                 } else {
-                    // frm.add_custom_button(__("Pause Job"), () => {
-                    //     frm.events.complete_job(frm, "On Hold");
-                    // });
 
                     frm.add_custom_button(__("Complete Job"), () => {
                         var sub_operations = frm.doc.sub_operations;
@@ -120,16 +76,7 @@ frappe.ui.form.on('Laser Cutting', {
                                 set_qty = true;
                             }
                         }
-                        // frm.events.complete_job(frm, "Complete", 0.0);
-
-                        //     let fields = [];
-
-                        // frappe.call({
-                            // method: 'ohmgroups.ohm_groups.doctype.laser_cutting.laser_cutting.item_table',
-                            // args: {
-                            //     raw_materials: frm.doc.raw_materials
-                            // },
-                            // callback(r) {
+            
                                 let table = [
                                     {
                                         'fieldname': 'sheet_no',
@@ -168,7 +115,15 @@ frappe.ui.form.on('Laser Cutting', {
                                         'label': 'Accepted Qty',
                                         'fieldtype': 'Float',
                                         'in_list_view': 1,
-                                        'column': 1
+                                        'column': 1,
+                                        onchange:function(){
+                                            for(let i=0;i < cur_dialog.fields_dict.table.grid.data.length;i++){
+                                                cur_dialog.fields_dict.table.grid.data[i].missing_qty = cur_dialog.fields_dict.table.grid.data[i].actual_qty - (cur_dialog.fields_dict.table.grid.data[i].accepted_qty + cur_dialog.fields_dict.table.grid.data[i].rejected_qty)
+                                                cur_dialog.refresh()
+                                            }
+                                           
+                                        }
+                                    
                                     },
                                     {
                                         'fieldname': 'missing_qty',
@@ -184,11 +139,15 @@ frappe.ui.form.on('Laser Cutting', {
                                         'label': 'Remark',
                                         'in_list_view': 1,
                                         'column': 2
+                                    },
+                                    {
+                                        'fieldname': 'employee',
+                                        'fieldtype': 'Link',
+                                        'label': 'Employee',
+                                        'in_list_view': 0,
                                     }
                                 ]
                                 let item = []
-                                console.log("------")
-                                console.log(frm.doc.number_of_sheets)
                                 frm.doc.raw_materials.forEach((i) => {
                                     item.push({ "item_code": i.item_code, "actual_qty": i.per_sheet_qty,"sheet_no":frm.doc.time_logs[frm.doc.time_logs.length-1]?.sheet_no})
                                 })
@@ -212,7 +171,6 @@ frappe.ui.form.on('Laser Cutting', {
                                     async primary_action(data) {
                                         if (data.table) {
                                             await frm.events.complete_job(frm, "Complete", data.table);
-
                                         }
                                         frm.reload_doc()
                                         d.hide()
@@ -231,26 +189,6 @@ frappe.ui.form.on('Laser Cutting', {
                         frm.set_value("operators",[])
                         frm.set_value("helpers",[])
                         frm.refresh_fields("number_of_sheets")
-                        // let i =0;
-                        // for(let vl of frm.doc.raw_materials){
-                        //     fields.push({'fieldtype':'Link', 'options':'Item', 'label':'Item', 'read_only':1, 'fieldname':`item${i}`, 'default':vl.item_code})
-                        //     fields.push({'fieldtype':'Column Break'})
-                        //     fields.push({'fieldtype':'Float', 'label':'Qty', 'fieldname':`qty${i}`})
-                        //     fields.push({'fieldtype':'Column Break'})
-                        //     fields.push({'fieldtype':'Time', 'label':'To Time', 'fieldname':`time${i}`})
-                        //     fields.push({'fieldtype':'Section Break'})
-                        //     i+=1;
-                        // }
-
-                        // frappe.prompt(fields, (values) => {
-                        //     frm.events.complete_job(frm, "Complete", values);
-                        //     console.log("========")
-                        //     console.log(values)
-                        //     // frm.events.complete_job(frm, "Complete", data.item_code0);
-                        // },
-
-                        //     __("Enter Value"));
-
                     }).addClass("btn-primary");
 
                 }
@@ -290,14 +228,6 @@ frappe.ui.form.on('Laser Cutting', {
     reset_timer: function (frm) {
         frm.set_value('started_time', '');
     },
-    // set:function(frm){
-    //     frm.set_value("number_of_sheets","")
-    //     frm.set_value("designation","")
-    //     frm.set_value("designation_2","")
-    //     frm.set_value("operators",[])
-    //     frm.set_value("helpers",[])
-    //     frm.refresh_fields("number_of_sheets")
-    // },
     make_dashboard: function (frm) {
         if (frm.doc.__islocal)
             return;
@@ -502,9 +432,7 @@ frappe.ui.form.on('Laser Cutting Time Log', {
 
 frappe.ui.form.on('Raw Materials', {
     raw_materials_add(frm, cdt, cdn) {
-        // for(let i=0;i<frm.doc.raw_materials.length;i++){
         frappe.model.set_value(cdt, cdn, 'qty', frm.doc.laser_cutting ? frm.doc.laser_cutting[0].qty : 0)
-        // }
 
     },
     item_code(frm, cdt, cdn) {

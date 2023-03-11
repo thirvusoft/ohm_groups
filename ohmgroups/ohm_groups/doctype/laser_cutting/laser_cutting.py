@@ -119,17 +119,9 @@ def make_time_log(args):
         args = json.loads(args)
     args = frappe._dict(args)
     doc = frappe.get_doc("Laser Cutting", args.job_card_id)
-    # doc.validate_sequence_id()
     doc.add_time_logs(args)
-    
-# @frappe.whitelist()
-# def make_tot_completed_qty(time_logs):
-#     log = json.loads(time_logs)
-
-#     tot = 0
-#     for i in log:
-#         tot+=i.get('completed_qty')
-#     return tot
+    doc.add_job_work_report(args.get('table',[]))
+    doc.save()
 
 @frappe.whitelist()
 def sheet_no(laser_cutting):
@@ -151,65 +143,6 @@ def set_time_log(number_of_sheets,designation,operators,designation_2,helpers):
     for j in help:
         time_log_add.append({'sheet_no':number_of_sheets,'helpers_name':designation_2,'employee':j.get('employee_id_'),'from_time':now})
     return time_log_add
-
-# @frappe.whitelist()
-# def item_table(raw_materials):
-#     item = []
-#     item_ = json.loads(raw_materials)
-#     for i in item_:
-#         item.append({"item_code":i.get('item_code'),"actual_qty":float(i.get('per_sheet_qty', 0))})
-#     table=[
-#             {
-#             'fieldname':'item_code',
-#             'label':'Item Code',
-#             'fieldtype':'Link',
-#             'options':'Item',
-#             'in_list_view':1,
-#             'read_only' :1,
-#             'column':2
-#             },
-#             {
-#             'fieldname':'actual_qty',
-#             'label':'Actual Qty',
-#             'fieldtype':'Float',
-#             'in_list_view':1,
-#             'read_only' :1,
-#             'column':1
-#             },
-#             {
-#             'fieldname':'rejected_qty',
-#             'label':'Rejected Qty',
-#             'fieldtype':'Float',
-#             'in_list_view':1,
-#             'column':1
-#             },
-#             {
-#             'fieldname':'accepted_qty',
-#             'label':'Accepted Qty',
-#             'fieldtype':'Float',
-#             'in_list_view':1,
-#             'column':1
-#             },
-#             {
-#             'fieldname':'missing_qty',
-#             'label':'Missing Qty',
-#             'fieldtype':'Float',
-#             'in_list_view':1,
-#             'column':1
-
-#             },
-#             {
-#             'fieldname':'remark',
-#             'fieldtype':'Small Text',
-#             'label':'Remark',
-#             'in_list_view':1,
-#             'column':2
-#             }
-#         ]
-#     return table, item
-
-
-
 
 class LaserCutting(Document):
     def on_submit(self):
@@ -296,7 +229,7 @@ class LaserCutting(Document):
         if self.status == "On Hold":
             self.current_time = time_diff_in_seconds(last_row.to_time, last_row.from_time)
 
-        self.save()
+        
 
     def add_start_time_log(self, args):
         self.append("time_logs", args)
@@ -375,3 +308,11 @@ class LaserCutting(Document):
         # for i in self.time_logs:
         #     tot+=i.get('completed_qty', 0)
         #     self.total_completed_qty = tot
+
+    def add_job_work_report(self,table):
+        if(isinstance(table,str)):
+            table = json.loads(table)
+        frappe.errprint(table)
+        self.update({
+            "job_work_report_table": self.job_work_report_table + [{'sheet_no':i.get('sheet_no'),'accepted_qty':i.get('accepted_qty'),'rejected_qty':i.get('rejected_qty'),'remark':i.get('remark'),'item_code': i.get('item_code'), 'actual_qty': i.get('actual_qty')} for i in table]
+            })

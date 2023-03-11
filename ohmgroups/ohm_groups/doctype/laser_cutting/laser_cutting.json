@@ -38,10 +38,14 @@
   "started_time",
   "current_time",
   "job_started",
-  "total_completed_qty",
   "column_break_21",
-  "in_between",
-  "frozen"
+  "frozen",
+  "job_report_tab",
+  "job_work_report_table",
+  "section_break_35",
+  "total_completed_qty",
+  "column_break_36",
+  "in_between"
  ],
  "fields": [
   {
@@ -239,13 +243,32 @@
    "fieldtype": "Button",
    "hidden": 1,
    "label": "Set"
+  },
+  {
+   "fieldname": "job_report_tab",
+   "fieldtype": "Tab Break",
+   "label": "Job Report "
+  },
+  {
+   "fieldname": "job_work_report_table",
+   "fieldtype": "Table",
+   "label": "Job Work Report Table",
+   "options": "Job Work Report Table"
+  },
+  {
+   "fieldname": "column_break_36",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_35",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-10 17:48:01.253705",
+ "modified": "2023-03-11 12:56:10.316390",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",
