@@ -38,12 +38,8 @@ frappe.ui.form.on('DC Not for Sales',{
             //     "e-Waybill"
             // );
         
-              
+          
 
-    
-         
-   
-        
     },
 
 
@@ -375,6 +371,15 @@ frappe.ui.form.on('DC Items',{
 		var row = locals[cdt][cdn]
 		frappe.model.set_value(cdt,cdn,'balance_qty',row.qty)
 	},
+    item_code:function(frm,cdt,cdn){
+        var row = locals[cdt][cdn]
+        if(row.item_code && !frm.doc.party){
+            frappe.model.set_value(cdt,cdn,"item_name","")
+            frappe.model.set_value(cdt,cdn,"item_code","")
+            frappe.throw("Kindly fill party")
+
+        }
+    }
  
 })
 function get_primary_action_label_for_generation(doc) {

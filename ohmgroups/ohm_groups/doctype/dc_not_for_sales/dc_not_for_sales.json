@@ -369,13 +369,13 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "\nSubmitted\nDraft\nTo Grn Out"
+   "options": "\nSubmitted\nDraft\nTo Gate entry Out"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2023-03-07 16:02:11.632272",
+ "modified": "2023-03-11 18:14:49.268898",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",
@@ -404,7 +404,7 @@
  "states": [
   {
    "color": "Green",
-   "title": "To Grn Out"
+   "title": "To Gate entry Out"
   }
  ]
 }
