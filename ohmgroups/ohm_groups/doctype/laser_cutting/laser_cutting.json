@@ -40,12 +40,16 @@
   "job_started",
   "column_break_21",
   "frozen",
+  "section_break_33",
+  "total_duration",
+  "column_break_36",
+  "in_between",
   "job_report_tab",
   "job_work_report_table",
   "section_break_35",
-  "total_completed_qty",
-  "column_break_36",
-  "in_between"
+  "ordered_",
+  "column_break_41",
+  "total_completed_qty"
  ],
  "fields": [
   {
@@ -141,6 +145,7 @@
   {
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Status",
    "options": "Draft\nWork In Progress\nOn Hold\nComplete\nSubmitted\nCancel"
   },
@@ -262,13 +267,33 @@
   {
    "fieldname": "section_break_35",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "ordered_",
+   "fieldtype": "Percent",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Ordered %"
+  },
+  {
+   "fieldname": "total_duration",
+   "fieldtype": "Float",
+   "label": "Total Duration"
+  },
+  {
+   "fieldname": "section_break_33",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_41",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-11 12:56:10.316390",
+ "modified": "2023-03-13 11:20:16.771678",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",

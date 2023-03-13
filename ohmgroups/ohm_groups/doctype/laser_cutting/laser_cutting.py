@@ -305,14 +305,25 @@ class LaserCutting(Document):
             self.total_completed_qty = 0
             self.employee = []
         tot = 0
-        # for i in self.time_logs:
-        #     tot+=i.get('completed_qty', 0)
-        #     self.total_completed_qty = tot
+        for i in self.job_work_report_table:
+            tot+=i.get('accepted_qty', 0)
+        self.total_completed_qty = tot
+
+        break_time = 0
+        total_duration_ = 0
+        for i in self.time_logs:
+            break_time+=(i.get('break_time')) or 0
+            print(i.get('job_duration'))
+            total_duration_ +=float(i.get('job_duration') or 0)
+            print(total_duration_)
+        self.total_duration = total_duration_
+        self.in_between = break_time
+        self.ordered_ = self.total_completed_qty/self.total_qty*100
 
     def add_job_work_report(self,table):
         if(isinstance(table,str)):
             table = json.loads(table)
-        frappe.errprint(table)
         self.update({
-            "job_work_report_table": self.job_work_report_table + [{'sheet_no':i.get('sheet_no'),'accepted_qty':i.get('accepted_qty'),'rejected_qty':i.get('rejected_qty'),'remark':i.get('remark'),'item_code': i.get('item_code'), 'actual_qty': i.get('actual_qty')} for i in table]
+            "job_work_report_table": self.job_work_report_table + [{'sheet_no':i.get('sheet_no'),'accepted_qty':i.get('accepted_qty'),'rejected_qty':i.get('rejected_qty'),'remark':i.get('remark'),'item_code': i.get('item_code'), 'actual_qty': i.get('actual_qty'), 'missing_qty':i.get('missing_qty')} for i in table]
             })
+        

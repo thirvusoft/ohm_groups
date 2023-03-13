@@ -3,6 +3,9 @@
 
 frappe.ui.form.on('Laser Cutting', {
     refresh: function (frm) {
+        frm.trigger("show_progress_for_items");
+        
+        frm.fields_dict.job_work_report_table.$wrapper.find('.grid-add-row')[0].style.display = 'none'
         let fields = []
         if (frm.doc.frozen == 1) {
             for (let i = 0; i < frappe.get_meta('Laser Cutting').fields.length; i++) {
@@ -108,7 +111,14 @@ frappe.ui.form.on('Laser Cutting', {
                                         'label': 'Rejected Qty',
                                         'fieldtype': 'Float',
                                         'in_list_view': 1,
-                                        'column': 1
+                                        'column': 1,
+                                        onchange:function(){
+                                            for(let i=0;i < cur_dialog.fields_dict.table.grid.data.length;i++){
+                                                cur_dialog.fields_dict.table.grid.data[i].missing_qty = cur_dialog.fields_dict.table.grid.data[i].actual_qty - (cur_dialog.fields_dict.table.grid.data[i].accepted_qty + cur_dialog.fields_dict.table.grid.data[i].rejected_qty)
+                                                cur_dialog.refresh()
+                                            }
+                                           
+                                        }
                                     },
                                     {
                                         'fieldname': 'accepted_qty',
@@ -172,7 +182,7 @@ frappe.ui.form.on('Laser Cutting', {
                                         if (data.table) {
                                             await frm.events.complete_job(frm, "Complete", data.table);
                                         }
-                                        frm.reload_doc()
+                                        // frm.reload_doc()
                                         d.hide()
                                     },
                                     secondary_action() {
@@ -228,11 +238,50 @@ frappe.ui.form.on('Laser Cutting', {
     reset_timer: function (frm) {
         frm.set_value('started_time', '');
     },
+    // setup:function(frm){
+    //     frm.trigger("show_progress_for_items");
+    // },
+	show_progress_for_items: function(frm) {
+		var bars = [];
+		var message = '';
+		var added_min = false;
+            var title = __('{0} item produced', [frm.doc.total_completed_qty]);
+       
+		// produced qty
+		
+       
+		bars.push({
+			'title': title,
+			'width': (frm.doc.total_completed_qty / frm.doc.total_qty * 100) + '%',
+			'progress_class': 'progress-bar-success'
+		});
+		if (bars[0].width == '0%') {
+			bars[0].width = '0.5%';
+			added_min = 0.2;
+		}
+		message = title;
+		// pending qty
+		// if(!frm.doc.skip_transfer){
+		// 	var pending_complete = frm.doc.material_transferred_for_manufacturing - frm.doc.produced_qty;
+		// 	if(pending_complete) {
+		// 		var width = ((pending_complete / frm.doc.qty * 100) - added_min);
+		// 		title = __('{0} items in progress', [pending_complete]);
+		// 		bars.push({
+		// 			'title': title,
+		// 			'width': (width > 100 ? "99.5" : width)  + '%',
+		// 			'progress_class': 'progress-bar-warning'
+		// 		});
+		// 		message = message + '. ' + title;
+		// 	}
+		// }
+		frm.dashboard.add_progress(__('Status'), bars, message);
+	},
     make_dashboard: function (frm) {
         if (frm.doc.__islocal)
             return;
-        if (!frm.is_new() && frm.doc.docstatus == 0 && !(frm.doc.total_qty == frm.doc.total_completed_qty)) {
-            frm.dashboard.refresh();
+        //&& !(frm.doc.total_qty == frm.doc.total_completed_qty)
+        if (!frm.is_new() && frm.doc.docstatus == 0 && !(frm.doc.total_qty == frm.doc.total_completed_qty) ) {
+            // frm.dashboard.refresh();
             const timer = `
                 <div class="stopwatch" style="font-weight:bold;margin:0px 13px 0px 2px;
                     color:#545454;font-size:18px;display:inline-block;vertical-align:text-bottom;">
