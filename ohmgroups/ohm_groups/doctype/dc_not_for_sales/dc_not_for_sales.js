@@ -37,32 +37,6 @@ frappe.ui.form.on('DC Not for Sales', {
         //     () => show_generate_e_waybill_dialog(frm),
         //     "e-Waybill"
         // );
-
-
-
-        frappe.db.get_value('Supplier', { 'name': frm.doc.party }, 'default_item', (r) => {
-            if (r.default_item == 1) {
-                frm.call({
-                    method: "item_supplier",
-                    args: {
-                        party: frm.doc.party,
-                    },
-                    callback: function (r) {
-
-                        frm.set_query("item_code", "items", function () {
-                            return {
-                                filters: {
-                                    "item_code": ["in", r.message]
-                                }
-
-                            }
-                        })
-                    }
-                })
-
-            }
-
-        })
     },
 
 
@@ -389,20 +363,23 @@ function show_generate_e_waybill_dialog(frm) {
         `).prependTo(d.wrapper);
     }
 }
-frappe.ui.form.on('DC Items', {
+
+frappe.ui.form.on('DC Items',{
+    
+	qty: function(frm,cdt,cdn) {
+		var row = locals[cdt][cdn]
+		frappe.model.set_value(cdt,cdn,'balance_qty',row.qty)
+	},
     item_code:function(frm,cdt,cdn){
         var row = locals[cdt][cdn]
         if(row.item_code && !frm.doc.party){
-            frappe.model.set_value(cdt,cdn,"item_code","")
             frappe.model.set_value(cdt,cdn,"item_name","")
-            frappe.throw("Kindly fill party ")
-        }
-    },
-    qty: function (frm, cdt, cdn) {
-        var row = locals[cdt][cdn]
-        frappe.model.set_value(cdt, cdn, 'balance_qty', row.qty)
-    },
+            frappe.model.set_value(cdt,cdn,"item_code","")
+            frappe.throw("Kindly fill party")
 
+        }
+    }
+ 
 })
 function get_primary_action_label_for_generation(doc) {
     const label = ic.is_api_enabled() ? __("Generate") : __("Download JSON");
