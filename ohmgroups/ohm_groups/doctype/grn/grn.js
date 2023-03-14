@@ -161,13 +161,7 @@ frappe.ui.form.on("DC Received Items",{
 frappe.ui.form.on("GRN Items",{
 	items:function(frm,cdt,cdn){
 		var row = locals[cdt][cdn]
-        if(row.items && !frm.doc.party){
-            frappe.throw("Kindly fill party ")
-            frappe.model.set_value(cdt,cdn,"items","")
-        }
-		frappe.model.set_value(cdt,cdn,"item_code",(row.items))
-
-        
+		frappe.model.set_value(cdt,cdn,"item_code",(row.items))     
 	}
 })
 
