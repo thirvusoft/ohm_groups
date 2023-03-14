@@ -97,7 +97,7 @@ class DCNotforSales(Document):
         document_dc.append('dc_not_for_sales', dict(
         goods_received_from = self.name))
         document_dc.save(ignore_permissions=True)
-        self.status = "To Grn Out"
+        self.status = "To Gate entry Out"
 
 
     def on_cancel(self):
