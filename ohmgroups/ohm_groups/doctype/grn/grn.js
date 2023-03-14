@@ -158,10 +158,10 @@ frappe.ui.form.on("DC Received Items",{
 		frappe.model.set_value(cdt,cdn,"balanced_qty",(parseFloat(row.total_qty_in_dc) -parseFloat(row.qty)))
 	}
 })
-frappe.ui.form.on("GRN Item",{
-	items: function(frm,cdt,cdn){
+frappe.ui.form.on("GRN Items",{
+	items:function(frm,cdt,cdn){
 		var row = locals[cdt][cdn]
-		frappe.model.set_value(cdt,cdn,"item_code",(row.items))
+		frappe.model.set_value(cdt,cdn,"item_code",(row.items))     
 	}
 })
 

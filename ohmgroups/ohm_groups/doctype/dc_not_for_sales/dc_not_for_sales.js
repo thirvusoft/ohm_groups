@@ -1,34 +1,34 @@
 // Copyright (c) 2023, thirvusoft and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('DC Not for Sales',{
-    refresh:function(frm){
-        frm.set_query("party_type",function(){
+frappe.ui.form.on('DC Not for Sales', {
+    refresh: function (frm) {
+        frm.set_query("party_type", function () {
             return {
-                filters:{
-                    "name":["in",["Customer","Supplier"]]
+                filters: {
+                    "name": ["in", ["Customer", "Supplier"]]
                 }
-                
+
             }
         }),
-        frm.set_query("transporter", function() {
-			return {
-				filters: {
-					is_transporter: 1
-				}
-			};
-		});
-        if(!frm.doc.branch){
+            frm.set_query("transporter", function () {
+                return {
+                    filters: {
+                        is_transporter: 1
+                    }
+                };
+            });
+        if (!frm.doc.branch) {
             frm.call({
-                
+
                 method: "address_company",
-                args:{
-                    company:frm.doc.company,
+                args: {
+                    company: frm.doc.company,
                 },
-    
-                callback: function(r) {
-                    frm.set_value("company_address",r.message)
-            }
+
+                callback: function (r) {
+                    frm.set_value("company_address", r.message)
+                }
             })
         }
        
@@ -49,7 +49,7 @@ frappe.ui.form.on('DC Not for Sales',{
 
     // setup(frm) {
     //     frm.call({
-                
+
     //         method: "address_company",
     //         args:{
     //             company:frm.doc.company,
@@ -65,101 +65,102 @@ frappe.ui.form.on('DC Not for Sales',{
     },
     branch(frm) {
         frm.call({
-            
+
             method: "branch_address_company",
-            args:{
-                company:frm.doc.company,
-                branch:frm.doc.branch,
+            args: {
+                company: frm.doc.company,
+                branch: frm.doc.branch,
             },
-            callback: function(r) {
-                    cur_frm.set_value("company_address",r.message)
-                
-        }
+            callback: function (r) {
+                cur_frm.set_value("company_address", r.message)
+
+            }
         })
     },
-    
-    party: function(frm){
-        frm.set_value("party_name",frm.doc.party)
-        frm.call({
-            
-            method: "on_insert",
-            args:{
-                party:frm.doc.party,
-            },
-            callback: function(r) {
-                    cur_frm.set_value("warehouse",r.message)
-                
-        }
-        }),
-        frappe.db.get_value('Supplier',{'name':frm.doc.party},'default_item',(r)=>{
-            if(r.default_item == 1){
-                frm.call({
-                    method: "item_supplier",
-                    args:{
-                        party:frm.doc.party,
-                    },
-                    callback: function(r) {
-                        frm.set_query("item_code","items",function(){
-                            return {
-                                filters:{
-                                    "item_code":["in",r.message]
-                                }
-                                
-                            }
-                        })
-                }
-                })
-            
-            }
 
-        })         
-        frappe.db.get_value('Customer',{'name':frm.doc.party},'_default_item',(r)=>{
-            if(r._default_item == 1){
+    party: function (frm) {
+        frm.set_value("party_name", frm.doc.party)
+        frm.call({
+
+            method: "on_insert",
+            args: {
+                party: frm.doc.party,
+            },
+            callback: function (r) {
+                cur_frm.set_value("warehouse", r.message)
+
+            }
+        }),
+            frappe.db.get_value('Supplier', { 'name': frm.doc.party }, 'default_item', (r) => {
+                if (r.default_item == 1) {
+                    frm.call({
+                        method: "item_supplier",
+                        args: {
+                            party: frm.doc.party,
+                        },
+                        callback: function (r) {
+
+                            frm.set_query("item_code", "items", function () {
+                                return {
+                                    filters: {
+                                        "item_code": ["in", r.message]
+                                    }
+
+                                }
+                            })
+                        }
+                    })
+
+                }
+
+            })
+        frappe.db.get_value('Customer', { 'name': frm.doc.party }, '_default_item', (r) => {
+            if (r._default_item == 1) {
                 frm.call({
                     method: "item_customer",
-                    args:{
-                        party:frm.doc.party,
+                    args: {
+                        party: frm.doc.party,
                     },
-                    callback: function(r) {
-                        frm.set_query("item_code","items",function(){
+                    callback: function (r) {
+                        frm.set_query("item_code", "items", function () {
                             return {
-                                filters:{
-                                    "item_code":["in",r.message]
+                                filters: {
+                                    "item_code": ["in", r.message]
                                 }
-                                
+
                             }
                         })
-                }
+                    }
                 })
-            
+
             }
 
-        }) 
-        frm.call({
-            
-            method: "address_shipping",
-            args:{
-                party_type:frm.doc.party_type,
-                party : frm.doc.party,
-            },
-
-            callback: function(r) {
-                frm.set_value("shipping_address_name",r.message)
-        }
-        }),
-        frm.call({
-            
-            method: "address_billing",
-            args:{
-                party_type:frm.doc.party_type,
-                party : frm.doc.party,
-            },
-
-            callback: function(r) {
-                frm.set_value("customer_address",r.message)
-        }
         })
-    
+        frm.call({
+
+            method: "address_shipping",
+            args: {
+                party_type: frm.doc.party_type,
+                party: frm.doc.party,
+            },
+
+            callback: function (r) {
+                frm.set_value("shipping_address_name", r.message)
+            }
+        }),
+            frm.call({
+
+                method: "address_billing",
+                args: {
+                    party_type: frm.doc.party_type,
+                    party: frm.doc.party,
+                },
+
+                callback: function (r) {
+                    frm.set_value("customer_address", r.message)
+                }
+            })
+
     },
 
 })
@@ -337,9 +338,9 @@ function show_generate_e_waybill_dialog(frm) {
         secondary_action_label: api_enabled ? __("Download JSON") : null,
         secondary_action: api_enabled
             ? () => {
-                  d.hide();
-                  json_action(d.get_values());
-              }
+                d.hide();
+                json_action(d.get_values());
+            }
             : null,
     });
 
@@ -408,7 +409,7 @@ function get_vehicle_type(doc) {
     if (doc.mode_of_transport == "Road") return "Regular";
     if (doc.mode_of_transport == "Ship") return "Over Dimensional Cargo (ODC)";
     return "";
-}   
+}
 function update_generation_dialog(dialog) {
     const dialog_values = dialog.get_values(true);
     const primary_action_label = get_primary_action_label_for_generation(dialog_values);

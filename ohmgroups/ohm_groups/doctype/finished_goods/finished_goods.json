@@ -10,6 +10,8 @@
   "item_code",
   "item_name",
   "qty",
+  "total_cut_length",
+  "piece_countsheet",
   "basic_rate_as_per_stock_uom",
   "warehouse",
   "uom"
@@ -56,12 +58,24 @@
    "fieldname": "uom",
    "fieldtype": "Data",
    "label": "Uom"
+  },
+  {
+   "fieldname": "total_cut_length",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Total cut length/Sheet"
+  },
+  {
+   "fieldname": "piece_countsheet",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Piece count/Sheet"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-24 17:21:18.756374",
+ "modified": "2023-03-10 09:33:49.755485",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Finished Goods",

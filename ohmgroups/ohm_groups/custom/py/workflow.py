@@ -117,7 +117,7 @@ def create_laser_cutting_flow():
     workflow.is_active = 1
     workflow.send_email_alert = 1
     workflow.append('states', dict(
-        state = 'Processing', allow_edit = 'All',doc_status = 0,
+        state = 'Work In Progress', allow_edit = 'All',doc_status = 0,
     ))
     workflow.append('states', dict(
         state = 'Job Completed', allow_edit = 'All',doc_status = 1,
@@ -128,7 +128,7 @@ def create_laser_cutting_flow():
     )) 
     
     workflow.append('transitions', dict(
-        state = 'Processing', action='Job Completed', next_state = 'Job Completed',
+        state = 'Work In Progress', action='Job Completed', next_state = 'Job Completed',
         allowed='All', allow_self_approval= 1,
     ))
     workflow.append('transitions', dict(
@@ -139,7 +139,7 @@ def create_laser_cutting_flow():
     workflow.insert(ignore_permissions=True)
     return workflow
 def create_state():
-    list={"Processing":"Primary","Job Completed":"Success", "Rejected":"Danger","Cancelled":"Warning"}
+    list={"Work In Progress":"Primary","Job Completed":"Success", "Rejected":"Danger","Cancelled":"Warning"}
     for row in list:
         if not frappe.db.exists('Workflow State', row):
             new_doc = frappe.new_doc('Workflow State')

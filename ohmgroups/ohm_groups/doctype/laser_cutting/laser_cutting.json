@@ -19,6 +19,16 @@
   "raw_materials",
   "total_qty",
   "job_work_tab",
+  "number_of_sheets",
+  "column_break_13",
+  "set",
+  "section_break_13",
+  "designation",
+  "operators",
+  "column_break_16",
+  "designation_2",
+  "helpers",
+  "section_break_19",
   "sub_operations",
   "time_logs",
   "employee",
@@ -28,9 +38,18 @@
   "started_time",
   "current_time",
   "job_started",
-  "total_completed_qty",
   "column_break_21",
-  "in_between"
+  "frozen",
+  "section_break_33",
+  "total_duration",
+  "column_break_36",
+  "in_between",
+  "job_report_tab",
+  "job_work_report_table",
+  "section_break_35",
+  "ordered_",
+  "column_break_41",
+  "total_completed_qty"
  ],
  "fields": [
   {
@@ -93,6 +112,8 @@
   {
    "fieldname": "reference_number",
    "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
    "label": "Reference Number"
   },
   {
@@ -117,12 +138,14 @@
   {
    "fieldname": "employee",
    "fieldtype": "Table MultiSelect",
+   "hidden": 1,
    "label": "Employee",
    "options": "Laser Cutting Time Log"
   },
   {
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Status",
    "options": "Draft\nWork In Progress\nOn Hold\nComplete\nSubmitted\nCancel"
   },
@@ -148,7 +171,7 @@
   {
    "fieldname": "total_qty",
    "fieldtype": "Data",
-   "label": "Total Qty"
+   "label": "Total Components"
   },
   {
    "fieldname": "total_completed_qty",
@@ -167,13 +190,110 @@
   {
    "fieldname": "section_break_15",
    "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "frozen",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Frozen"
+  },
+  {
+   "fieldname": "number_of_sheets",
+   "fieldtype": "Select",
+   "label": "Number of Sheets"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Select",
+   "label": "Designation 1",
+   "options": "\nOperator"
+  },
+  {
+   "fieldname": "operators",
+   "fieldtype": "Table MultiSelect",
+   "label": "Operators",
+   "options": "Operator Multiselect"
+  },
+  {
+   "fieldname": "designation_2",
+   "fieldtype": "Select",
+   "label": "Designation 2",
+   "options": "\nHelper"
+  },
+  {
+   "fieldname": "helpers",
+   "fieldtype": "Table MultiSelect",
+   "label": "Helpers",
+   "options": "Helpers Multiselect"
+  },
+  {
+   "fieldname": "section_break_13",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_16",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_19",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "set",
+   "fieldtype": "Button",
+   "hidden": 1,
+   "label": "Set"
+  },
+  {
+   "fieldname": "job_report_tab",
+   "fieldtype": "Tab Break",
+   "label": "Job Report "
+  },
+  {
+   "fieldname": "job_work_report_table",
+   "fieldtype": "Table",
+   "label": "Job Work Report Table",
+   "options": "Job Work Report Table"
+  },
+  {
+   "fieldname": "column_break_36",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_35",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "ordered_",
+   "fieldtype": "Percent",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Ordered %"
+  },
+  {
+   "fieldname": "total_duration",
+   "fieldtype": "Float",
+   "label": "Total Duration"
+  },
+  {
+   "fieldname": "section_break_33",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_41",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-07 14:31:20.743421",
+ "modified": "2023-03-13 11:20:16.771678",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",
