@@ -32,7 +32,8 @@
    "fieldname": "qty",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty"
+   "label": "Qty",
+   "reqd": 1
   },
   {
    "fetch_from": "item_code.gst_hsn_code",
@@ -104,7 +105,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-10 17:35:10.087709",
+ "modified": "2023-03-14 16:01:57.921305",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Items",
