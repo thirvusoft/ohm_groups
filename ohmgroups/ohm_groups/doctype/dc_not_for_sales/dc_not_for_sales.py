@@ -118,5 +118,22 @@ class DCNotforSales(Document):
         for i in self.items:
             total_qty += i.qty 
         self.total_qty = total_qty
-  
-	
+        if(self.party_type == "Supplier"):
+            supplier_default_item_ = frappe.get_doc("Supplier",{"name":self.party})
+            items = [i.item_code for i in self.items]
+            supplier_item = [j.supplier_item for j in supplier_default_item_.supplier_item]
+            missed_item = [i for i in items if i not in supplier_item]
+            if len(missed_item):
+                frappe.throw(f"{', '.join(missed_item)} not in Supplier Default Items")
+        if(self.party_type == "Customer"):
+            customer_default_item_ = frappe.get_doc("Customer",{"name":self.party})
+            items = [i.item_code for i in self.items]
+            customer_item = [j.item_code for j in customer_default_item_.customer_default_items]
+            missed_item = [i for i in items if i not in customer_item]
+            if len(missed_item):
+                frappe.throw(f"{', '.join(missed_item)} not in Customer Default Items")
+
+
+
+
+    
