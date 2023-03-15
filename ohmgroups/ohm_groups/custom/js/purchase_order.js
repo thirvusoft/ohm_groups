@@ -18,12 +18,12 @@ frappe.ui.form.on("Purchase Order", {
     naming_supplier: function(frm){
         cur_frm.set_value("supplier",frm.doc.naming_supplier)
        
-            frappe.db.get_value('Supplier',{'name':frm.doc.supplier_name},'default_item',(r)=>{
+            frappe.db.get_value('Supplier',{'name':frm.doc.naming_supplier},'default_item',(r)=>{
                 if(r.default_item == 1){
                     frappe.call({
                         method: "ohmgroups.ohm_groups.custom.py.purchase_order.item_supplier",
                         args:{
-                            supplier_name:frm.doc.naming_supplier,
+                            naming_supplier:frm.doc.naming_supplier,
                         },
                         callback: function(r) {
                             frm.set_query("item_code","items",function(){
@@ -115,6 +115,12 @@ frappe.ui.form.on('Purchase Order Item', {
         
 		var row = locals[cdt][cdn]
         frappe.model.set_value(cdt,cdn,'total_weight',row.weight_per_unit * row.qty)
+
+	},
+	total_weight:function(frm,cdt,cdn) {
+        
+		var row = locals[cdt][cdn]
+        frappe.model.set_value(cdt,cdn,'weight_per_unit',row.total_weight / row.qty)
 
 	},
 })
