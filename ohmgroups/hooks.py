@@ -164,6 +164,7 @@ doc_events = {
 	"Purchase Receipt" : {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.update_item_",
 		"on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.cancel_item_",
+        
 	},
 	"BOM" : {
 		"validate" : "ohmgroups.ohm_groups.custom.py.bom.auto_fg_item"
@@ -173,7 +174,8 @@ doc_events = {
 	},
     "Purchase Order" :{
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_order.submit",
-        "on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_order.cancel"
+        "on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_order.cancel",
+        "validate" : "ohmgroups.ohm_groups.custom.py.purchase_order.validate"
 	},
     "Sales Invoice" : {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.sales_invoice.to_grn",
