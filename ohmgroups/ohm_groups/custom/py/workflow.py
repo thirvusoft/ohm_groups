@@ -117,7 +117,16 @@ def create_laser_cutting_flow():
     workflow.is_active = 1
     workflow.send_email_alert = 1
     workflow.append('states', dict(
-        state = 'Work In Progress', allow_edit = 'All',doc_status = 0,
+        state = 'Draft', allow_edit = 'All',doc_status = 0,
+    ))
+    workflow.append('states', dict(
+        state = 'Open', allow_edit = 'All',doc_status = 0,
+    ))
+    workflow.append('states', dict(
+        state = 'Send to Laser Cutting', allow_edit = 'All',doc_status = 0,
+    ))
+    workflow.append('states', dict(
+        state = 'Start Job', allow_edit = 'All',doc_status = 0,
     ))
     workflow.append('states', dict(
         state = 'Job Completed', allow_edit = 'All',doc_status = 1,
@@ -128,9 +137,18 @@ def create_laser_cutting_flow():
     )) 
     
     workflow.append('transitions', dict(
-        state = 'Work In Progress', action='Job Completed', next_state = 'Job Completed',
+        state = 'Draft', action='Send to Laser Cutting', next_state = 'Send to Laser Cutting',
         allowed='All', allow_self_approval= 1,
     ))
+    workflow.append('transitions', dict(
+        state = 'Send to Laser Cutting', action='Start Job', next_state = 'Start Job',
+        allowed='All', allow_self_approval= 1,
+    ))
+    workflow.append('transitions', dict(
+        state = 'Start Job', action='Job Completed', next_state = 'Job Completed',
+        allowed='All', allow_self_approval= 1,
+    ))
+
     workflow.append('transitions', dict(
         state = 'Job Completed', action='Cancel', next_state = 'Cancelled',
         allowed='All', allow_self_approval= 1,
@@ -139,7 +157,7 @@ def create_laser_cutting_flow():
     workflow.insert(ignore_permissions=True)
     return workflow
 def create_state():
-    list={"Work In Progress":"Primary","Job Completed":"Success", "Rejected":"Danger","Cancelled":"Warning"}
+    list={"Draft":"Primary","Send to Laser Cutting":"Primary","Job Completed":"Success", "Rejected":"Danger","Cancelled":"Warning","Open":"Primary","Start Job":"Primary"}
     for row in list:
         if not frappe.db.exists('Workflow State', row):
             new_doc = frappe.new_doc('Workflow State')
@@ -148,7 +166,7 @@ def create_state():
             new_doc.save()
            
 def create_action():
-    list=['Job Completed']
+    list=['Job Completed','Send to Laser Cutting','Start Job']
     for row in list:
         if not frappe.db.exists('Workflow Action Master', row):
             new_doc = frappe.new_doc('Workflow Action Master')
