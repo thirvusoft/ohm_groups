@@ -9,9 +9,11 @@
  "engine": "InnoDB",
  "field_order": [
   "naming_series",
-  "reference_number",
+  "ref_number",
   "col_break_1",
   "cad_diagram",
+  "column_break_4",
+  "cad_diagram_",
   "company",
   "section_break_6",
   "laser_cutting",
@@ -23,10 +25,8 @@
   "column_break_13",
   "set",
   "section_break_13",
-  "designation",
   "operators",
   "column_break_16",
-  "designation_2",
   "helpers",
   "section_break_19",
   "sub_operations",
@@ -110,13 +110,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "reference_number",
-   "fieldtype": "Data",
-   "in_filter": 1,
-   "in_list_view": 1,
-   "label": "Reference Number"
-  },
-  {
    "fieldname": "job_work_tab",
    "fieldtype": "Tab Break",
    "label": "Job Work"
@@ -196,30 +189,19 @@
    "fieldname": "frozen",
    "fieldtype": "Check",
    "hidden": 1,
-   "label": "Frozen"
+   "label": "Frozen",
+   "no_copy": 1
   },
   {
    "fieldname": "number_of_sheets",
    "fieldtype": "Select",
-   "label": "Number of Sheets"
-  },
-  {
-   "fieldname": "designation",
-   "fieldtype": "Select",
-   "label": "Designation 1",
-   "options": "\nOperator"
+   "label": "Sheet Number"
   },
   {
    "fieldname": "operators",
    "fieldtype": "Table MultiSelect",
    "label": "Operators",
    "options": "Operator Multiselect"
-  },
-  {
-   "fieldname": "designation_2",
-   "fieldtype": "Select",
-   "label": "Designation 2",
-   "options": "\nHelper"
   },
   {
    "fieldname": "helpers",
@@ -287,13 +269,29 @@
   {
    "fieldname": "column_break_41",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cad_diagram_",
+   "fieldtype": "Attach Image",
+   "label": "CAD Diagram Attached"
+  },
+  {
+   "fieldname": "ref_number",
+   "fieldtype": "Data",
+   "label": "Reference Number",
+   "reqd": 1,
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-13 11:20:16.771678",
+ "modified": "2023-03-15 18:38:26.248021",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",

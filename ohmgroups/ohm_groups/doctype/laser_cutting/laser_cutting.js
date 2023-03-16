@@ -2,74 +2,145 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Laser Cutting', {
+    before_workflow_action(frm){
+        console.log("before",frm.doc.frozen,frm.selected_workflow_action)
+        if(frm.selected_workflow_action == "Send to Laser Cutting"){
+            if (frm.doc.frozen == 0) {
+                frappe.validated = false
+                frappe.confirm("Are You Sure to send to Laser Cutting Work",
+                 async function () {
+                    await frm.set_value("frozen", 1);
+                     await frm.save()
+                     await frm.reload_doc()
+                     frappe
+                     .xcall("frappe.model.workflow.apply_workflow", {
+                         doc: frm.doc,
+                         action: frm.selected_workflow_action,
+                     })
+                     .then((doc) => {
+                         frappe.model.sync(doc);
+                         frm.refresh();
+                         frm.selected_workflow_action = null;
+                         frm.script_manager.trigger("after_workflow_action");
+                         frappe.validated = true;
+                         let fields = []
+                            for (let i = 0; i < frappe.get_meta('Laser Cutting').fields.length; i++) {
+                                if (frappe.get_meta('Laser Cutting').fields[i].fieldname == 'job_work_tab') { break; }
+                                fields.push(frappe.get_meta('Laser Cutting').fields[i].fieldname)
+                                console.log("after")
+                                frm.set_df_property(frappe.get_meta('Laser Cutting').fields[i].fieldname, 'read_only', 1)
+                            
+                        }
+                     });
+                        
+                    })
+            }
+        }
+        else{
+            frm.call({
+                doc:frm.doc,
+                method: "validate_sheet",
+                callback: function (r) {
+                    frappe.xcall("frappe.model.workflow.apply_workflow", {
+                        doc: frm.doc,
+                        action: frm.selected_workflow_action,
+                    })
+                    .then((doc) => {
+                        frappe.model.sync(doc);
+                        frm.refresh();
+                        frm.selected_workflow_action = null;
+                        frm.script_manager.trigger("after_workflow_action");
+                    });
+                }
+            });
+            
+        }
+
+    },
     refresh: function (frm) {
-        frm.trigger("show_progress_for_items");
+        frm.set_query("operators", function () {
+            return {
+                filters: {
+                    "designation": "Operator"
+                }
+
+            }
+        })
+        frm.set_query("helpers", function () {
+            return {
+                filters: {
+                    "designation": "Helper"
+                }
+            }
+        })
+        setTimeout(()=>{
+            if(frm.wrapper.querySelector('span[data-label="Help"]')){
+                frm.wrapper.querySelector('span[data-label="Help"]').parentElement.parentElement.classList.add("hidden")
+            }
+            
+        },500)
         
+        if(frm.wrapper.querySelector('span[data-label="Send%20to%20Laser%20Cutting"]')){
+                frm.dont_save = true;
+                console.log(frm.dont_save)
+        }
         frm.fields_dict.job_work_report_table.$wrapper.find('.grid-add-row')[0].style.display = 'none'
         let fields = []
-        if (frm.doc.frozen == 1) {
+        if (frm.doc.frozen == 1 && !frm.is_new()) {
             for (let i = 0; i < frappe.get_meta('Laser Cutting').fields.length; i++) {
                 if (frappe.get_meta('Laser Cutting').fields[i].fieldname == 'job_work_tab') { break; }
                 fields.push(frappe.get_meta('Laser Cutting').fields[i].fieldname)
                 frm.set_df_property(frappe.get_meta('Laser Cutting').fields[i].fieldname, 'read_only', 1)
             }
         }
-        if (frm.doc.laser_cutting[0].qty) {
+        if (frm.doc.laser_cutting[0].qty && frm.doc.time_logs) {
             frm.call({
                 method: "sheet_no",
                 args: {
-                    laser_cutting: frm.doc.laser_cutting
+                    laser_cutting: frm.doc.laser_cutting,
+                    time_log: frm.doc.time_logs
                 },
                 callback: function (r) {
                     frm.set_df_property('number_of_sheets', 'options', r.message)
                 }
             });
         }
-
+        if(!frm.is_new() && frm.doc.workflow_state == "Start Job"){
+            frm.trigger("show_progress_for_items");
+        }
         frm.trigger("make_dashboard");
-        if (!frm.is_new() && frm.doc.docstatus == 0 && !(frm.doc.total_qty == frm.doc.total_completed_qty)) {
+        if (!frm.is_new() && frm.doc.docstatus == 0 && frm.doc.workflow_state == "Start Job") {
             {
                 if (!frm.doc.started_time && !frm.doc.current_time) {
                     frm.add_custom_button(__("Start Job"), async () => {
-                      
-
                         await frm.call({
-
                             method: "set_time_log",
                             args: {
                                 number_of_sheets: frm.doc.number_of_sheets,
-                                designation: frm.doc.designation,
-                                designation_2: frm.doc.designation_2,
                                 operators: frm.doc.operators,
                                 helpers: frm.doc.helpers
                             },
                             callback: function (r) {
                                 if (!frm.doc.number_of_sheets) {
-                                    frappe.throw("Kindly Select the Number of Sheets")
-
+                                    frappe.throw("Kindly Select the Sheets Number")
                                 }
                                 frm.set_value("time_logs", r.message)
                                 frm.events.start_job(frm, "Work In Progress", r.message);
-
-
                             }
                         });
                         frm.set_value("number_of_sheets", "")
-                        frm.set_value("designation", "")
-                        frm.set_value("designation_2", "")
                         frm.set_value("operators", [])
                         frm.set_value("helpers", [])
-                        frm.refresh_fields("number_of_sheets")
+                        frm.refresh_field("number_of_sheets")
+                        frm.doc.status = "Work In Progress"
                     })
                 } else if (frm.doc.status == "On Hold") {
                     frm.add_custom_button(__("Resume Job"), () => {
                         frm.events.start_job(frm, "Resume Job", frm.doc.employee);
                     }).addClass("btn-primary");
                 } else {
-
                     frm.add_custom_button(__("Complete Job"), () => {
                         var sub_operations = frm.doc.sub_operations;
-
                         let set_qty = true;
                         if (sub_operations && sub_operations.length > 1) {
                             set_qty = false;
@@ -79,7 +150,6 @@ frappe.ui.form.on('Laser Cutting', {
                                 set_qty = true;
                             }
                         }
-            
                                 let table = [
                                     {
                                         'fieldname': 'sheet_no',
@@ -194,8 +264,6 @@ frappe.ui.form.on('Laser Cutting', {
 
                             
                         frm.set_value("number_of_sheets","")
-                        frm.set_value("designation","")
-                        frm.set_value("designation_2","")
                         frm.set_value("operators",[])
                         frm.set_value("helpers",[])
                         frm.refresh_fields("number_of_sheets")
@@ -234,13 +302,11 @@ frappe.ui.form.on('Laser Cutting', {
                 },
             };
         });
+    
     },
     reset_timer: function (frm) {
         frm.set_value('started_time', '');
     },
-    // setup:function(frm){
-    //     frm.trigger("show_progress_for_items");
-    // },
 	show_progress_for_items: function(frm) {
 		var bars = [];
 		var message = '';
@@ -260,28 +326,15 @@ frappe.ui.form.on('Laser Cutting', {
 			added_min = 0.2;
 		}
 		message = title;
-		// pending qty
-		// if(!frm.doc.skip_transfer){
-		// 	var pending_complete = frm.doc.material_transferred_for_manufacturing - frm.doc.produced_qty;
-		// 	if(pending_complete) {
-		// 		var width = ((pending_complete / frm.doc.qty * 100) - added_min);
-		// 		title = __('{0} items in progress', [pending_complete]);
-		// 		bars.push({
-		// 			'title': title,
-		// 			'width': (width > 100 ? "99.5" : width)  + '%',
-		// 			'progress_class': 'progress-bar-warning'
-		// 		});
-		// 		message = message + '. ' + title;
-		// 	}
-		// }
-		frm.dashboard.add_progress(__('Status'), bars, message);
+        if(!frm.$wrapper.find(".progress-chart").length){
+        frm.dashboard.add_progress(__('Status'), bars, message);
+        }
+		
 	},
     make_dashboard: function (frm) {
         if (frm.doc.__islocal)
             return;
-        //&& !(frm.doc.total_qty == frm.doc.total_completed_qty)
-        if (!frm.is_new() && frm.doc.docstatus == 0 && !(frm.doc.total_qty == frm.doc.total_completed_qty) ) {
-            // frm.dashboard.refresh();
+        if (!frm.is_new() && frm.doc.docstatus == 0 && frm.doc.workflow_state == "Start Job") {
             const timer = `
                 <div class="stopwatch" style="font-weight:bold;margin:0px 13px 0px 2px;
                     color:#545454;font-size:18px;display:inline-block;vertical-align:text-bottom;">
@@ -324,40 +377,24 @@ frappe.ui.form.on('Laser Cutting', {
                 }
             }
         }
-
     },
+   
     validate: async function (frm) {
+
+       
         frm.set_value("number_of_sheets","")
-        frm.set_value("designation","")
-        frm.set_value("designation_2","")
         frm.set_value("operators",[])
         frm.set_value("helpers",[])
         frm.refresh_fields("number_of_sheets")
         if ((!frm.doc.time_logs || !frm.doc.time_logs.length) && frm.doc.started_time) {
             frm.trigger("reset_timer");
         }
-        if (frm.doc.frozen == 0) {
-            let fields = []
-            frappe.validated = false
-            frappe.confirm("Are You Sure to send to Laser Cutting Work",
-                function () {
-                    frm.set_value("frozen", 1)
-                    frm.save();
-                    frappe.validated = true
-                    if (frm.doc.frozen == 1) {
-                        for (let i = 0; i < frappe.get_meta('Laser Cutting').fields.length; i++) {
-                            if (frappe.get_meta('Laser Cutting').fields[i].fieldname == 'job_work_tab') { break; }
-                            fields.push(frappe.get_meta('Laser Cutting').fields[i].fieldname)
-                            frm.set_df_property(frappe.get_meta('Laser Cutting').fields[i].fieldname, 'read_only', 1)
-                        }
-                    }
-
-                })
-        }
+        
         frm.call({
             method: "sheet_no",
             args: {
-                laser_cutting: frm.doc.laser_cutting
+                laser_cutting: frm.doc.laser_cutting,
+                time_log: frm.doc.time_logs
             },
             callback: function (r) {
                 // frm.reload_doc();
@@ -376,11 +413,9 @@ frappe.ui.form.on('Laser Cutting', {
             }
         })
         if (!frm.doc.raw_materials) {
-            frappe.msgprint("Kindly Upload the Raw Materials")
+            frappe.throw("Kindly Upload the Raw Materials")
         }
-        else if (frm.doc.raw_materials == 0) {
-            frappe.msgprint("Kindly Upload the Raw Materials")
-        }
+
         else {
             for (var i = 0; i < frm.doc.raw_materials.length; i++) {
                 var rate = (await frappe.db.get_value('Item', { 'item_code': frm.doc.raw_materials[i].item_code }, 'valuation_rate')).message.valuation_rate
@@ -388,13 +423,11 @@ frappe.ui.form.on('Laser Cutting', {
                 frappe.model.set_value(frm.doc.raw_materials[i].doctype, frm.doc.raw_materials[i].name, 'warehouse', "Stores - ONE")
 
             }
-            frm.refresh()
+            frm.refresh_field("raw_materials")
         }
     },
     start_job: function (frm, status, employee) {
         const args = {
-            oper: frm.doc.designation,
-            help: frm.doc.designation_2,
             sheet: frm.doc.number_of_sheets,
             job_card_id: frm.doc.name,
             start_time: frappe.datetime.now_datetime(),
@@ -407,11 +440,9 @@ frappe.ui.form.on('Laser Cutting', {
 
     complete_job: function (frm, status, table) {
         frm.set_value("number_of_sheets","")
-        frm.set_value("designation","")
-        frm.set_value("designation_2","")
         frm.set_value("operators",[])
         frm.set_value("helpers",[])
-        frm.refresh_fields("number_of_sheets")
+        frm.refresh_field("number_of_sheets")
         const args = {
             complete_time: frappe.datetime.now_datetime(),
             job_card_id: frm.doc.name,
@@ -423,8 +454,6 @@ frappe.ui.form.on('Laser Cutting', {
     },
     make_time_log: function (frm, args) {
         frm.set_value("number_of_sheets", "")
-        frm.set_value("designation", "")
-        frm.set_value("designation_2", "")
         frm.set_value("operators", [])
         frm.set_value("helpers", [])
         frm.events.update_sub_operation(frm, args);
@@ -452,26 +481,6 @@ frappe.ui.form.on('Laser Cutting', {
     timer: function (frm) {
         return `<button> Start </button>`
     },
-    designation: function (frm) {
-        frm.set_query("operators", function () {
-            return {
-                filters: {
-                    "designation": frm.doc.designation
-                }
-
-            }
-        })
-    },
-    designation_2: function (frm) {
-        frm.set_query("helpers", function () {
-            return {
-                filters: {
-                    "designation": frm.doc.designation_2
-                }
-
-            }
-        })
-    }
 });
 frappe.ui.form.on('Laser Cutting Time Log', {
     to_time: function (frm) {

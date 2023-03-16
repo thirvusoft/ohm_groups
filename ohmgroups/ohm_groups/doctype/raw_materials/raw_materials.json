@@ -22,7 +22,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Item code",
-   "options": "Item"
+   "options": "Item",
+   "reqd": 1
   },
   {
    "fetch_from": "item_code.item_name",
@@ -67,7 +68,8 @@
   {
    "fieldname": "per_sheet_qty",
    "fieldtype": "Data",
-   "label": "Per Sheet Qty"
+   "label": "Per Sheet Qty",
+   "reqd": 1
   },
   {
    "fieldname": "total_qty",
@@ -79,7 +81,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-09 11:20:57.628121",
+ "modified": "2023-03-15 16:33:41.806740",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Raw Materials",
