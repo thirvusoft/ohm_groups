@@ -124,27 +124,40 @@ def make_time_log(args):
     doc.save()
 
 @frappe.whitelist()
-def sheet_no(laser_cutting):
+def sheet_no(laser_cutting, time_log):
     sheet_number = ['\n']
     raw_item = json.loads(laser_cutting)
+    time_logs = json.loads(time_log)
+    sheets = [i.get('sheet_no') for i in time_logs]
     for i in range(1, int(raw_item[0].get('qty'))+1, 1):
         name ="Sheet" + str(i)
-        sheet_number.append([name])
+        if(name not in sheets):
+            sheet_number.append([name])
     return sheet_number
 
 @frappe.whitelist()
-def set_time_log(number_of_sheets,designation,operators,designation_2,helpers):
+def set_time_log(number_of_sheets,operators,helpers):
     time_log_add = []
     now = datetime.now()
     ope = json.loads(operators)
     help = json.loads(helpers)
     for i in ope:
-        time_log_add.append({'sheet_no':number_of_sheets,'operators_name':designation,'employee':i.get('employee'),'from_time':now})
+        time_log_add.append({'sheet_no':number_of_sheets,'employee':i.get('employee'),'from_time':now})
     for j in help:
-        time_log_add.append({'sheet_no':number_of_sheets,'helpers_name':designation_2,'employee':j.get('employee_id_'),'from_time':now})
+        time_log_add.append({'sheet_no':number_of_sheets,'employee':j.get('employee_id_'),'from_time':now})
     return time_log_add
 
 class LaserCutting(Document):
+    @frappe.whitelist()
+    def validate_sheet(self):
+        sheet_number = []
+        sheets = list(set([i.get('sheet_no') for i in self.job_work_report_table]))
+        for i in range(1, int(self.laser_cutting[0].get('qty'))+1, 1):
+            name ="Sheet" + str(i)
+            if(name not in sheets):
+                sheet_number.append(name)
+        if len(sheet_number):
+            frappe.throw(f"{', '.join(sheet_number)} are not completed")
     def on_submit(self):
         document = frappe.new_doc("Stock Entry")
         document.stock_entry_type ="Repack"
@@ -297,6 +310,7 @@ class LaserCutting(Document):
                 row.completed_qty = 0.0
     def validate(self):
         tot_qty = 0
+
         for i in self.raw_materials:
             tot_qty += int(i.total_qty)
             self.total_qty = tot_qty
@@ -313,12 +327,11 @@ class LaserCutting(Document):
         total_duration_ = 0
         for i in self.time_logs:
             break_time+=(i.get('break_time')) or 0
-            print(i.get('job_duration'))
             total_duration_ +=float(i.get('job_duration') or 0)
-            print(total_duration_)
         self.total_duration = total_duration_
         self.in_between = break_time
-        self.ordered_ = self.total_completed_qty/self.total_qty*100
+        if self.total_qty:
+            self.ordered_ = self.total_completed_qty /self.total_qty  *100
 
     def add_job_work_report(self,table):
         if(isinstance(table,str)):
