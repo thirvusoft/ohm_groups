@@ -1,3 +1,35 @@
+var party_items = []
+
+function itemFilters(frm) {
+    if (!frm.doc.naming_supplier) {
+        party_items = []
+        return
+    }
+    frappe.db.get_value('Supplier', { 'name': frm.doc.naming_supplier }, 'default_item', (r) => {
+        if (r.default_item == 1) {
+            frappe.call({
+                method: "ohmgroups.ohm_groups.custom.py.purchase_order.item_supplier",
+                args: {
+                    naming_supplier: frm.doc.naming_supplier,
+                },
+                callback: function (r) {
+                    party_items = r.message || []
+                    frm.set_query("item_code", "items", function () {
+                        return {
+                            filters: {
+                                "item_code": ["in", r.message]
+                            }
+
+                        }
+                    })
+                }
+            })
+
+        }
+
+    })
+}
+
 frappe.ui.form.on("Purchase Order", {
     
     is_subcontracted: function(frm){
@@ -16,37 +48,10 @@ frappe.ui.form.on("Purchase Order", {
         })
     },
     naming_supplier: function(frm){
-        cur_frm.set_value("supplier",frm.doc.naming_supplier)
-       
-            frappe.db.get_value('Supplier',{'name':frm.doc.naming_supplier},'default_item',(r)=>{
-                if(r.default_item == 1){
-                    frappe.call({
-                        method: "ohmgroups.ohm_groups.custom.py.purchase_order.item_supplier",
-                        args:{
-                            naming_supplier:frm.doc.naming_supplier,
-                        },
-                        callback: function(r) {
-                            frm.set_query("item_code","items",function(){
-                                return {
-                                    filters:{
-                                        "item_code":["in",r.message]
-                                    }
-                                    
-                                }
-                            })
-                    }
-                    })
-                
-                }
-            })
-        
-        // else{
-        //     var count =0
-        //     frm.set_value('items',[]);
-        // }
-        
+        itemFilters(frm)
     },
     refresh: function(frm,cdt,cdn){
+        itemFilters(frm)
         // frm.set_query("item_code","items",function(){
         //     return {
         //         filters:{
@@ -123,6 +128,22 @@ frappe.ui.form.on('Purchase Order Item', {
         frappe.model.set_value(cdt,cdn,'weight_per_unit',row.total_weight / row.qty)
 
 	},
+    item_code: function (frm, cdt, cdn) {
+        var row = locals[cdt][cdn]
+        if (row.item_code && !frm.doc.party) {
+            frappe.model.set_value(cdt, cdn, "item_name", "")
+            frappe.model.set_value(cdt, cdn, "item_code", "")
+            frappe.throw("Kindly fill Supplier")
+
+        }
+        if (row.item_code && !party_items.includes(row.item_code)) {
+            let item_code = row.item_code
+            frappe.model.set_value(cdt, cdn, "item_name", "")
+            frappe.model.set_value(cdt, cdn, "item_code", "")
+            frappe.throw(`<b>${item_code}</b> does not belong to <b>${frm.doc.naming_supplier}</b>`)
+
+        }
+    }
 })
 // function po_item (frm,cdt,cdn){
 //     var row = locals[cdt][cdn]

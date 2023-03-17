@@ -181,7 +181,6 @@ class GateEntry(Document):
                 document.gate_entry = self.name,
                 document.supplier =self.party_name
                 for i in self.items:
-                    
                     document.append('items', dict(
                         item_code = i.item_code,
                         item_name = i.item_name,
@@ -190,9 +189,6 @@ class GateEntry(Document):
                     ))
                 document.save(ignore_permissions=True)
                 self.status = "To Purchase Receipt"
-
-
-
     
     def on_cancel(self):
         # if self.against_po__dc == "DC Not for Sales" and self.is_gate_entry_in__out == "IN":
