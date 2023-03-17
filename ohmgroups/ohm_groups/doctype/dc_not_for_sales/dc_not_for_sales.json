@@ -117,7 +117,8 @@
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
-   "options": "DC Items"
+   "options": "DC Items",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_8",
@@ -374,8 +375,13 @@
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
- "links": [],
- "modified": "2023-03-11 18:14:49.268898",
+ "links": [
+  {
+   "link_doctype": "Gate Entry",
+   "link_fieldname": "dc_sales"
+  }
+ ],
+ "modified": "2023-03-17 11:59:57.766474",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",
