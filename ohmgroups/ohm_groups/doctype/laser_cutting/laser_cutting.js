@@ -94,6 +94,7 @@ frappe.ui.form.on('Laser Cutting', {
             }
         }
         if (frm.doc.laser_cutting[0].qty && frm.doc.time_logs) {
+
             frm.call({
                 method: "sheet_no",
                 args: {
@@ -121,8 +122,11 @@ frappe.ui.form.on('Laser Cutting', {
                                 helpers: frm.doc.helpers
                             },
                             callback: function (r) {
-                                if (!frm.doc.number_of_sheets) {
+                                if (!frm.doc.number_of_sheets ) {
                                     frappe.throw("Kindly Select the Sheets Number")
+                                }
+                                if(!frm.doc.operators || frm.doc.operators.length == 0 || !frm.doc.helpers || frm.doc.operators.helpers == 0 ){
+                                    frappe.throw("Kindly Select the Operators or Helpers")
                                 }
                                 frm.set_value("time_logs", r.message)
                                 frm.events.start_job(frm, "Work In Progress", r.message);
@@ -132,7 +136,7 @@ frappe.ui.form.on('Laser Cutting', {
                         frm.set_value("operators", [])
                         frm.set_value("helpers", [])
                         frm.refresh_field("number_of_sheets")
-                        frm.doc.status = "Work In Progress"
+                        frm.set_value("status", "Work In Progress")
                     })
                 } else if (frm.doc.status == "On Hold") {
                     frm.add_custom_button(__("Resume Job"), () => {
@@ -174,7 +178,8 @@ frappe.ui.form.on('Laser Cutting', {
                                         'fieldtype': 'Float',
                                         'in_list_view': 1,
                                         'read_only': 1,
-                                        'column': 1
+                                        'column': 1,
+                                        'default':0,
                                     },
                                     {
                                         'fieldname': 'rejected_qty',
@@ -182,10 +187,20 @@ frappe.ui.form.on('Laser Cutting', {
                                         'fieldtype': 'Float',
                                         'in_list_view': 1,
                                         'column': 1,
+                                        'default':0,
                                         onchange:function(){
-                                            for(let i=0;i < cur_dialog.fields_dict.table.grid.data.length;i++){
-                                                cur_dialog.fields_dict.table.grid.data[i].missing_qty = cur_dialog.fields_dict.table.grid.data[i].actual_qty - (cur_dialog.fields_dict.table.grid.data[i].accepted_qty + cur_dialog.fields_dict.table.grid.data[i].rejected_qty)
-                                                cur_dialog.refresh()
+                                            for(let i=0;i < d.fields_dict.table.grid.data.length;i++){
+                                                console.log(d.fields_dict.table.grid.data[i].actual_qty,((d.fields_dict.table.grid.data[i].rejected_qty||0) + (d.fields_dict.table.grid.data[i].accepted_qty||0)))
+                                                if(d.fields_dict.table.grid.data[i].actual_qty < ((d.fields_dict.table.grid.data[i].rejected_qty||0) + (d.fields_dict.table.grid.data[i].accepted_qty||0))){
+                                                    d.fields_dict.table.grid.data[i].missing_qty = 0
+                                                    d.fields_dict.table.grid.data[i].rejected_qty = 0
+                                                    d.fields_dict.table.grid.data[i].accepted_qty = 0
+                                                    d.refresh()
+                                                    frappe.throw(`Accepted or Rejected qty must be less than Actual Qty at row ${i+1}`)
+                                                }
+                                                d.fields_dict.table.grid.data[i].missing_qty = d.fields_dict.table.grid.data[i].actual_qty - ((d.fields_dict.table.grid.data[i].rejected_qty||0) + (d.fields_dict.table.grid.data[i].accepted_qty||0))
+                                                d.refresh()
+
                                             }
                                            
                                         }
@@ -196,10 +211,18 @@ frappe.ui.form.on('Laser Cutting', {
                                         'fieldtype': 'Float',
                                         'in_list_view': 1,
                                         'column': 1,
+                                        'default':0,
                                         onchange:function(){
-                                            for(let i=0;i < cur_dialog.fields_dict.table.grid.data.length;i++){
-                                                cur_dialog.fields_dict.table.grid.data[i].missing_qty = cur_dialog.fields_dict.table.grid.data[i].actual_qty - (cur_dialog.fields_dict.table.grid.data[i].accepted_qty + cur_dialog.fields_dict.table.grid.data[i].rejected_qty)
-                                                cur_dialog.refresh()
+                                            for(let i=0;i < d.fields_dict.table.grid.data.length;i++){
+                                                if(d.fields_dict.table.grid.data[i].actual_qty < ((d.fields_dict.table.grid.data[i].rejected_qty||0) + (d.fields_dict.table.grid.data[i].accepted_qty||0))){
+                                                    d.fields_dict.table.grid.data[i].missing_qty = 0
+                                                    d.fields_dict.table.grid.data[i].rejected_qty = 0
+                                                    d.fields_dict.table.grid.data[i].accepted_qty = 0
+                                                    d.refresh()
+                                                    frappe.throw(`Accepted or Rejected qty must be less than Actual Qty at row ${i+1}`)
+                                                }
+                                                d.fields_dict.table.grid.data[i].missing_qty = d.fields_dict.table.grid.data[i].actual_qty - ((d.fields_dict.table.grid.data[i].rejected_qty||0) + (d.fields_dict.table.grid.data[i].accepted_qty||0))
+                                                d.refresh()
                                             }
                                            
                                         }
@@ -210,7 +233,8 @@ frappe.ui.form.on('Laser Cutting', {
                                         'label': 'Missing Qty',
                                         'fieldtype': 'Float',
                                         'in_list_view': 1,
-                                        'column': 1
+                                        'column': 1,
+                                        'default':0,
 
                                     },
                                     {
@@ -220,12 +244,6 @@ frappe.ui.form.on('Laser Cutting', {
                                         'in_list_view': 1,
                                         'column': 2
                                     },
-                                    {
-                                        'fieldname': 'employee',
-                                        'fieldtype': 'Link',
-                                        'label': 'Employee',
-                                        'in_list_view': 0,
-                                    }
                                 ]
                                 let item = []
                                 frm.doc.raw_materials.forEach((i) => {
@@ -249,6 +267,14 @@ frappe.ui.form.on('Laser Cutting', {
                                     primary_action_label: 'Submit',
                                     secondary_action_label: 'Close',
                                     async primary_action(data) {
+                                        data.table.forEach((row)=>{
+                                            if(row.actual_qty < row.rejected_qty || row.actual_qty < row.accepted_qty){
+                                                frappe.throw(`Accepted or Rejected qty must be less than Actual Qty at row ${row.idx}`)
+                                            }
+                                            if(!row.rejected_qty && !row.missing_qty && !row.accepted_qty){
+                                                frappe.throw(`Accepted or Rejected qty or Missing Qty must be greater than 0 at row ${row.idx}`)
+                                            }
+                                        })
                                         if (data.table) {
                                             await frm.events.complete_job(frm, "Complete", data.table);
                                         }
@@ -389,7 +415,7 @@ frappe.ui.form.on('Laser Cutting', {
         if ((!frm.doc.time_logs || !frm.doc.time_logs.length) && frm.doc.started_time) {
             frm.trigger("reset_timer");
         }
-        
+        if (frm.doc.laser_cutting[0].qty && frm.doc.time_logs) {
         frm.call({
             method: "sheet_no",
             args: {
@@ -401,6 +427,7 @@ frappe.ui.form.on('Laser Cutting', {
                 frm.set_df_property('number_of_sheets', 'options', r.message)
             }
         });
+        }
         var dialog = new frappe.ui.Dialog({
             title: 'Are You Sure',
             primary_action_label: __('Yes'),

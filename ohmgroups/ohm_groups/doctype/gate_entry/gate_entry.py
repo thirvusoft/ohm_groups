@@ -11,9 +11,6 @@ from ohmgroups.ohm_groups.doctype.grn.grn import grn_on_insert
 from ohmgroups.ohm_groups.doctype.grn.grn import grn_address_billing
 from ohmgroups.ohm_groups.doctype.grn.grn import grn_address_shipping
 
-
-
-
 @frappe.whitelist()
 def get_items(party_type = None, against_po__dc = None, purchase_order = None, dc_not_for_sales = None, party_name = None, is_gate_entry_in__out = None,against_si__dc = None,sales_invoice = None):
     items_dc = []
@@ -80,6 +77,19 @@ def get_items(party_type = None, against_po__dc = None, purchase_order = None, d
                     items_si.append({"item_code":i.item_code,"item_name":i.item_name,"qty": i.qty ,"uom":i.uom,"document_no":n.get('goods_received_from'),"name1":po_items.customer})
         return items_si
           
+@frappe.whitelist()
+def item_supplier(party_name):
+    supplier_item = frappe.get_doc("Supplier",party_name)
+    if(supplier_item.default_item ==1):
+        supplier = frappe.get_all("Supplier wise item",{'parent':supplier_item.name,},pluck="item_code")
+        return supplier
+
+@frappe.whitelist()
+def item_customer(party_name):
+    customer_item = frappe.get_doc("Customer",party_name)
+    if(customer_item._default_item ==1):
+        customer = frappe.get_all("Customer Default Items",{'parent':customer_item.name,},pluck="item_code")
+        return customer
     
 class GateEntry(Document):
     def on_submit(self):
@@ -165,46 +175,6 @@ class GateEntry(Document):
                     ))
                 document.save(ignore_permissions=True)
                 self.status = "To GRN"
-                # document = frappe.new_doc("Stock Entry")
-                # document.stock_entry_type ="Material Receipt"
-                # document.to_warehouse = self.warehouse
-                # document.dc_no = self.name,
-                # for i in self.items:
-                #     item = frappe.get_doc("Item",{"name":i.item_code})
-                #     for j in item.uoms:
-                #         if item.stock_uom == j.uom:
-                #             document.append('items', dict(
-                #                 item_code = i.item_code,
-                #                 qty=i.received_qty,
-                #                 basic_rate=1,
-                #                 stock_uom = item.stock_uom,
-                #                 uom=i.uom,
-                #                 transfer_qty=i.received_qty,
-                #                 conversion_factor = j.conversion_factor
-                #             ))
-                # document.save(ignore_permissions=True)
-                # document.submit()
-
-                
-        # if self.against_po__dc == "Purchase Order" and self.is_gate_entry_in__out == "IN":
-        #         document = frappe.new_doc("Purchase Receipt")
-        #         document.is_gate_entry = 1
-        #         document.gate_entry = self.name,
-        #         for i in self.items:
-                    
-        #             document.supplier =i.name1
-        #             item = frappe.get_doc("Item",{"name":i.item_code})
-                   
-        #             document.append('items', dict(
-        #                 item_code = i.item_code,
-        #                 item_name = i.item_name,
-                        
-        #                 qty=i.received_qty,
-        #                 uom=i.uom,
-        #                 purchase_order = i.document_no
-        #             ))
-        #         document.save(ignore_permissions=True)
-        #         self.status = "To Purchase Receipt"
         if self.against_po__dc == "Others" and self.is_gate_entry_in__out == "IN" and self.party_type == "Supplier":
                 document = frappe.new_doc("Purchase Receipt")
                 document.is_gate_entry = 1
