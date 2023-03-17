@@ -1,0 +1,34 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"1uRi9tI3zf\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">OHM</span>\",\"col\":12}},{\"id\":\"PdWvhigeG_\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"TASK\",\"col\":3}}]",
+ "creation": "2023-03-15 18:55:16.565443",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "OHM",
+ "links": [],
+ "modified": "2023-03-15 18:57:24.483049",
+ "modified_by": "thirvu@gmail.com",
+ "module": "Ohm Groups",
+ "name": "OHM",
+ "owner": "thirvu@gmail.com",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 39.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "TASK",
+   "link_to": "Task",
+   "stats_filter": "{'owner':frappe.session.user}",
+   "type": "DocType"
+  }
+ ],
+ "title": "OHM"
+}
