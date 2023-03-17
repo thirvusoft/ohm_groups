@@ -48,8 +48,11 @@
   "job_work_report_table",
   "section_break_35",
   "ordered_",
-  "column_break_41",
-  "total_completed_qty"
+  "total_completed_qty",
+  "column_break_43",
+  "total_rejected_qty",
+  "column_break_45",
+  "total_missing"
  ],
  "fields": [
   {
@@ -164,12 +167,14 @@
   {
    "fieldname": "total_qty",
    "fieldtype": "Data",
-   "label": "Total Components"
+   "label": "Total Components",
+   "read_only": 1
   },
   {
    "fieldname": "total_completed_qty",
    "fieldtype": "Float",
-   "label": "Total Completed Qty"
+   "label": "Total Completed Qty",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_21",
@@ -178,7 +183,8 @@
   {
    "fieldname": "in_between",
    "fieldtype": "Float",
-   "label": "Break Time"
+   "label": "Break Time",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_15",
@@ -255,20 +261,17 @@
    "fieldtype": "Percent",
    "hidden": 1,
    "in_list_view": 1,
-   "label": "Ordered %"
+   "label": "% Completed"
   },
   {
    "fieldname": "total_duration",
    "fieldtype": "Float",
-   "label": "Total Duration"
+   "label": "Total Duration",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_33",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_41",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "column_break_4",
@@ -285,13 +288,33 @@
    "label": "Reference Number",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "total_rejected_qty",
+   "fieldtype": "Float",
+   "label": "Total Rejected Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_missing",
+   "fieldtype": "Float",
+   "label": "Total Missing",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_43",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_45",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-15 18:38:26.248021",
+ "modified": "2023-03-16 16:33:28.209915",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",

@@ -11,7 +11,7 @@ from frappe.desk.reportview import get_filters_cond, get_match_cond
 from frappe.utils import nowdate, unique
 import erpnext
 from erpnext.stock.get_item_details import _get_item_tax_template
-from frappe.utils.data import get_datetime, time_diff_in_seconds, time_diff_in_hours
+from frappe.utils.data import flt, get_datetime, time_diff_in_seconds, time_diff_in_hours
 
 
 @frappe.whitelist()
@@ -133,7 +133,7 @@ def sheet_no(laser_cutting, time_log):
         name ="Sheet" + str(i)
         if(name not in sheets):
             sheet_number.append([name])
-    return sheet_number
+    return sheet_number[0:2:]
 
 @frappe.whitelist()
 def set_time_log(number_of_sheets,operators,helpers):
@@ -150,14 +150,15 @@ def set_time_log(number_of_sheets,operators,helpers):
 class LaserCutting(Document):
     @frappe.whitelist()
     def validate_sheet(self):
-        sheet_number = []
-        sheets = list(set([i.get('sheet_no') for i in self.job_work_report_table]))
-        for i in range(1, int(self.laser_cutting[0].get('qty'))+1, 1):
-            name ="Sheet" + str(i)
-            if(name not in sheets):
-                sheet_number.append(name)
-        if len(sheet_number):
-            frappe.throw(f"{', '.join(sheet_number)} are not completed")
+        if self.workflow_state == "Start Job":
+            sheet_number = []
+            sheets = list(set([i.get('sheet_no') for i in self.job_work_report_table]))
+            for i in range(1, int(self.laser_cutting[0].get('qty'))+1, 1):
+                name ="Sheet" + str(i)
+                if(name not in sheets):
+                    sheet_number.append(name)
+            if len(sheet_number):
+                frappe.throw(f"{', '.join(sheet_number)} are not completed")
     def on_submit(self):
         document = frappe.new_doc("Stock Entry")
         document.stock_entry_type ="Repack"
@@ -319,16 +320,22 @@ class LaserCutting(Document):
             self.total_completed_qty = 0
             self.employee = []
         tot = 0
+        tot_rej =0
+        tot_mis = 0
         for i in self.job_work_report_table:
-            tot+=i.get('accepted_qty', 0)
+            tot+=i.get('accepted_qty', 0) or 0
+            tot_rej+=i.get('rejected_qty',0) or 0
+            tot_mis+=i.get('missing_qty' ,0) or 0
         self.total_completed_qty = tot
+        self.total_rejected_qty = tot_rej
+        self.total_missing_qty = tot_mis
 
         break_time = 0
-        total_duration_ = 0
+
+        total_qty = sum({i.sheet_no : flt(i.job_duration) for i in self.time_logs}.values() ) 
+        self.total_duration = total_qty or 0
         for i in self.time_logs:
             break_time+=(i.get('break_time')) or 0
-            total_duration_ +=float(i.get('job_duration') or 0)
-        self.total_duration = total_duration_
         self.in_between = break_time
         if self.total_qty:
             self.ordered_ = self.total_completed_qty /self.total_qty  *100
