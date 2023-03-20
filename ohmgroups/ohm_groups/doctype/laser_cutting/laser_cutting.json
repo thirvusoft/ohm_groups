@@ -76,8 +76,8 @@
   },
   {
    "fieldname": "cad_diagram",
-   "fieldtype": "Attach Image",
-   "label": "Laser Program Attached"
+   "fieldtype": "Attach",
+   "label": "Laser Program"
   },
   {
    "fieldname": "laser_cutting",
@@ -279,8 +279,8 @@
   },
   {
    "fieldname": "cad_diagram_",
-   "fieldtype": "Attach Image",
-   "label": "CAD Diagram Attached"
+   "fieldtype": "Attach",
+   "label": "Diagram Details"
   },
   {
    "fieldname": "ref_number",
@@ -314,7 +314,7 @@
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-16 16:33:28.209915",
+ "modified": "2023-03-20 19:35:45.598318",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",

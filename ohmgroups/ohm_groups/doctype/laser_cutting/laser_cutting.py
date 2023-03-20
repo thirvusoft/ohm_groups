@@ -344,6 +344,6 @@ class LaserCutting(Document):
         if(isinstance(table,str)):
             table = json.loads(table)
         self.update({
-            "job_work_report_table": self.job_work_report_table + [{'sheet_no':i.get('sheet_no'),'accepted_qty':i.get('accepted_qty'),'rejected_qty':i.get('rejected_qty'),'remark':i.get('remark'),'item_code': i.get('item_code'), 'actual_qty': i.get('actual_qty'), 'missing_qty':i.get('missing_qty')} for i in table]
+            "job_work_report_table": self.job_work_report_table + [{'sheet_no':i.get('sheet_no'),'accepted_qty':i.get('accepted_qty'),'rejected_qty':i.get('rejected_qty'),'remark':i.get('remark'),'item_code': i.get('item_code'), 'actual_qty': i.get('actual_qty'), 'missing_qty':i.get('missing_qty'),"laser_cut_name":self.name,"ref_number":self.ref_number} for i in table]
             })
         
