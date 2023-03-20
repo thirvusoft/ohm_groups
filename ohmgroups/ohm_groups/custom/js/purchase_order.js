@@ -1,3 +1,35 @@
+// var party_items = []
+
+// function itemFilters(frm) {
+//     if (!frm.doc.naming_supplier) {
+//         party_items = []
+//         return
+//     }
+//     frappe.db.get_value('Supplier', { 'name': frm.doc.naming_supplier }, 'default_item', (r) => {
+//         if (r.default_item == 1) {
+//             frappe.call({
+//                 method: "ohmgroups.ohm_groups.custom.py.purchase_order.item_supplier",
+//                 args: {
+//                     naming_supplier: frm.doc.naming_supplier,
+//                 },
+//                 callback: function (r) {
+//                     party_items = r.message || []
+//                     frm.set_query("item_code", "items", function () {
+//                         return {
+//                             filters: {
+//                                 "item_code": ["in", r.message]
+//                             }
+
+//                         }
+//                     })
+//                 }
+//             })
+
+//         }
+
+//     })
+// }
+
 frappe.ui.form.on("Purchase Order", {
     
     is_subcontracted: function(frm){
@@ -5,7 +37,7 @@ frappe.ui.form.on("Purchase Order", {
             
             method: "ohmgroups.ohm_groups.custom.py.purchase_order.on_insert",
             args:{
-                supplier:frm.doc.supplier,
+                supplier:frm.doc.naming_supplier,
                 is_subcontracted:frm.doc.is_subcontracted
             },
             callback: function(r) {
@@ -16,46 +48,29 @@ frappe.ui.form.on("Purchase Order", {
         })
     },
     naming_supplier: function(frm){
-        cur_frm.set_value("supplier",frm.doc.naming_supplier)
-       
-            frappe.db.get_value('Supplier',{'name':frm.doc.naming_supplier},'default_item',(r)=>{
-                if(r.default_item == 1){
-                    frappe.call({
-                        method: "ohmgroups.ohm_groups.custom.py.purchase_order.item_supplier",
-                        args:{
-                            naming_supplier:frm.doc.naming_supplier,
-                        },
-                        callback: function(r) {
-                            frm.set_query("item_code","items",function(){
-                                return {
-                                    filters:{
-                                        "item_code":["in",r.message]
-                                    }
-                                    
-                                }
-                            })
-                    }
-                    })
-                
-                }
-            })
-        
-        // else{
-        //     var count =0
-        //     frm.set_value('items',[]);
-        // }
-        
+        frm.set_value("supplier",frm.doc.naming_supplier)
+        frm.set_query("item_code","items",function(){
+        return {
+            filters:{
+                "item_group":"Services"
+            }
+            
+        }
+    })
     },
     refresh: function(frm,cdt,cdn){
-        // frm.set_query("item_code","items",function(){
-        //     return {
-        //         filters:{
-        //             "item_group":"Services"
-        //         }
+        setTimeout(() => {
+            frm.remove_custom_button('Subcontracting Order', 'Create')
+        }, 200);
+        frm.set_query("item_code","items",function(){
+            return {
+                filters:{
+                    "item_group":"Services"
+                }
                 
-        //     }
-        // })
-        frm.add_custom_button(__('Subcontracted Receipt'), function(){
+            }
+        })
+        frm.add_custom_button(__('Subcontracting Receipt'), function(){
             var so_no = frappe.db.get_list('Subcontracting Order', {filters:{'purchase_order':frm.doc.name, 'docstatus':1},fields:['name']}).then((r)=>{
                 if(!r.length){
                     frappe.throw("Create Subcontracting Order...")
@@ -77,23 +92,23 @@ frappe.ui.form.on("Purchase Order", {
             })
 
         }, __("Create"));
-        // frm.add_custom_button(__('Material to Transfer'), function(){
-        //     var so = frappe.db.get_list('Subcontracting Order', {filters:{'purchase_order':frm.doc.name, 'docstatus':1},fields:['name']}).then((so_name)=>{
-        //         if(so_name.length){
-        //         frappe.call({
-        //             method: 'erpnext.controllers.subcontracting_controller.make_rm_stock_entry',
-        //             args: {
-        //                 subcontract_order: so_name[0].name,
-        //                 order_doctype: "Subcontracting Order"
-        //             },
-        //             callback: (r) => {
-        //                 var doclist = frappe.model.sync(r.message);
-        //                 frappe.set_route('Form', doclist[0].doctype, doclist[0].name);
-        //             }
-        //         });
-        //     }
-        //         })
-        // }, __("Transfer"));
+        frm.add_custom_button(__('Material to Transfer'), function(){
+            var so = frappe.db.get_list('Subcontracting Order', {filters:{'purchase_order':frm.doc.name, 'docstatus':1},fields:['name']}).then((so_name)=>{
+                if(so_name.length){
+                frappe.call({
+                    method: 'erpnext.controllers.subcontracting_controller.make_rm_stock_entry',
+                    args: {
+                        subcontract_order: so_name[0].name,
+                        order_doctype: "Subcontracting Order"
+                    },
+                    callback: (r) => {
+                        var doclist = frappe.model.sync(r.message);
+                        frappe.set_route('Form', doclist[0].doctype, doclist[0].name);
+                    }
+                });
+            }
+                })
+        }, __("Transfer"));
 
             
         
