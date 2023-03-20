@@ -55,7 +55,6 @@ frappe.ui.form.on('Laser Cutting', {
             });
             
         }
-
     },
     refresh: function (frm) {
         frm.set_query("operators", function () {
@@ -329,6 +328,12 @@ frappe.ui.form.on('Laser Cutting', {
             };
         });
     
+    },
+    ref_number:function(frm){
+        var get_ref_no = frappe.db.get_list("Laser Cutting",{filters:{"name":["!=",frm.doc.name]},fields:["*"]})
+        for(let i=0;i<get_ref_no.length;i++){
+            console.log("---",get_ref_no[i].ref_number)     
+        }
     },
     reset_timer: function (frm) {
         frm.set_value('started_time', '');
