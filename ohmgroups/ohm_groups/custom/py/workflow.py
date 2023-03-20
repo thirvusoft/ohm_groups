@@ -126,9 +126,6 @@ def create_laser_cutting_flow():
         state = 'Send to Laser Cutting', allow_edit = 'All',doc_status = 0,
     ))
     workflow.append('states', dict(
-        state = 'Start Job', allow_edit = 'All',doc_status = 0,
-    ))
-    workflow.append('states', dict(
         state = 'Job Completed', allow_edit = 'All',doc_status = 1,
     ))
     workflow.append('states', dict(
@@ -141,14 +138,9 @@ def create_laser_cutting_flow():
         allowed='All', allow_self_approval= 1,
     ))
     workflow.append('transitions', dict(
-        state = 'Send to Laser Cutting', action='Start Job', next_state = 'Start Job',
+        state = 'Send to Laser Cutting', action='Job Completed', next_state = 'Job Completed',
         allowed='All', allow_self_approval= 1,
     ))
-    workflow.append('transitions', dict(
-        state = 'Start Job', action='Job Completed', next_state = 'Job Completed',
-        allowed='All', allow_self_approval= 1,
-    ))
-
     workflow.append('transitions', dict(
         state = 'Job Completed', action='Cancel', next_state = 'Cancelled',
         allowed='All', allow_self_approval= 1,
@@ -157,7 +149,7 @@ def create_laser_cutting_flow():
     workflow.insert(ignore_permissions=True)
     return workflow
 def create_state():
-    list={"Draft":"Primary","Send to Laser Cutting":"Primary","Job Completed":"Success", "Rejected":"Danger","Cancelled":"Warning","Open":"Primary","Start Job":"Primary"}
+    list={"Draft":"Primary","Send to Laser Cutting":"Primary","Job Completed":"Success", "Rejected":"Danger","Cancelled":"Warning","Open":"Primary"}
     for row in list:
         if not frappe.db.exists('Workflow State', row):
             new_doc = frappe.new_doc('Workflow State')
@@ -166,7 +158,7 @@ def create_state():
             new_doc.save()
            
 def create_action():
-    list=['Job Completed','Send to Laser Cutting','Start Job']
+    list=['Job Completed','Send to Laser Cutting']
     for row in list:
         if not frappe.db.exists('Workflow Action Master', row):
             new_doc = frappe.new_doc('Workflow Action Master')

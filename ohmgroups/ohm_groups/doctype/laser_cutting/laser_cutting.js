@@ -106,11 +106,11 @@ frappe.ui.form.on('Laser Cutting', {
                 }
             });
         }
-        if(!frm.is_new() && frm.doc.workflow_state == "Start Job"){
+        if(!frm.is_new() && frm.doc.workflow_state == "Send to Laser Cutting"){
             frm.trigger("show_progress_for_items");
         }
         frm.trigger("make_dashboard");
-        if (!frm.is_new() && frm.doc.docstatus == 0 && frm.doc.workflow_state == "Start Job") {
+        if (!frm.is_new() && frm.doc.docstatus == 0 && frm.doc.workflow_state == "Send to Laser Cutting") {
             {
                 if (!frm.doc.started_time && !frm.doc.current_time) {
                     frm.add_custom_button(__("Start Job"), async () => {
@@ -360,7 +360,7 @@ frappe.ui.form.on('Laser Cutting', {
     make_dashboard: function (frm) {
         if (frm.doc.__islocal)
             return;
-        if (!frm.is_new() && frm.doc.docstatus == 0 && frm.doc.workflow_state == "Start Job") {
+        if (!frm.is_new() && frm.doc.docstatus == 0 && frm.doc.workflow_state == "Send to Laser Cutting") {
             const timer = `
                 <div class="stopwatch" style="font-weight:bold;margin:0px 13px 0px 2px;
                     color:#545454;font-size:18px;display:inline-block;vertical-align:text-bottom;">
