@@ -31,11 +31,12 @@ def item_supplier(naming_supplier):
         supplier = frappe.get_all("Supplier wise item",{'parent':supplier_item.name,},pluck="item_code")
         return supplier
 
-# @frappe.whitelist()
-# def po_order(doc,actions):
-#     a=make_subcontracting_order(doc.name)
-#     a.save()
-#     a.submit()
+@frappe.whitelist()
+def po_order(doc,actions): 
+    a=make_subcontracting_order(doc.name)
+    a.save()
+    print("Created------------------------")
+    a.submit()
 
 def submit(doc,actions):
         for i in doc.items:
@@ -49,12 +50,12 @@ def cancel(doc,actions):
                 rec_qty = (frappe.get_value("Material Request Item", {'parent': i.material_request,'item_code':i.item_code},'balanced_qty') or 0)
                 frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'balanced_qty',flt(rec_qty) + i.qty)
 
-def validate(doc,actions):
-     if doc.naming_supplier:
-        supplier_default_item_ = frappe.get_doc("Supplier",{"name":doc.naming_supplier})
-        if supplier_default_item_.default_item:
-            items = [i.item_code for i in doc.items]
-            supplier_item = [j.supplier_item for j in supplier_default_item_.supplier_item]
-            missed_item = [i for i in items if i not in supplier_item]
-            if len(missed_item):
-                frappe.throw(f"{', '.join(missed_item)} not in Supplier Default Items")
+# def validate(doc,actions):
+#      if doc.naming_supplier:
+#         supplier_default_item_ = frappe.get_doc("Supplier",{"name":doc.naming_supplier})
+#         if supplier_default_item_.default_item:
+#             items = [i.item_code for i in doc.items]
+#             supplier_item = [j.supplier_item for j in supplier_default_item_.supplier_item]
+#             missed_item = [i for i in items if i not in supplier_item]
+#             if len(missed_item):
+#                 frappe.throw(f"{', '.join(missed_item)} not in Supplier Default Items")
