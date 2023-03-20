@@ -150,7 +150,7 @@ def set_time_log(number_of_sheets,operators,helpers):
 class LaserCutting(Document):
     @frappe.whitelist()
     def validate_sheet(self):
-        if self.workflow_state == "Start Job":
+        if self.workflow_state == "Send to Laser Cutting":
             sheet_number = []
             sheets = list(set([i.get('sheet_no') for i in self.job_work_report_table]))
             for i in range(1, int(self.laser_cutting[0].get('qty'))+1, 1):
