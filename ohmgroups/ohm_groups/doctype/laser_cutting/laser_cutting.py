@@ -328,7 +328,7 @@ class LaserCutting(Document):
             tot_mis+=i.get('missing_qty' ,0) or 0
         self.total_completed_qty = tot
         self.total_rejected_qty = tot_rej
-        self.total_missing_qty = tot_mis
+        self.total_missing = tot_mis
 
         break_time = 0
 
