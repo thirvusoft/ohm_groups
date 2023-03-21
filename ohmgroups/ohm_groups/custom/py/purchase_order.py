@@ -33,10 +33,10 @@ def item_supplier(naming_supplier):
 
 @frappe.whitelist()
 def po_order(doc,actions): 
-    a=make_subcontracting_order(doc.name)
-    a.save()
-    print("Created------------------------")
-    a.submit()
+    if doc.is_subcontracted == 1:
+        a=make_subcontracting_order(doc.name)
+        a.save()
+        a.submit()
 
 def submit(doc,actions):
         for i in doc.items:

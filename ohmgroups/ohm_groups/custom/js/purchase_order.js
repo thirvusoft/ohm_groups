@@ -46,22 +46,6 @@ frappe.ui.form.on("Purchase Order", {
                 }
         }
         })
-    },
-    naming_supplier: function(frm){
-        frm.set_value("supplier",frm.doc.naming_supplier)
-        frm.set_query("item_code","items",function(){
-        return {
-            filters:{
-                "item_group":"Services"
-            }
-            
-        }
-    })
-    },
-    refresh: function(frm,cdt,cdn){
-        setTimeout(() => {
-            frm.remove_custom_button('Subcontracting Order', 'Create')
-        }, 200);
         frm.set_query("item_code","items",function(){
             return {
                 filters:{
@@ -70,6 +54,15 @@ frappe.ui.form.on("Purchase Order", {
                 
             }
         })
+    },
+    naming_supplier: function(frm){
+        frm.set_value("supplier",frm.doc.naming_supplier)
+      
+    },
+    refresh: function(frm,cdt,cdn){
+        setTimeout(() => {
+            frm.remove_custom_button('Subcontracting Order', 'Create')
+        }, 200);
         frm.add_custom_button(__('Subcontracting Receipt'), function(){
             var so_no = frappe.db.get_list('Subcontracting Order', {filters:{'purchase_order':frm.doc.name, 'docstatus':1},fields:['name']}).then((r)=>{
                 if(!r.length){
@@ -86,7 +79,6 @@ frappe.ui.form.on("Purchase Order", {
                                 return;
                             }
                         }
-
                 });
                 
             })
