@@ -1,0 +1,34 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"y_hNfv6UZU\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Laser Cutting Job</span>\",\"col\":12}},{\"id\":\"I6dlv0JE1b\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Laser Cutting\",\"col\":3}}]",
+ "creation": "2023-03-20 16:03:45.783948",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "color-energy-points",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Laser Cutting Job",
+ "links": [],
+ "modified": "2023-03-20 16:41:06.749934",
+ "modified_by": "Administrator",
+ "module": "Ohm Groups",
+ "name": "Laser Cutting Job",
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 39.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Laser Cutting",
+   "link_to": "Laser Cutting",
+   "type": "DocType"
+  }
+ ],
+ "title": "Laser Cutting Job"
+}
