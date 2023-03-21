@@ -49,10 +49,9 @@
   "section_break_35",
   "ordered_",
   "total_completed_qty",
-  "column_break_43",
   "total_rejected_qty",
-  "column_break_45",
-  "total_missing"
+  "total_missing",
+  "total_components"
  ],
  "fields": [
   {
@@ -76,8 +75,8 @@
   },
   {
    "fieldname": "cad_diagram",
-   "fieldtype": "Attach Image",
-   "label": "Laser Program Attached"
+   "fieldtype": "Attach",
+   "label": "Laser Program"
   },
   {
    "fieldname": "laser_cutting",
@@ -129,7 +128,8 @@
    "fieldname": "time_logs",
    "fieldtype": "Table",
    "label": "Time Log",
-   "options": "Laser Cutting Time Log"
+   "options": "Laser Cutting Time Log",
+   "read_only": 1
   },
   {
    "fieldname": "employee",
@@ -243,6 +243,7 @@
    "label": "Job Report "
   },
   {
+   "allow_bulk_edit": 1,
    "fieldname": "job_work_report_table",
    "fieldtype": "Table",
    "label": "Job Work Report Table",
@@ -279,8 +280,8 @@
   },
   {
    "fieldname": "cad_diagram_",
-   "fieldtype": "Attach Image",
-   "label": "CAD Diagram Attached"
+   "fieldtype": "Attach",
+   "label": "Diagram Details"
   },
   {
    "fieldname": "ref_number",
@@ -302,19 +303,17 @@
    "read_only": 1
   },
   {
-   "fieldname": "column_break_43",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_45",
-   "fieldtype": "Column Break"
+   "fieldname": "total_components",
+   "fieldtype": "Float",
+   "label": "Total Overall Qty",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-16 16:33:28.209915",
+ "modified": "2023-03-21 09:40:25.311235",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",

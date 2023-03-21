@@ -126,6 +126,9 @@ def create_laser_cutting_flow():
         state = 'Send to Laser Cutting', allow_edit = 'All',doc_status = 0,
     ))
     workflow.append('states', dict(
+        state = 'Laser Cutting Finished', allow_edit = 'All',doc_status = 0,
+    ))
+    workflow.append('states', dict(
         state = 'Job Completed', allow_edit = 'All',doc_status = 1,
     ))
     workflow.append('states', dict(
@@ -138,7 +141,11 @@ def create_laser_cutting_flow():
         allowed='All', allow_self_approval= 1,
     ))
     workflow.append('transitions', dict(
-        state = 'Send to Laser Cutting', action='Job Completed', next_state = 'Job Completed',
+        state = 'Send to Laser Cutting', action='Laser Cutting Finished', next_state = 'Laser Cutting Finished',
+        allowed='All', allow_self_approval= 1,
+    ))
+    workflow.append('transitions', dict(
+        state = 'Laser Cutting Finished', action='Job Completed', next_state = 'Job Completed',
         allowed='All', allow_self_approval= 1,
     ))
     workflow.append('transitions', dict(
@@ -149,7 +156,7 @@ def create_laser_cutting_flow():
     workflow.insert(ignore_permissions=True)
     return workflow
 def create_state():
-    list={"Draft":"Primary","Send to Laser Cutting":"Primary","Job Completed":"Success", "Rejected":"Danger","Cancelled":"Warning","Open":"Primary"}
+    list={"Draft":"Primary","Send to Laser Cutting":"Primary","Job Completed":"Success", "Rejected":"Danger","Cancelled":"Warning","Open":"Primary","Laser Cutting Finished":"Primary"}
     for row in list:
         if not frappe.db.exists('Workflow State', row):
             new_doc = frappe.new_doc('Workflow State')
@@ -158,7 +165,7 @@ def create_state():
             new_doc.save()
            
 def create_action():
-    list=['Job Completed','Send to Laser Cutting']
+    list=['Job Completed','Send to Laser Cutting','Laser Cutting Finished']
     for row in list:
         if not frappe.db.exists('Workflow Action Master', row):
             new_doc = frappe.new_doc('Workflow Action Master')
