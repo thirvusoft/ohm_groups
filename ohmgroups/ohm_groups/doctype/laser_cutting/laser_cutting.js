@@ -172,6 +172,14 @@ frappe.ui.form.on('Laser Cutting', {
                                         'column': 2
                                     },
                                     {
+                                        'fieldname': 'item_name',
+                                        'label': 'Item Name',
+                                        'fieldtype': 'Data',
+                                        'in_list_view': 1,
+                                        'read_only': 1,
+                                        'column': 2
+                                    },
+                                    {
                                         'fieldname': 'actual_qty',
                                         'label': 'Actual Qty',
                                         'fieldtype': 'Float',
@@ -179,6 +187,14 @@ frappe.ui.form.on('Laser Cutting', {
                                         'read_only': 1,
                                         'column': 1,
                                         'default':0,
+                                    },
+                                    {
+                                        'fieldname': 'image',
+                                        'label': 'Item Image',
+                                        'fieldtype': 'Attach Image',
+                                        'options':'image',
+                                        'read_only': 1,
+                                        'column': 1,
                                     },
                                     {
                                         'fieldname': 'rejected_qty',
@@ -245,7 +261,8 @@ frappe.ui.form.on('Laser Cutting', {
                                 ]
                                 let item = []
                                 frm.doc.raw_materials.forEach((i) => {
-                                    item.push({ "item_code": i.item_code, "actual_qty": i.per_sheet_qty,"sheet_no":frm.doc.time_logs[frm.doc.time_logs.length-1]?.sheet_no})
+                                    
+                                    item.push({ "item_code": i.item_code,"item_name": i.item_name,"image":i.attach,"actual_qty": i.per_sheet_qty,"sheet_no":frm.doc.time_logs[frm.doc.time_logs.length-1]?.sheet_no})
                                 })
 
                                 var d = new frappe.ui.Dialog({
