@@ -243,12 +243,10 @@ class LaserCutting(Document):
         if self.status == "On Hold":
             self.current_time = time_diff_in_seconds(last_row.to_time, last_row.from_time)
 
-        
-
     def add_start_time_log(self, args):
         self.append("time_logs", args)
         if len(self.time_logs) > 1:
-            self.time_logs[-1].break_time = time_diff_in_hours(self.time_logs[-1].from_time, self.time_logs[-2].to_time)
+            self.time_logs[-1].break_time = time_diff_in_hours(self.time_logs[-1].from_time, self.time_logs[-2].to_time )
 
     def set_employees(self, employees):
         for name in employees:
