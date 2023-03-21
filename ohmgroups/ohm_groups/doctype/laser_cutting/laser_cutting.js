@@ -105,7 +105,7 @@ frappe.ui.form.on('Laser Cutting', {
                 }
             });
         }
-        if(!frm.is_new() && frm.doc.workflow_state == "Send to Laser Cutting"){
+        if(!frm.is_new() && frm.doc.workflow_state != "Draft"){
             frm.trigger("show_progress_for_items");
         }
         frm.trigger("make_dashboard");
@@ -341,7 +341,7 @@ frappe.ui.form.on('Laser Cutting', {
 		var bars = [];
 		var message = '';
 		var added_min = false;
-            var title = __('{0} item produced', [frm.doc.total_completed_qty]);
+            var title = __('{0} item produced,{1} Balanced Qty', [frm.doc.total_completed_qty,frm.doc.total_qty -frm.doc.total_completed_qty ]);
        
 		// produced qty
 		
