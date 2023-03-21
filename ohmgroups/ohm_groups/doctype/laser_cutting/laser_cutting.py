@@ -322,6 +322,7 @@ class LaserCutting(Document):
         tot = 0
         tot_rej =0
         tot_mis = 0
+        tot_com = 0
         for i in self.job_work_report_table:
             tot+=i.get('accepted_qty', 0) or 0
             tot_rej+=i.get('rejected_qty',0) or 0
@@ -329,6 +330,7 @@ class LaserCutting(Document):
         self.total_completed_qty = tot
         self.total_rejected_qty = tot_rej
         self.total_missing = tot_mis
+        self.total_components = tot + tot_rej + tot_mis
 
         break_time = 0
 
@@ -344,6 +346,6 @@ class LaserCutting(Document):
         if(isinstance(table,str)):
             table = json.loads(table)
         self.update({
-            "job_work_report_table": self.job_work_report_table + [{'sheet_no':i.get('sheet_no'),'accepted_qty':i.get('accepted_qty'),'rejected_qty':i.get('rejected_qty'),'remark':i.get('remark'),'item_code': i.get('item_code'), 'actual_qty': i.get('actual_qty'), 'missing_qty':i.get('missing_qty')} for i in table]
+            "job_work_report_table": self.job_work_report_table + [{'sheet_no':i.get('sheet_no'),'accepted_qty':i.get('accepted_qty'),'rejected_qty':i.get('rejected_qty'),'remark':i.get('remark'),'item_code': i.get('item_code'), 'actual_qty': i.get('actual_qty'), 'missing_qty':i.get('missing_qty'),"laser_cut_name":self.name,"ref_number":self.ref_number} for i in table]
             })
         

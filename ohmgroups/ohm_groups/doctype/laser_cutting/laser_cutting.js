@@ -55,7 +55,6 @@ frappe.ui.form.on('Laser Cutting', {
             });
             
         }
-
     },
     refresh: function (frm) {
         frm.set_query("operators", function () {
@@ -190,7 +189,6 @@ frappe.ui.form.on('Laser Cutting', {
                                         'default':0,
                                         onchange:function(){
                                             for(let i=0;i < d.fields_dict.table.grid.data.length;i++){
-                                                console.log(d.fields_dict.table.grid.data[i].actual_qty,((d.fields_dict.table.grid.data[i].rejected_qty||0) + (d.fields_dict.table.grid.data[i].accepted_qty||0)))
                                                 if(d.fields_dict.table.grid.data[i].actual_qty < ((d.fields_dict.table.grid.data[i].rejected_qty||0) + (d.fields_dict.table.grid.data[i].accepted_qty||0))){
                                                     d.fields_dict.table.grid.data[i].missing_qty = 0
                                                     d.fields_dict.table.grid.data[i].rejected_qty = 0
@@ -330,6 +328,12 @@ frappe.ui.form.on('Laser Cutting', {
         });
     
     },
+    // ref_number:function(frm){
+    //     var get_ref_no = frappe.db.get_list("Laser Cutting",{filters:{"name":["!=",frm.doc.name]},fields:["*"]})
+    //     for(let i=0;i<get_ref_no.length;i++){
+    //         console.log("---",get_ref_no[i].ref_number)     
+    //     }
+    // },
     reset_timer: function (frm) {
         frm.set_value('started_time', '');
     },
@@ -553,4 +557,23 @@ frappe.ui.form.on('Finished Goods', {
 
 })
 
+
+frappe.ui.form.on('Job Work Report Table',{
+    rejected_qty:function(frm,cdt,cdn){
+        var row = locals[cdt][cdn]
+        if(row.actual_qty < ((row.rejected_qty||0) + (row.accepted_qty||0))){
+            frappe.model.set_value(cdt,cdn,'rejected_qty',0)
+            frappe.throw(`Accepted or Rejected qty must be less than Actual Qty at row`)
+        }
+        frappe.model.set_value(cdt,cdn,'missing_qty',(row.actual_qty - ((row.rejected_qty||0) + (row.accepted_qty||0))))
+    }, 
+    accepted_qty:function(frm,cdt,cdn){
+        var row = locals[cdt][cdn]
+        if(row.actual_qty < ((row.rejected_qty||0) + (row.accepted_qty||0))){
+            frappe.model.set_value(cdt,cdn,'accepted_qty',0)
+            frappe.throw(`Accepted or Rejected qty must be less than Actual Qty at row`)
+        }
+        frappe.model.set_value(cdt,cdn,'missing_qty',(row.actual_qty - ((row.rejected_qty||0) + (row.accepted_qty||0))))
+    },
+})
 

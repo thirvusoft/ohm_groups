@@ -49,10 +49,9 @@
   "section_break_35",
   "ordered_",
   "total_completed_qty",
-  "column_break_43",
   "total_rejected_qty",
-  "column_break_45",
-  "total_missing"
+  "total_missing",
+  "total_components"
  ],
  "fields": [
   {
@@ -77,7 +76,7 @@
   {
    "fieldname": "cad_diagram",
    "fieldtype": "Attach",
-   "label": "Laser Program "
+   "label": "Laser Program"
   },
   {
    "fieldname": "laser_cutting",
@@ -282,7 +281,7 @@
   {
    "fieldname": "cad_diagram_",
    "fieldtype": "Attach",
-   "label": "Diagram Details "
+   "label": "Diagram Details"
   },
   {
    "fieldname": "ref_number",
@@ -304,19 +303,17 @@
    "read_only": 1
   },
   {
-   "fieldname": "column_break_43",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_45",
-   "fieldtype": "Column Break"
+   "fieldname": "total_components",
+   "fieldtype": "Float",
+   "label": "Total Overall Qty",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
  "max_attachments": 1000,
- "modified": "2023-03-20 19:26:15.511304",
+ "modified": "2023-03-21 09:40:25.311235",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Laser Cutting",
