@@ -3,6 +3,7 @@
 var party_items = []
 
 function itemFilters(frm) {
+    
     if (!frm.doc.party || !frm.doc.party_type) {
         party_items = []
         return
@@ -390,13 +391,29 @@ frappe.ui.form.on('DC Items', {
             frappe.throw("Kindly fill party")
 
         }
-        if (row.item_code && !party_items.includes(row.item_code)) {
-            let item_code = row.item_code
-            frappe.model.set_value(cdt, cdn, "item_name", "")
-            frappe.model.set_value(cdt, cdn, "item_code", "")
-            frappe.throw(`<b>${item_code}</b> does not belong to ${frm.doc.party_type} <b>${frm.doc.party}</b>`)
+        frappe.db.get_value('Supplier', { 'name': frm.doc.party }, 'default_item', (r) => {
+            if(r.default_item == 1){
+                if (row.item_code && !party_items.includes(row.item_code)) {
+                    let item_code = row.item_code
+                    frappe.model.set_value(cdt, cdn, "item_name", "")
+                    frappe.model.set_value(cdt, cdn, "item_code", "")
+                    frappe.throw(`<b>${item_code}</b> does not belong to ${frm.doc.party_type} <b>${frm.doc.party}</b>`)
+        
+                }
+            }
+        })
+        frappe.db.get_value('Customer', { 'name': frm.doc.party }, '_default_item', (r) => {
+            if(r._default_item == 1){
+                if (row.item_code && !party_items.includes(row.item_code)) {
+                    let item_code = row.item_code
+                    frappe.model.set_value(cdt, cdn, "item_name", "")
+                    frappe.model.set_value(cdt, cdn, "item_code", "")
+                    frappe.throw(`<b>${item_code}</b> does not belong to ${frm.doc.party_type} <b>${frm.doc.party}</b>`)
+        
+                }
+            }
+        })
 
-        }
     }
 
 })
