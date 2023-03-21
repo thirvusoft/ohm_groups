@@ -5,12 +5,10 @@ frappe.ui.form.on('BOM',{
             frappe.throw("Kindly fill the item")
         }
         frappe.call({
-            
             method: "ohmgroups.ohm_groups.custom.py.bom.operations_",
             args:{
                 item:frm.doc.item,
             },
-
             callback: function(r) {
                 
                 frm.set_value("item",r.message[0])
