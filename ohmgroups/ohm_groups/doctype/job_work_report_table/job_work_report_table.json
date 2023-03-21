@@ -22,7 +22,8 @@
    "fieldname": "sheet_no",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Sheet No"
+   "label": "Sheet No",
+   "read_only": 1
   },
   {
    "fieldname": "employee",
@@ -30,13 +31,15 @@
    "hidden": 1,
    "in_list_view": 1,
    "label": "Employee",
-   "options": "Employee"
+   "options": "Employee",
+   "read_only": 1
   },
   {
    "fieldname": "actual_qty",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Actual Qty"
+   "label": "Actual Qty",
+   "read_only": 1
   },
   {
    "fieldname": "rejected_qty",
@@ -54,7 +57,8 @@
    "fieldname": "missing_qty",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Missing Qty"
+   "label": "Missing Qty",
+   "read_only": 1
   },
   {
    "fieldname": "remark",
@@ -66,23 +70,26 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Item Code",
-   "options": "Item"
+   "options": "Item",
+   "read_only": 1
   },
   {
    "fieldname": "laser_cut_name",
    "fieldtype": "Data",
-   "label": "Laser Cut Name"
+   "label": "Laser Cut Name",
+   "read_only": 1
   },
   {
    "fieldname": "ref_number",
    "fieldtype": "Data",
-   "label": "Ref Name"
+   "label": "Ref Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-20 19:29:35.906952",
+ "modified": "2023-03-21 09:33:43.704238",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Job Work Report Table",
