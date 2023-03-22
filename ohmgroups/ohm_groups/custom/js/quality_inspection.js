@@ -1,7 +1,35 @@
 var template
 var called=0;
+
+function itemFilters(frm) {
+
+	if(frm.doc.item_code){
+		frappe.call({
+			method: "ohmgroups.ohm_groups.custom.py.quality_inspection.qc_report",
+			args:{
+				item_code:frm.doc.item_code,
+				name: frm.doc.name
+			},
+			callback: function(r) {
+				frm.set_query("qc_report", function () {
+					return {
+					  filters: {
+						name: ["in",r.message],
+
+					  },
+					};
+				  });
+		}
+		})
+	}
+
+
+}
+
 frappe.ui.form.on('Quality Inspection', {
 		refresh: function(frm, cdt, cdn) {
+			itemFilters(frm)
+
 			frm.set_query("party_type_",function(){
 				return {
 					filters:{
@@ -96,23 +124,7 @@ frappe.ui.form.on('Quality Inspection', {
 			});
 		},
 		party_type_: function(frm){
-			frappe.call({
-				method: "ohmgroups.ohm_groups.custom.py.quality_inspection.qc_report",
-				args:{
-					item_code:frm.doc.item_code,
-					name: frm.doc.name
-				},
-				callback: function(r) {
-					frm.set_query("qc_report", function () {
-						return {
-						  filters: {
-							name: ["in",r.message[0]],
-	
-						  },
-						};
-					  });
-			}
-			})
+
 		},
 		get_result:  function(frm) {
 			 frappe.call({
