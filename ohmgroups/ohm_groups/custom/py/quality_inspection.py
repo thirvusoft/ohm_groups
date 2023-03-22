@@ -295,14 +295,40 @@ def add_attachment(file, name):
 
 def inspection_status(doc,actions):
     if doc.reference_type == "Others":
-        inspection = frappe.get_doc("GRN", {'name':doc.grn})
-        for i in inspection.quality_inspection_doc_no:
-            if doc.name == i.quality_inspection_doc_no:
-                if i.inspection_list == 0:
-                        if doc.docstatus == 1:
-                            i.inspection_list = 1
-        inspection.save()
+        if doc.grn:
+            inspection = frappe.get_doc("GRN", {'name':doc.grn})
+            for i in inspection.quality_inspection_doc_no:
+                if doc.name == i.quality_inspection_doc_no:
+                    if i.inspection_list == 0:
+                            if doc.docstatus == 1:
+                                i.inspection_list = 1
+            inspection.save()
 
 
 
-
+@frappe.whitelist()
+def qc_report(item_code, name):
+    count = 0
+    oper_ = []
+    m = []
+    variant_of = frappe.get_all("Item",filters = {"name":item_code}, pluck = "parent_item")
+    parent = variant_of
+    while(True):
+        count+=1
+        parent_1 = []
+        for j in parent:
+            parent_1 += frappe.get_all("Item",filters = {"parent_item":j,"is_group":1}, pluck = "name")
+            
+        variant_of += parent_1
+        parent = parent_1
+        if len(parent_1) == 0 or count > 500:
+            break
+    item_code_ = frappe.get_all("Item",filters={"variant_of":["in",variant_of], "attribute_value":["!=","Fg"]},pluck="name") #Get item_code
+    list = []
+    for k in item_code_:
+        qc = frappe.get_all("Quality Inspection",{'item_code':k},pluck ="name")
+        for m in qc:
+            list.append(m)
+    v= item_code.split('-')
+    if v[-1] == "FG":
+        return list

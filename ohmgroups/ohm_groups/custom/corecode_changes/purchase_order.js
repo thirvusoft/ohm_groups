@@ -3,8 +3,7 @@
 
 frappe.provide("erpnext.buying");
 frappe.provide("erpnext.accounts.dimensions");
-// If paste to core means 7th row is uncommand-------
-// {% include 'erpnext/public/js/controllers/buying.js' %};
+{% include 'erpnext/public/js/controllers/buying.js' %};
 
 frappe.ui.form.on("Purchase Order", {
 	setup: function(frm) {
@@ -102,6 +101,11 @@ frappe.ui.form.on("Purchase Order", {
 		erpnext.queries.setup_queries(frm, "Warehouse", function() {
 			return erpnext.queries.warehouse(frm.doc);
 		});
+
+		// On cancel and amending a purchase order with advance payment, reset advance paid amount
+		if (frm.is_new()) {
+			frm.set_value("advance_paid", 0)
+		}
 	},
 
 	apply_tds: function(frm) {
@@ -124,18 +128,18 @@ frappe.ui.form.on("Purchase Order Item", {
 			}
 		}
 	},
-// core code changes start-------
+
 	// qty: function(frm, cdt, cdn) {
 	// 	if (frm.doc.is_subcontracted && !frm.doc.is_old_subcontracting_flow) {
 	// 		var row = locals[cdt][cdn];
-
+		
 	// 		if (row.qty) {
 	// 			row.fg_item_qty = row.qty;
 	// 		}
 	// 	}
-	// }
+	// },
 });
-// end----
+
 erpnext.buying.PurchaseOrderController = class PurchaseOrderController extends erpnext.buying.BuyingController {
 	setup() {
 		this.frm.custom_make_buttons = {
@@ -231,11 +235,11 @@ erpnext.buying.PurchaseOrderController = class PurchaseOrderController extends e
 						cur_frm.add_custom_button(__('Purchase Invoice'),
 							this.make_purchase_invoice, __('Create'));
 
-					if(flt(doc.per_billed)==0 && doc.status != "Delivered") {
+					if(flt(doc.per_billed) < 100 && doc.status != "Delivered") {
 						cur_frm.add_custom_button(__('Payment'), cur_frm.cscript.make_payment_entry, __('Create'));
 					}
 
-					if(flt(doc.per_billed)==0) {
+					if(flt(doc.per_billed) < 100) {
 						this.frm.add_custom_button(__('Payment Request'),
 							function() { me.make_payment_request() }, __('Create'));
 					}
