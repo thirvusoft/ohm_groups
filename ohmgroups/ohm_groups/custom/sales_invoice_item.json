@@ -338,7 +338,7 @@
    "label": "Desc",
    "length": 0,
    "mandatory_depends_on": null,
-   "modified": "2023-01-26 18:39:14.842455",
+   "modified": "2023-03-22 11:21:43.634064",
    "modified_by": "Administrator",
    "module": null,
    "name": "Sales Invoice Item-desc",
