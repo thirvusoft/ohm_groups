@@ -1,11 +1,11 @@
 import frappe
 
-@frappe.whitelist()
-def item_customers(customer_name):
-    customer_item = frappe.get_doc("Customer",customer_name)
-    if(customer_item._default_item ==1):
-        customer = frappe.get_all("Customer Default Items",{'parent':customer_item.name,},pluck="item_code")
-        return customer
+# @frappe.whitelist()
+# def item_customers(customer):
+#     customer_item = frappe.get_doc("Customer",customer)
+#     if(customer_item._default_item ==1):
+#         customer = frappe.get_all("Customer Default Items",{'parent':customer_item.name,},pluck="item_code")
+#         return customer
     
 def to_grn(doc,actions):
         document_dc = frappe.new_doc("Gate Entry")
