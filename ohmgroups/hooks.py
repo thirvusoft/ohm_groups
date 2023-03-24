@@ -197,7 +197,7 @@ doctype_js = {
     "Material Request" : "/ohm_groups/custom/js/material_request.js",
     "Purchase Receipt" : "/ohm_groups/custom/js/purchase_receipt.js",
     "BOM" : "/ohm_groups/custom/js/bom.js",
-    "Sales Invoice" : "/ohm_groups/custom/js/sales_invoice.js"
+    # "Sales Invoice" : "/ohm_groups/custom/js/sales_invoice.js"
                       
  
     
