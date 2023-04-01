@@ -189,7 +189,7 @@ frappe.ui.form.on('Gate Entry Item', {
             frappe.throw("Kindly fill party")
 
         }
-        frappe.db.get_value('Supplier', { 'name': frm.doc.party }, 'default_item', (r) => {
+        frappe.db.get_value('Supplier', { 'name': frm.doc.party_name }, 'default_item', (r) => {
             if(r.default_item == 1){
                 if (row.item_code && !party_items.includes(row.item_code)) {
                     let item_code = row.item_code
@@ -200,7 +200,7 @@ frappe.ui.form.on('Gate Entry Item', {
             }
 
         })
-        frappe.db.get_value('Customer', { 'name': frm.doc.party }, '_default_item', (r) => {
+        frappe.db.get_value('Customer', { 'name': frm.doc.party_name }, '_default_item', (r) => {
             if(r._default_item == 1){
                 if (row.item_code && !party_items.includes(row.item_code)) {
                     let item_code = row.item_code
