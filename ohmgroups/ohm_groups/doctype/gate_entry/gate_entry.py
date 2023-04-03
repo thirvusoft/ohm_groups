@@ -10,6 +10,8 @@ from frappe.model.document import Document
 from ohmgroups.ohm_groups.doctype.grn.grn import grn_on_insert
 from ohmgroups.ohm_groups.doctype.grn.grn import grn_address_billing
 from ohmgroups.ohm_groups.doctype.grn.grn import grn_address_shipping
+from frappe.model.naming import make_autoname
+
 
 @frappe.whitelist()
 def get_items(party_type = None, against_po__dc = None, purchase_order = None, dc_not_for_sales = None, party_name = None, is_gate_entry_in__out = None,against_si__dc = None,sales_invoice = None):
@@ -213,4 +215,7 @@ class GateEntry(Document):
             frappe.get_doc("GRN",{"gate_entry":self.name}).delete()
         if frappe.db.exists("Purchase Receipt",{"gate_entry":self.name}):
             frappe.get_doc("Purchase Receipt",{"gate_entry":self.name}).delete()
-         
+
+    def autoname(self):
+        if(self.is_gate_entry_in__out == "OUT"):
+            self.name = make_autoname(self.out,doc=self)

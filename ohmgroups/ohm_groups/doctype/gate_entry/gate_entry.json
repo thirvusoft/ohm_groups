@@ -9,6 +9,7 @@
  "field_order": [
   "naming_series",
   "is_gate_entry_in__out",
+  "out",
   "party_type",
   "party_name",
   "dc_sales",
@@ -253,6 +254,13 @@
    "label": "SI Doc No",
    "options": "Sales Invoice",
    "read_only": 1
+  },
+  {
+   "default": "GOUT.-.FY.-.#####",
+   "fieldname": "out",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Out"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -267,7 +275,7 @@
    "link_fieldname": "gate_entry"
   }
  ],
- "modified": "2023-03-17 12:20:22.234252",
+ "modified": "2023-04-03 10:59:35.885104",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "Gate Entry",
