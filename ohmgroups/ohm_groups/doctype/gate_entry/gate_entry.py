@@ -214,7 +214,6 @@ class GateEntry(Document):
             frappe.get_doc("GRN",{"gate_entry":self.name}).delete()
         if frappe.db.exists("Purchase Receipt",{"gate_entry":self.name}):
             frappe.get_doc("Purchase Receipt",{"gate_entry":self.name}).delete()
-    
     def autoname(self):
         if(self.is_gate_entry_in__out == "OUT"):
             self.name = make_autoname(self.out,doc=self)
