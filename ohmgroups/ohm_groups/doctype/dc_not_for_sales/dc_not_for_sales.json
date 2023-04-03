@@ -233,12 +233,12 @@
    "label": "e-Waybill No."
   },
   {
-   "default": "DC-.22-23.-",
+   "default": "DC.-.FY.-.#####",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Naming Series",
-   "options": "DC-.22-23.-"
+   "options": "DC.-.FY.-.#####\nDC-.22-23.-"
   },
   {
    "collapsible": 1,
@@ -381,7 +381,7 @@
    "link_fieldname": "dc_sales"
   }
  ],
- "modified": "2023-03-17 11:59:57.766474",
+ "modified": "2023-04-01 10:10:28.909884",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",
