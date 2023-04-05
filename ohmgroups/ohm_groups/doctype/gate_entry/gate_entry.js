@@ -3,6 +3,7 @@
 
 var party_items = []
 
+
 function itemFilters(frm) {
     if (!frm.doc.party_name || !frm.doc.party_type) {
         party_items = []
