@@ -66,6 +66,14 @@ frappe.ui.form.on('DC Not for Sales', {
 
             }
         }),
+        frm.set_query("item_code","items",function(){
+            return {
+                filters:{
+                    "has_variants":0
+                }
+                
+            }
+        })
             frm.set_query("transporter", function () {
                 return {
                     filters: {
