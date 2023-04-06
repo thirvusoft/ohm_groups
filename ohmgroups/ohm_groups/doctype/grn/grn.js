@@ -8,10 +8,17 @@ frappe.ui.form.on('GRN', {
             return {
                 filters:{
                     "name":["in",["Customer","Supplier"]]
+                },
+            }
+        }),
+        frm.set_query("items","items",function(){
+            return {
+                filters:{
+                    "has_variants":0
                 }
                 
             }
-        }),
+        })
 		frm.set_query("transporter", function() {
 			return {
 				filters: {
