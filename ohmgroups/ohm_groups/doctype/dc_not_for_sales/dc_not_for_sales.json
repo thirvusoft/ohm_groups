@@ -233,20 +233,12 @@
    "label": "e-Waybill No."
   },
   {
-<<<<<<< HEAD
    "default": "DC.-.FY.-.#####",
-=======
-   "default": "DC-.FY.-.#####",
->>>>>>> ce9539ec1a25ffe1eb542991e6f19a867dd629c5
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Naming Series",
-<<<<<<< HEAD
    "options": "DC.-.FY.-.#####\nDC-.22-23.-"
-=======
-   "options": "DC-.FY.-.#####\nDC-.22-23.-"
->>>>>>> ce9539ec1a25ffe1eb542991e6f19a867dd629c5
   },
   {
    "collapsible": 1,
@@ -389,11 +381,7 @@
    "link_fieldname": "dc_sales"
   }
  ],
-<<<<<<< HEAD
  "modified": "2023-04-01 10:10:28.909884",
-=======
- "modified": "2023-04-01 09:35:45.309487",
->>>>>>> ce9539ec1a25ffe1eb542991e6f19a867dd629c5
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Not for Sales",

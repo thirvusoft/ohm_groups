@@ -165,7 +165,7 @@ def create_state():
             new_doc.save()
            
 def create_action():
-    list=['Job Completed','Send to Laser Cutting','Laser Cutting Finished']
+    list=['Job Completed','Send to Laser Cutting','Laser Cutting Finished','Cancel']
     for row in list:
         if not frappe.db.exists('Workflow Action Master', row):
             new_doc = frappe.new_doc('Workflow Action Master')

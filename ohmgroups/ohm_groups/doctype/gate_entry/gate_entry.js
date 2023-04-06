@@ -69,6 +69,14 @@ frappe.ui.form.on('Gate Entry', {
                 }
                 
             }
+        }),
+        frm.set_query("item_code","items",function(){
+            return {
+                filters:{
+                    "has_variants":0
+                }
+                
+            }
         })
         
 

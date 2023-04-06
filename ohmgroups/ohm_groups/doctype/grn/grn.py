@@ -10,6 +10,7 @@ from frappe.model.document import Document
 def grn_on_insert(party):
     if party:
         company = frappe.db.get_single_value("Global Defaults","default_company")
+        abbr = frappe.db.get_value("Company",company,"abbr")
         if not frappe.db.exists("Warehouse", {'parent_warehouse': f'Supplier Warehouse - {abbr}', 'warehouse_name':party}):
             document = frappe.new_doc("Warehouse")
             document.parent_warehouse =f'Supplier Warehouse - {abbr}'
