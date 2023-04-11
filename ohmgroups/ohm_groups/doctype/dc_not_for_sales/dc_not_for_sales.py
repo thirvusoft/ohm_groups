@@ -101,7 +101,6 @@ class DCNotforSales(Document):
             item_code = i.item_code,
             qty=i.qty,
             document_no=self.name,
-            basic_rate=1,
             name1=self.party,
             uom=i.uom,
             ))
