@@ -97,6 +97,7 @@ class DCNotforSales(Document):
         document_dc.append('dc_not_for_sales', dict(
         goods_received_from = self.name))
         document_dc.save(ignore_permissions=True)
+        document_dc.submit()
         self.status = "To Gate entry Out"
 
 
@@ -106,8 +107,7 @@ class DCNotforSales(Document):
         # if frappe.db.exists("Gate Entry",{"dc_sales":self.name}):
         #      frappe.get_doc("Gate Entry",{"dc_sales":self.name}).cancel()
 
-        
-		
+	
     def on_trash(self):
         if frappe.db.exists("Stock Entry",{"dc_no":self.name}):
              frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()
