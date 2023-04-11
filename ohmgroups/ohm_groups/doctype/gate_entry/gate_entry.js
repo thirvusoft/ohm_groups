@@ -57,8 +57,6 @@ function itemFilters(frm) {
     })
 }
 
-
-
 frappe.ui.form.on('Gate Entry', {
 	refresh: function(frm) {
         itemFilters(frm)
