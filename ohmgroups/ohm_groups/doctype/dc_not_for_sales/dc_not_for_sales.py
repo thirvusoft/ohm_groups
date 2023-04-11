@@ -96,6 +96,15 @@ class DCNotforSales(Document):
         document_dc.vehicle_no = self.vehicle_no
         document_dc.append('dc_not_for_sales', dict(
         goods_received_from = self.name))
+        for i in self.items:
+            document_dc.append('items', dict(
+            item_code = i.item_code,
+            qty=i.qty,
+            document_no=self.name,
+            basic_rate=1,
+            name1=self.party,
+            uom=i.uom,
+            ))
         document_dc.save(ignore_permissions=True)
         document_dc.submit()
         self.status = "To Gate entry Out"
