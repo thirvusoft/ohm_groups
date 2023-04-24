@@ -141,6 +141,7 @@ frappe.ui.form.on('GRN', {
         })
     },
     quality_inspection:function(frm,cdt,cdn){
+    
         var data = locals[cdt][cdn]
         frm.call({
             method: "create_inspection",
@@ -153,11 +154,39 @@ frappe.ui.form.on('GRN', {
                 received_doc_no : frm.doc.received_doc_no
             },
             callback: function(r){
-                frm.reload_doc()
+                frappe.db.set_value("GRN",frm.doc.name,"qc",1).then(()=>{
+                    frm.reload_doc()
+                })
+                
+                
             }
         })
-    }
-
+            if(frm.doc.qc == 1) {
+                var owner = frm.doc.owner;
+                var doctype = frm.doctype;
+                var name = frm.doc.name;
+                frm.call({
+                    method: "qc_check",
+                    args: {
+                        qc: frm.doc.qc,
+                        doctype: doctype,
+                        name: name,
+                        owner: owner
+                    },
+                    callback: function(r) {
+                        if(!r.exc) {
+                            // show success message
+                            frappe.show_alert({
+                                message: __("Quality Inspection Created"),
+                                indicator: 'green'
+                            });
+                        }
+                    }
+                });
+            }
+        }
+        
+    
 });
 frappe.ui.form.on("DC Received Items",{
 	qty: function(frm,cdt,cdn){
