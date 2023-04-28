@@ -9,18 +9,20 @@ from frappe.model.document import Document
 @frappe.whitelist()
 def qc_check(qc, doctype, name, owner):
     user = frappe.db.get_value("User", owner, "username")
-    doc = frappe.new_doc('Notification Log')
-    doc.update({
-        'subject': "Quality Inspection Created",
-        'for_user': user,
-        'type': 'Alert',
-        'document_type': doctype,
-        'document_name': name,
-        'from_user': owner,
-        'email_content': "Quality Inspection Created"
-    })
-    doc.ignore_permissions = True
-    doc.insert()
+    emp_user = frappe.get_all("Employee",{'designation':"Quality"},"user_id")
+    for i in emp_user:
+        doc = frappe.new_doc('Notification Log')
+        doc.update({
+            'subject': f"From {doctype} Quality Inspection Created by {user} Now you check and submit the Quality Inspection",
+            'for_user': i.user_id,
+            'type': 'Alert',
+            'document_type': doctype,
+            'document_name': name,
+            'from_user': owner,
+            'email_content': "Quality Inspection Created"
+        })
+        doc.ignore_permissions = True
+        doc.insert()
 
 
 @frappe.whitelist()

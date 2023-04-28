@@ -10,6 +10,24 @@ def validate(doc,actions):
                 if(doc.sample_size < j):
                     frappe.throw("Quantity is greater than "+i.specification)
 
+def notify(doc, actions):
+    if doc.grn or doc.reference_type == "Purchase Receipt":
+        user = frappe.db.get_value("User", doc.owner, "username")
+        emp_user = frappe.get_all("Employee",{'designation':"purchase"},"user_id")
+        for i in emp_user:
+            doc_ = frappe.new_doc('Notification Log')
+            doc_.update({
+                'subject': f"{doc.doctype} completed by {user} Now you can Submit the {doc.grn}",
+                'for_user': i.user_id,
+                'type': 'Alert',
+                'document_type': "GRN",
+                'document_name': doc.grn,
+                'from_user': doc.owner,
+                'email_content': "Quality Inspection Completed"
+            })
+            doc_.ignore_permissions = True
+            doc_.insert()
+
 # @frappe.whitelist()                
 # def status(doc, actions = None):
 #     res={}

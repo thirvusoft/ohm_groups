@@ -118,9 +118,12 @@ doc_events = {
             "ohmgroups.ohm_groups.custom.py.quality_inspection.validate",
                     #  "ohmgroups.ohm_groups.custom.py.quality_inspection.status",
                      "ohmgroups.ohm_groups.custom.py.quality_inspection.count_status",
+                    
                      
                      ],
-        "on_submit": ["ohmgroups.ohm_groups.custom.py.quality_inspection.inspection_status"]
+        "on_submit": ["ohmgroups.ohm_groups.custom.py.quality_inspection.inspection_status",
+                      "ohmgroups.ohm_groups.custom.py.quality_inspection.notify"
+					  ]
                      },
 	# "Vehicle Log":{
 	# 	"on_update_after_submit": "ohmgroups.ohm_groups.custom.py.vehicle_log.onsubmit",
@@ -164,6 +167,7 @@ doc_events = {
 	"Purchase Receipt" : {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.update_item_",
 		"on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.cancel_item_",
+        "validate" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.check_qc"
         
 	},
 	"BOM" : {
@@ -181,6 +185,9 @@ doc_events = {
     "Sales Invoice" : {
 		"on_submit" : "ohmgroups.ohm_groups.custom.py.sales_invoice.to_grn",
         "on_trash" : "ohmgroups.ohm_groups.custom.py.sales_invoice.trash"
+	},
+    "Employee Checkin" : {
+        "validate" : "ohmgroups.ohm_groups.custom.py.employee_checkin.checkin"
 	}
 
 }
