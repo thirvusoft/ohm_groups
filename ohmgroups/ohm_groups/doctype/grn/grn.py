@@ -7,6 +7,25 @@ import frappe
 from frappe.model.document import Document
 
 @frappe.whitelist()
+def qc_check(qc, doctype, name, owner):
+    user = frappe.db.get_value("User", owner, "username")
+    emp_user = frappe.get_all("Employee",{'designation':"Quality"},"user_id")
+    for i in emp_user:
+        doc = frappe.new_doc('Notification Log')
+        doc.update({
+            'subject': f"From {doctype} Quality Inspection Created by {user} Now you check and submit the Quality Inspection",
+            'for_user': i.user_id,
+            'type': 'Alert',
+            'document_type': doctype,
+            'document_name': name,
+            'from_user': owner,
+            'email_content': "Quality Inspection Created"
+        })
+        doc.flags.ignore_permissions = True
+        doc.insert()
+
+
+@frappe.whitelist()
 def grn_on_insert(party):
     if party:
         company = frappe.db.get_single_value("Global Defaults","default_company")
@@ -211,4 +230,5 @@ class GRN(Document):
             frappe.get_doc("Stock Entry",{"dc_no":self.name}).delete()    
 	
 
-
+# def qc_check(self):
+#     frappe.set_value("GRN","quality_inspection","qc",1)

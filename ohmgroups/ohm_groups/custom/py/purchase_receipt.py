@@ -53,6 +53,7 @@ def update_item_(doc, actions):
 			ordered_qty = frappe.get_value("Material Request Item", {'parent':i.material_request,'item_code':i.item_code},'ordered_qty')
 			frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'ordered_qty', i.qty + ordered_qty )
 			frappe.db.set_value('Material Request', i.material_request, 'per_ordered', 100 )
+		
 	# Stock Entry Created -> Material Transfer
 	# if doc.is_gate_entry:
 	# 	company = frappe.db.get_single_value("Global Defaults","default_company")
@@ -86,3 +87,13 @@ def cancel_item_(doc, actions):
 					frappe.db.set_value('Material Request', i.material_request, 'per_ordered', 0 )
 			frappe.db.set_value('Material Request Item', {'parent': i.material_request, 'item_code':i.item_code}, 'ordered_qty', ordered_qty - i.qty)
    
+def check_qc(doc,actions):
+	qc = frappe.get_all("Quality Inspection", filters={'reference_type': "Purchase Receipt", 'reference_name': doc.name})
+	if not qc:
+		frappe.throw("Kindly check the quality Inspection")
+	url = frappe.utils.get_url()
+	for i in qc:
+		qi_doc = frappe.get_doc("Quality Inspection", i.name)
+		if qi_doc.docstatus != 1:
+			frappe.throw(f'Kindly submit the <a href="{url}/app/quality-inspection/{qi_doc.name}">{qi_doc.doctype}</a> document')
+
