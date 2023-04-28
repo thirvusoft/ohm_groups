@@ -836,7 +836,7 @@ def make_quality_inspections(doctype, docname, items):
 				'from_user': frappe.session.user,
 				'email_content': "Quality Inspection Completed"
 			})
-			doc_.ignore_permissions = True
+			doc_.flags.ignore_permissions = True
 			doc_.insert()
 	for item in items:
 		if flt(item.get("sample_size")) > flt(item.get("qty")):

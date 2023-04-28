@@ -25,7 +25,7 @@ def notify(doc, actions):
                 'from_user': doc.owner,
                 'email_content': "Quality Inspection Completed"
             })
-            doc_.ignore_permissions = True
+            doc_.flags.ignore_permissions = True
             doc_.insert()
 
 # @frappe.whitelist()                

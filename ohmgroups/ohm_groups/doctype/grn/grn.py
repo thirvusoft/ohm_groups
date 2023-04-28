@@ -21,7 +21,7 @@ def qc_check(qc, doctype, name, owner):
             'from_user': owner,
             'email_content': "Quality Inspection Created"
         })
-        doc.ignore_permissions = True
+        doc.flags.ignore_permissions = True
         doc.insert()
 
 
