@@ -1,0 +1,31 @@
+{
+ "attach_print": 0,
+ "channel": "System Notification",
+ "creation": "2023-04-24 15:41:11.113591",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "GRN",
+ "enabled": 1,
+ "event": "Save",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "Add your message here",
+ "method": "  ",
+ "modified": "2023-04-24 15:44:53.486161",
+ "modified_by": "Administrator",
+ "module": "Ohm Groups",
+ "name": "Testing",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "condition": " ",
+   "receiver_by_document_field": "owner",
+   "receiver_by_role": "Quality Manager"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "Quality Inspection Created",
+ "value_changed": ""
+}

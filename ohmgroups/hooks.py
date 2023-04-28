@@ -234,7 +234,8 @@ doctype_js = {
 #
 override_whitelisted_methods = {
 	"erpnext.stock.doctype.material_request.material_request.get_default_supplier_query": "ohmgroups.ohm_groups.custom.py.material_request.get_default_supplier_query",
-    "erpnext.stock.doctype.material_request.material_request.make_purchase_order": "ohmgroups.ohm_groups.custom.py.material_request.make_purchase_order"
+    "erpnext.stock.doctype.material_request.material_request.make_purchase_order": "ohmgroups.ohm_groups.custom.py.material_request.make_purchase_order",
+	"hrms.hr.doctype.employee_checkin.employee_checkin.add_log_based_on_employee_field": "ohmgroups.ohm_groups.custom.py.employee_check.add_log_based_on_employee_field"
 }
 #
 # each overriding function accepts a `data` argument;
