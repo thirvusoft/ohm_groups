@@ -158,16 +158,17 @@ doc_events = {
 	"Item Attribute" : {
 		"validate" : "ohmgroups.ohm_groups.custom.py.item_attribute.attribute_item"
 	},
-	"Employee" : {
-		"validate": "ohmgroups.ohm_groups.custom.py.employee.time_count"
-	},
+	# "Employee" : {
+	# 	"validate": "ohmgroups.ohm_groups.custom.py.employee.time_count"
+	# },
 	"Branch" : {
 		"on_update" : "ohmgroups.ohm_groups.custom.py.branch.warehouse_creation_from_branch"
 	},
 	"Purchase Receipt" : {
-		"on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.update_item_",
+		"on_submit" : ["ohmgroups.ohm_groups.custom.py.purchase_receipt.update_item_",
+                 		"ohmgroups.ohm_groups.custom.py.purchase_receipt.check_qc"
+						],
 		"on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.cancel_item_",
-        "validate" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.check_qc"
         
 	},
 	"BOM" : {
