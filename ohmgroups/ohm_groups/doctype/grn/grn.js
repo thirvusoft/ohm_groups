@@ -144,6 +144,8 @@ frappe.ui.form.on('GRN', {
         frm.set_value("qc",1)
         var data = locals[cdt][cdn]
         frm.call({
+            freeze:true,
+            freeze_message:"Quality Inspection Creating....",
             method: "create_inspection",
             args: {
                 dc_items : frm.doc.dc_items,
