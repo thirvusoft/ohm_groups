@@ -17,7 +17,7 @@ def notify(doc, actions):
         for i in emp_user:
             doc_ = frappe.new_doc('Notification Log')
             doc_.update({
-                'subject': f"{doc.doctype} completed by {user} Now you can Submit the {doc.grn}",
+                'subject': f"{doc.doctype} completed by {user} Now you can Submit the Document",
                 'for_user': i.user_id,
                 'type': 'Alert',
                 'document_type': "GRN",
