@@ -339,6 +339,7 @@ frappe.ui.form.on('Laser Cutting', {
             return {
                 filters: {
                     item_group: "Sheet",
+                    has_variants :0
 
                 },
             };
