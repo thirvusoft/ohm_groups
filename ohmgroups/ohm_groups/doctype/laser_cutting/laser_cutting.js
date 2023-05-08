@@ -81,7 +81,6 @@ frappe.ui.form.on('Laser Cutting', {
         
         if(frm.wrapper.querySelector('span[data-label="Send%20to%20Laser%20Cutting"]')){
                 frm.dont_save = true;
-                console.log(frm.dont_save)
         }
         frm.fields_dict.job_work_report_table.$wrapper.find('.grid-add-row')[0].style.display = 'none'
         let fields = []
@@ -339,7 +338,8 @@ frappe.ui.form.on('Laser Cutting', {
             return {
                 filters: {
                     item_group: "Sheet",
-                    has_variants :0
+                    has_variants:0
+
 
                 },
             };
