@@ -123,29 +123,30 @@ def grn_dc_items(items,company,party,party_type,purchase_order=None):
     return dc_doc,message,po_doc 
 
 @frappe.whitelist()
-def create_inspection(dc_items,name,gate_entry,party_type,party,received_doc_no):
-    items = json.loads(dc_items)
+def create_inspection(items,name,gate_entry,party_type,party,received_doc_no):
+    items = json.loads(items)
     doc_quality = []
     for i in items:
-        if not i.get('inspection_doc') :
-            document = frappe.new_doc("Quality Inspection")
-            document.inspection_type = "Incoming"
-            document.reference_type = "Others"
-            document.party_type_ = party_type
-            document.received_doc_no = received_doc_no
-            document.party = party
-            document.grn = name
-            document.gate_entry = gate_entry
-            document.sample_size = 1
-            document.item_code = i.get("item_code")
-            document.inspected_by = frappe.session.user
-            document.save(ignore_permissions=True)
-            doc_quality.append(document)
-            frappe.db.set_value("DC Received Items",i.get('name'),"inspection_doc",document.name)
-            frappe.db.set_value("GRN",name,"status","QC Done")
-            fetch_data(name, document)
-        else:
-            frappe.msgprint("Item Aginst Quality Inspection is Already Created")
+        if i.get('received_qty') !=0:
+            if not i.get('inspection_doc') :
+                document = frappe.new_doc("Quality Inspection")
+                document.inspection_type = "Incoming"
+                document.reference_type = "Others"
+                document.party_type_ = party_type
+                document.received_doc_no = received_doc_no
+                document.party = party
+                document.grn = name
+                document.gate_entry = gate_entry
+                document.sample_size = 1
+                document.item_code = i.get("items")
+                document.inspected_by = frappe.session.user
+                document.save(ignore_permissions=True)
+                doc_quality.append(document)
+                frappe.db.set_value("GRN Items",i.get('name'),"inspection_doc",document.name)
+                frappe.db.set_value("GRN",name,"status","QC Done")
+                fetch_data(name, document)
+            else:
+                frappe.msgprint("Item Aginst Quality Inspection is Already Created")
     return doc_quality
 
 

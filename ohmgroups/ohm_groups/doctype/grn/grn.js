@@ -148,7 +148,7 @@ frappe.ui.form.on('GRN', {
             freeze_message:"Quality Inspection Creating....",
             method: "create_inspection",
             args: {
-                dc_items : frm.doc.dc_items,
+                items : frm.doc.items,
                 name : frm.doc.name,
                 gate_entry : frm.doc.gate_entry,
                 party_type : frm.doc.party_type,
