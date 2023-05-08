@@ -14,8 +14,7 @@
   "qty",
   "balanced_qty",
   "dc_name",
-  "check_7",
-  "inspection_doc"
+  "check_7"
  ],
  "fields": [
   {
@@ -75,12 +74,6 @@
    "label": "Total Qty in DC"
   },
   {
-   "fieldname": "inspection_doc",
-   "fieldtype": "Link",
-   "label": "Inspection doc",
-   "options": "Quality Inspection"
-  },
-  {
    "fieldname": "purchase_order_no",
    "fieldtype": "Data",
    "label": "Purchase Order No"
@@ -89,7 +82,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-27 09:52:10.433623",
+ "modified": "2023-05-08 10:49:24.129179",
  "modified_by": "Administrator",
  "module": "Ohm Groups",
  "name": "DC Received Items",

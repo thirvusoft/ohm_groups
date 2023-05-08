@@ -18,6 +18,7 @@ from ohmgroups.ohm_groups.utils.manufacturing.bom import bom
 from ohmgroups.ohm_groups.utils.manufacturing.operation import operation
 from ohmgroups.ohm_groups.utils.manufacturing.work_order import workorder
 from ohmgroups.ohm_groups.utils.stock.item import item
+from ohmgroups.ohm_groups.utils.buying.purchase_receipt import purchase_receipt
 
 
 def after_install():
@@ -41,3 +42,4 @@ def after_install():
     operation()
     item()
     workorder()
+    purchase_receipt()
