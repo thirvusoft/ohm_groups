@@ -167,7 +167,7 @@ from frappe.model.document import Document
 class GRN(Document):
     def on_submit(self):
         for m in self.items:
-            if m.inspection_doc == "":
+            if m.inspection_doc in ["",None]:
                 frappe.throw("Quality Inspection is Pending")
         for q in self.quality_inspection_doc_no:
             if q.inspection_list == 0 :
