@@ -123,7 +123,7 @@ def grn_dc_items(items,company,party,party_type,purchase_order=None):
     return dc_doc,message,po_doc 
 
 @frappe.whitelist()
-def create_inspection(items,name,gate_entry,party_type,party,received_doc_no):
+def create_inspection(items,name,gate_entry,party_type,party,received_doc_no=None):
     items = json.loads(items)
     doc_quality = []
     for i in items:
