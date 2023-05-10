@@ -171,6 +171,9 @@ doc_events = {
 		"on_cancel" : "ohmgroups.ohm_groups.custom.py.purchase_receipt.cancel_item_",
         
 	},
+    "Purchase Invoice" :{
+        "on_submit" : "ohmgroups.ohm_groups.custom.py.purchase_invoice.check_qc"
+	},
 	"BOM" : {
 		"validate" : "ohmgroups.ohm_groups.custom.py.bom.auto_fg_item"
 	},
