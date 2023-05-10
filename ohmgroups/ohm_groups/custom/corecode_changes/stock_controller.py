@@ -817,10 +817,9 @@ def repost_required_for_queue(doc: StockController) -> bool:
 def make_quality_inspections(doctype, docname, items):
 	if isinstance(items, str):
 		items = json.loads(items)
-
 	inspections = []
-	if doctype == "Purchase Receipt":
-		qc = frappe.get_all("Quality Inspection", filters={'reference_type': "Purchase Receipt", 'reference_name': docname})
+	if doctype == "Purchase Receipt" or doctype == "Purchase Invoice":
+		qc = frappe.get_all("Quality Inspection", filters={'reference_type': doctype, 'reference_name': docname})
 		if qc:
 			frappe.throw("Already Quality Inspection Created")
 		user = frappe.db.get_value("User", frappe.session.user, "username")
