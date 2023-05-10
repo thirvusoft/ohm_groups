@@ -1966,7 +1966,7 @@ erpnext.TransactionController = class TransactionController extends erpnext.taxe
 			title: __("Select Items for Quality Inspection"),
 			fields: fields,
 			primary_action: function () {
-				const data = dialog.get_values();
+				var data = {items: dialog.fields_dict.items.grid.get_selected_children()};
 				frappe.call({
 					method: "erpnext.controllers.stock_controller.make_quality_inspections",
 					args: {
